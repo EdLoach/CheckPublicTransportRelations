@@ -43,9 +43,7 @@
             this.comparedRoutesDataGridView = new System.Windows.Forms.DataGridView();
             this.stopsSplitContainer = new System.Windows.Forms.SplitContainer();
             this.openStreetMapStopsGroupBox = new System.Windows.Forms.GroupBox();
-            this.openStreetMapStopsListBox = new System.Windows.Forms.ListBox();
             this.travelineStopsGroupBox = new System.Windows.Forms.GroupBox();
-            this.travelineStopsListBox = new System.Windows.Forms.ListBox();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetmapDataDownloadedLabel = new System.Windows.Forms.Label();
@@ -55,7 +53,7 @@
             this.travelineZipsLabel = new System.Windows.Forms.Label();
             this.busStopsLastDownloadedLabel = new System.Windows.Forms.Label();
             this.busStopsLabel = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.mainFormMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshBusStopsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadTravelineNationalDataSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +63,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openStreetMapStopsListBox = new System.Windows.Forms.DataGridView();
+            this.travelineStopsListBox = new System.Windows.Forms.DataGridView();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -87,7 +87,9 @@
             this.openStreetMapStopsGroupBox.SuspendLayout();
             this.travelineStopsGroupBox.SuspendLayout();
             this.statusGroupBox.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            this.mainFormMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonPanel
@@ -275,15 +277,6 @@
             this.openStreetMapStopsGroupBox.TabStop = false;
             this.openStreetMapStopsGroupBox.Text = "OSM";
             // 
-            // openStreetMapStopsListBox
-            // 
-            this.openStreetMapStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openStreetMapStopsListBox.FormattingEnabled = true;
-            this.openStreetMapStopsListBox.Location = new System.Drawing.Point(3, 16);
-            this.openStreetMapStopsListBox.Name = "openStreetMapStopsListBox";
-            this.openStreetMapStopsListBox.Size = new System.Drawing.Size(79, 378);
-            this.openStreetMapStopsListBox.TabIndex = 0;
-            // 
             // travelineStopsGroupBox
             // 
             this.travelineStopsGroupBox.Controls.Add(this.travelineStopsListBox);
@@ -294,15 +287,6 @@
             this.travelineStopsGroupBox.TabIndex = 0;
             this.travelineStopsGroupBox.TabStop = false;
             this.travelineStopsGroupBox.Text = "TNDS";
-            // 
-            // travelineStopsListBox
-            // 
-            this.travelineStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.travelineStopsListBox.FormattingEnabled = true;
-            this.travelineStopsListBox.Location = new System.Drawing.Point(3, 16);
-            this.travelineStopsListBox.Name = "travelineStopsListBox";
-            this.travelineStopsListBox.Size = new System.Drawing.Size(83, 378);
-            this.travelineStopsListBox.TabIndex = 0;
             // 
             // statusGroupBox
             // 
@@ -398,16 +382,16 @@
             this.busStopsLabel.TabIndex = 5;
             this.busStopsLabel.Text = "Bus stops read:";
             // 
-            // menuStrip1
+            // mainFormMenuStrip
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mainFormMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.optionsToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
+            this.mainFormMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainFormMenuStrip.Name = "mainFormMenuStrip";
+            this.mainFormMenuStrip.Size = new System.Drawing.Size(800, 24);
+            this.mainFormMenuStrip.TabIndex = 2;
+            this.mainFormMenuStrip.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -479,6 +463,34 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
+            // openStreetMapStopsListBox
+            // 
+            this.openStreetMapStopsListBox.AllowUserToAddRows = false;
+            this.openStreetMapStopsListBox.AllowUserToDeleteRows = false;
+            this.openStreetMapStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.openStreetMapStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopsListBox.Location = new System.Drawing.Point(3, 16);
+            this.openStreetMapStopsListBox.Name = "openStreetMapStopsListBox";
+            this.openStreetMapStopsListBox.ReadOnly = true;
+            this.openStreetMapStopsListBox.RowHeadersVisible = false;
+            this.openStreetMapStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.openStreetMapStopsListBox.Size = new System.Drawing.Size(79, 378);
+            this.openStreetMapStopsListBox.TabIndex = 0;
+            // 
+            // travelineStopsListBox
+            // 
+            this.travelineStopsListBox.AllowUserToAddRows = false;
+            this.travelineStopsListBox.AllowUserToDeleteRows = false;
+            this.travelineStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.travelineStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.travelineStopsListBox.Location = new System.Drawing.Point(3, 16);
+            this.travelineStopsListBox.Name = "travelineStopsListBox";
+            this.travelineStopsListBox.ReadOnly = true;
+            this.travelineStopsListBox.RowHeadersVisible = false;
+            this.travelineStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.travelineStopsListBox.Size = new System.Drawing.Size(83, 378);
+            this.travelineStopsListBox.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -486,8 +498,8 @@
             this.ClientSize = new System.Drawing.Size(800, 561);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.buttonPanel);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
+            this.Controls.Add(this.mainFormMenuStrip);
+            this.MainMenuStrip = this.mainFormMenuStrip;
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "MainForm";
             this.Text = "Check Public Transport v2 Bus Relations";
@@ -516,8 +528,10 @@
             this.travelineStopsGroupBox.ResumeLayout(false);
             this.statusGroupBox.ResumeLayout(false);
             this.statusGroupBox.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.mainFormMenuStrip.ResumeLayout(false);
+            this.mainFormMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -528,7 +542,7 @@
         private System.Windows.Forms.Panel buttonPanel;
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip mainFormMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -559,9 +573,9 @@
         private System.Windows.Forms.DataGridView comparedRoutesDataGridView;
         private System.Windows.Forms.SplitContainer stopsSplitContainer;
         private System.Windows.Forms.GroupBox openStreetMapStopsGroupBox;
-        private System.Windows.Forms.ListBox openStreetMapStopsListBox;
         private System.Windows.Forms.GroupBox travelineStopsGroupBox;
-        private System.Windows.Forms.ListBox travelineStopsListBox;
+        private System.Windows.Forms.DataGridView openStreetMapStopsListBox;
+        private System.Windows.Forms.DataGridView travelineStopsListBox;
     }
 }
 

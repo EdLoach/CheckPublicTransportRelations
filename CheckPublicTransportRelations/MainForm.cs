@@ -12,6 +12,7 @@ namespace CheckPublicTransportRelations
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Drawing;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
@@ -1050,7 +1051,7 @@ namespace CheckPublicTransportRelations
                     && this.openStreetMapStopsListBox.DataSource == null)
                 {
                     this.openStreetMapStopsListBox.DataSource =
-                        ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops;
+                        ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.ConvertAll(x => new { Value = x });
                     this.openStreetMapStopsGroupBox.Text = @"OSM: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count;
                 }
 
@@ -1058,13 +1059,37 @@ namespace CheckPublicTransportRelations
                     && this.travelineStopsListBox.DataSource == null)
                 {
                     this.travelineStopsListBox.DataSource =
-                        ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops;
+                        ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.ConvertAll(x => new { Value = x });
                     this.travelineStopsGroupBox.Text = @"TNDS: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count;
                 }
 
                 if (this.travelineStopsListBox.DataSource != null && this.openStreetMapStopsListBox.DataSource != null)
                 {
                     break;
+                }
+            }
+
+            int mostStops = this.travelineStopsListBox.RowCount > this.openStreetMapStopsListBox.RowCount
+                                ? this.travelineStopsListBox.RowCount
+                                : this.openStreetMapStopsListBox.RowCount;
+            for (int i = 0; i < mostStops; i++)
+            {
+                if (i < this.openStreetMapStopsListBox.RowCount && i < this.travelineStopsListBox.RowCount)
+                {
+                    if (this.openStreetMapStopsListBox.Rows[i].Cells[0].Value.ToString()
+                        != this.travelineStopsListBox.Rows[i].Cells[0].Value.ToString())
+                    {
+                        this.openStreetMapStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        this.travelineStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    }
+                }
+                else if (i < this.openStreetMapStopsListBox.RowCount)
+                {
+                    this.openStreetMapStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                }
+                else if (i < this.travelineStopsListBox.RowCount)
+                {
+                    this.travelineStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                 }
             }
         }
