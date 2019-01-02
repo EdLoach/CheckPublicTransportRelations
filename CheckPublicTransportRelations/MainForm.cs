@@ -134,6 +134,36 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+        /// <createdBy>Ed (EdLoach) - 2 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by Copy for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Key event information.</param>
+        // ===========================================================================================================
+        private static void Copy_Click(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.C || !e.Control)
+            {
+                return;
+            }
+
+            // copy logic
+            var dataGridView = (DataGridView)sender;
+            if (dataGridView == null)
+            {
+                return;
+            }
+
+            dataGridView.Select();
+            DataObject clipboardContent = dataGridView.GetClipboardContent();
+            if (clipboardContent != null)
+            {
+                Clipboard.SetDataObject(clipboardContent);
+            }
+        }
+
+        // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets data asynchronous.</summary>
@@ -521,6 +551,8 @@ namespace CheckPublicTransportRelations
             this.ExtractOpenStreetMapRoutes();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.CompareResults();
+            this.openStreetMapStopsListBox.KeyDown += Copy_Click;
+            this.travelineStopsListBox.KeyDown += Copy_Click;
         }
 
         // ===========================================================================================================
@@ -946,6 +978,7 @@ namespace CheckPublicTransportRelations
             }
 
             this.compareRouteMasterDataGridView.DataSource = this.ComparisonResults;
+            this.comparedRoutesDataGridView.DataSource = this.ComparisonResultsRoutes;
         }
 
         // ===========================================================================================================
@@ -1027,8 +1060,6 @@ namespace CheckPublicTransportRelations
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
             }
-
-            this.comparedRoutesDataGridView.DataSource = this.ComparisonResultsRoutes;
         }
 
         // ===========================================================================================================

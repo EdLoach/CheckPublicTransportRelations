@@ -467,6 +467,7 @@
             // 
             this.openStreetMapStopsListBox.AllowUserToAddRows = false;
             this.openStreetMapStopsListBox.AllowUserToDeleteRows = false;
+            this.openStreetMapStopsListBox.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.openStreetMapStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.openStreetMapStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openStreetMapStopsListBox.Location = new System.Drawing.Point(3, 16);
