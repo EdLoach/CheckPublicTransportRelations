@@ -540,6 +540,10 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.travelineDataGridView.AutoGenerateColumns = false;
+            this.openStreetMapDataGridView.AutoGenerateColumns = false;
+            this.compareRouteMasterDataGridView.AutoGenerateColumns = false;
+            this.comparedRoutesDataGridView.AutoGenerateColumns = false;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
