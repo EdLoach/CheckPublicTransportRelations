@@ -175,5 +175,29 @@ namespace CheckPublicTransportRelations.Properties {
                 this["LocalPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowMatchedServices {
+            get {
+                return ((bool)(this["ShowMatchedServices"]));
+            }
+            set {
+                this["ShowMatchedServices"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowMatchedRoutes {
+            get {
+                return ((bool)(this["ShowMatchedRoutes"]));
+            }
+            set {
+                this["ShowMatchedRoutes"] = value;
+            }
+        }
     }
 }

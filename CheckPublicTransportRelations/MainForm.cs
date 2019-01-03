@@ -1,9 +1,9 @@
 ﻿// ===========================================================================================================
-// <copyright file="MainForm.cs" company="EdLoach">
-// Copyright (c) 2018 EdLoach. All rights reserved.
+// <copyright file="MainForm.cs" company="N/A">
+// Copyright (c) 2019 N/A. All rights reserved.
 // </copyright>
-// <author>Ed</author>
-// <date>27 December 2018</date>
+// <author>EdLoach</author>
+// <date>3 January 2019</date>
 // <summary>Implements the main Windows Form</summary>
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
@@ -25,28 +25,23 @@ namespace CheckPublicTransportRelations
     using Newtonsoft.Json.Linq;
 
     // ===========================================================================================================
-    /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+    /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
     ///
     /// <summary>Form for viewing the main.</summary>
-    ///
-    /// ### <inheritdoc/>
     // ===========================================================================================================
     public partial class MainForm : Form
     {
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>The client.</summary>
         // ===========================================================================================================
         private static readonly HttpClient Client = new HttpClient();
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Initializes a new instance of the
-        ///          <see cref="T:CheckPublicTransportRelations.MainForm" /> class.</summary>
-        ///
-        /// <inheritdoc/>
+        /// <summary>Initializes a new instance of the <see cref="MainForm"/> class.</summary>
         // ===========================================================================================================
         public MainForm()
         {
@@ -54,7 +49,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the open street map routes.</summary>
         ///
@@ -63,7 +58,7 @@ namespace CheckPublicTransportRelations
         private List<OpenStreetMapRouteMaster> OpenStreetMapRoutes { get; set; }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the comparison results.</summary>
         ///
@@ -72,7 +67,7 @@ namespace CheckPublicTransportRelations
         private List<ComparisonResultService> ComparisonResults { get; set; }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the traveline routes.</summary>
         ///
@@ -82,7 +77,7 @@ namespace CheckPublicTransportRelations
         private List<RouteMaster> TravelineRoutes { get; set; }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the comparison results routes.</summary>
         ///
@@ -91,7 +86,7 @@ namespace CheckPublicTransportRelations
         private List<ComparisonResultRoute> ComparisonResultsRoutes { get; set; }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the overpass bus stops.</summary>
         ///
@@ -100,7 +95,7 @@ namespace CheckPublicTransportRelations
         private List<BusStop> OverpassBusStops { get; set; }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets bus stops asynchronous.</summary>
         ///
@@ -134,7 +129,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 2 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by Copy for click events.</summary>
         ///
@@ -164,7 +159,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets data asynchronous.</summary>
         ///
@@ -188,9 +183,9 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Closes button click.</summary>
+        /// <summary>Event handler. Called by CloseButton for click events.</summary>
         ///
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
@@ -201,9 +196,10 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Event handler. Called by Download Traveline National DataSet Tool Strip Menu Item for click events.</summary>
+        /// <summary>Event handler. Called by DownloadTravelineNationalDataSetToolStripMenuItem for click
+        ///          events.</summary>
         ///
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
@@ -219,9 +215,9 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Exit tool strip menu item click.</summary>
+        /// <summary>Event handler. Called by ExitToolStripMenuItem for click events.</summary>
         ///
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
@@ -232,7 +228,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by ExtractLocalRoutesToolStripMenuItem for click events.</summary>
         ///
@@ -249,10 +245,9 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Extracts the traveline routes.</summary>
-        ///
         // ===========================================================================================================
         // ReSharper disable once StyleCop.SA1650
         private void ExtractTravelineRoutes()
@@ -461,7 +456,8 @@ namespace CheckPublicTransportRelations
                         var operatorNode = (XElement)operators.FirstNode;
                         foreach (XElement thing in operatorNode.Descendants())
                         {
-                            if (thing.Name.ToString().Contains("OperatorNameOnLicence") || thing.Name.ToString().Contains("TradingName"))
+                            if (thing.Name.ToString().Contains("OperatorNameOnLicence")
+                                || thing.Name.ToString().Contains("TradingName"))
                             {
                                 routeMaster.Operator = thing.Value;
                             }
@@ -506,7 +502,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by GetOpenStreetMapDataToolStripMenuItem for click events.</summary>
         ///
@@ -535,7 +531,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by MainForm for load events.</summary>
         ///
@@ -553,10 +549,12 @@ namespace CheckPublicTransportRelations
             this.CompareResults();
             this.openStreetMapStopsListBox.KeyDown += Copy_Click;
             this.travelineStopsListBox.KeyDown += Copy_Click;
+            this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
+            this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Extracts the open street map routes.</summary>
         // ===========================================================================================================
@@ -608,31 +606,35 @@ namespace CheckPublicTransportRelations
                 long id = element.id;
                 string relationType = element.tags["type"];
 
-                if (relationType == "route")
+                if (relationType != "route")
                 {
-                    var routeStops = new List<string>();
-                    foreach (dynamic member in element.members)
-                    {
-                        if (member.role == "platform")
-                        {
-                            long routeId = member.@ref;
-                            routeStops.Add(stopsDictionary[routeId]);
-                        }
-                    }
+                    continue;
+                }
 
-                    routesStopsDictionary.Add(id, routeStops);
-                    if (element.tags != null && element.tags["ref"] != null)
+                var routeStops = new List<string>();
+                foreach (dynamic member in element.members)
+                {
+                    if (member.role == "platform")
                     {
-                        string routeRef = element.tags["ref"];
-                        routesReferenceDictionary.Add(id, routeRef);
-                    }
-
-                    if (element.tags != null && element.tags["operator"] != null)
-                    {
-                        string routeOperator = element.tags["operator"];
-                        routesOperatorDictionary.Add(id, routeOperator);
+                        long routeId = member.@ref;
+                        routeStops.Add(stopsDictionary[routeId]);
                     }
                 }
+
+                routesStopsDictionary.Add(id, routeStops);
+                if (element.tags != null && element.tags["ref"] != null)
+                {
+                    string routeRef = element.tags["ref"];
+                    routesReferenceDictionary.Add(id, routeRef);
+                }
+
+                if (element.tags == null || element.tags["operator"] == null)
+                {
+                    continue;
+                }
+
+                string routeOperator = element.tags["operator"];
+                routesOperatorDictionary.Add(id, routeOperator);
             }
 
             foreach (dynamic element in entities.elements)
@@ -648,32 +650,34 @@ namespace CheckPublicTransportRelations
                 string relationType = element.tags["type"];
                 string reference = element.tags["ref"];
                 string routeOperator = element.tags["operator"];
-                if (relationType == "route_master")
+                if (relationType != "route_master")
                 {
-                    var routeMaster =
-                        new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator };
-                    foreach (dynamic routeVariant in element.members)
-                    {
-                        long relationId = routeVariant.@ref;
-                        reference = routesReferenceDictionary[relationId];
-                        routeOperator = routesOperatorDictionary[relationId];
-                        var openStreetMapRouteVariant = new OpenStreetMapRouteVariant
-                                                            {
-                                                                Reference = reference,
-                                                                BusStops = routesStopsDictionary[relationId],
-                                                                Operator = routeOperator,
-                                                                Id = relationId
-                                                            };
-                        routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
-                    }
-
-                    this.OpenStreetMapRoutes.Add(routeMaster);
+                    continue;
                 }
+
+                var routeMaster =
+                    new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator };
+                foreach (dynamic routeVariant in element.members)
+                {
+                    long relationId = routeVariant.@ref;
+                    reference = routesReferenceDictionary[relationId];
+                    routeOperator = routesOperatorDictionary[relationId];
+                    var openStreetMapRouteVariant = new OpenStreetMapRouteVariant
+                                                        {
+                                                            Reference = reference,
+                                                            BusStops = routesStopsDictionary[relationId],
+                                                            Operator = routeOperator,
+                                                            Id = relationId
+                                                        };
+                    routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
+                }
+
+                this.OpenStreetMapRoutes.Add(routeMaster);
             }
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by RefreshBusStopsToolStripMenuItem for click events.</summary>
         ///
@@ -696,7 +700,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Refresh status.</summary>
         // ===========================================================================================================
@@ -763,7 +767,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by SettingsToolStripMenuItem for click events.</summary>
         ///
@@ -780,7 +784,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by CompareDataToolStripMenuItem for click events.</summary>
         ///
@@ -795,12 +799,12 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Compare results.</summary>
         // ===========================================================================================================
         private void CompareResults()
-        { 
+        {
             this.ComparisonResults = new List<ComparisonResultService>();
             this.ComparisonResultsRoutes = new List<ComparisonResultRoute>();
             var matchedRoutes = new HashSet<string>();
@@ -842,11 +846,13 @@ namespace CheckPublicTransportRelations
                     break;
                 }
 
-                if (comparisonResult.TravelineFile.Length > 0)
+                if (comparisonResult.TravelineFile.Length <= 0)
                 {
-                    this.ComparisonResults.Add(comparisonResult);
-                    this.CompareRouteVariants(openStreetMapRouteMaster, foundRoute);
+                    continue;
                 }
+
+                this.ComparisonResults.Add(comparisonResult);
+                this.CompareRouteVariants(openStreetMapRouteMaster, foundRoute);
             }
 
             foreach (OpenStreetMapRouteMaster openStreetMapRouteMaster in this.OpenStreetMapRoutes)
@@ -889,11 +895,13 @@ namespace CheckPublicTransportRelations
                     break;
                 }
 
-                if (comparisonResult.TravelineFile.Length > 0)
+                if (comparisonResult.TravelineFile.Length <= 0)
                 {
-                    this.ComparisonResults.Add(comparisonResult);
-                    this.CompareRouteVariants(openStreetMapRouteMaster, foundRoute);
+                    continue;
                 }
+
+                this.ComparisonResults.Add(comparisonResult);
+                this.CompareRouteVariants(openStreetMapRouteMaster, foundRoute);
             }
 
             foreach (OpenStreetMapRouteMaster openStreetMapRouteMaster in this.OpenStreetMapRoutes)
@@ -982,13 +990,14 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Compare route variants.</summary>
         ///
-        /// <param name="routeMaster">          The route variants.</param>
-        /// <param name="travelineRouteMaster">The found route variants.</param>
+        /// <param name="routeMaster">         The route master.</param>
+        /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
         private void CompareRouteVariants(OpenStreetMapRouteMaster routeMaster, RouteMaster travelineRouteMaster)
         {
             var matchedRouteVariants = new HashSet<long>();
@@ -1010,17 +1019,19 @@ namespace CheckPublicTransportRelations
                         continue;
                     }
 
-                    if (routeVariant.BusStops.SequenceEqual(travelineRouteVariant.Stops))
+                    if (!routeVariant.BusStops.SequenceEqual(travelineRouteVariant.Stops))
                     {
-                        matchedRouteVariantsTraveline.Add(travelineRouteVariant.Id);
-                        matchedRouteVariants.Add(routeVariant.Id);
-                        comparisonResult.ServiceFile = travelineRouteMaster.FileName;
-                        comparisonResult.ServiceOperator = travelineRouteMaster.Operator;
-                        comparisonResult.ServiceReference = travelineRouteMaster.Reference;
-                        comparisonResult.ServiceStops = travelineRouteVariant.Stops;
-                        this.ComparisonResultsRoutes.Add(comparisonResult);
-                        break;
+                        continue;
                     }
+
+                    matchedRouteVariantsTraveline.Add(travelineRouteVariant.Id);
+                    matchedRouteVariants.Add(routeVariant.Id);
+                    comparisonResult.ServiceFile = travelineRouteMaster.FileName;
+                    comparisonResult.ServiceOperator = travelineRouteMaster.Operator;
+                    comparisonResult.ServiceReference = travelineRouteMaster.Reference;
+                    comparisonResult.ServiceStops = travelineRouteVariant.Stops;
+                    this.ComparisonResultsRoutes.Add(comparisonResult);
+                    break;
                 }
             }
 
@@ -1063,7 +1074,7 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by ComparedRoutesDataGridView for selection changed events.</summary>
         ///
@@ -1072,8 +1083,18 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void ComparedRoutesDataGridView_SelectionChanged(object sender, EventArgs e)
         {
-            List<string> osmStops = new List<string>();
-            List<string> travelineStops = new List<string>();
+            this.RefreshStopLists();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Refresh stop lists.</summary>
+        // ===========================================================================================================
+        private void RefreshStopLists()
+        { 
+            var osmStops = new List<string>();
+            var travelineStops = new List<string>();
             this.openStreetMapStopsGroupBox.Text = @"OSM";
             this.travelineStopsGroupBox.Text = @"TNDS";
             this.openStreetMapStopsListBox.DataSource = null;
@@ -1084,18 +1105,18 @@ namespace CheckPublicTransportRelations
                     && this.openStreetMapStopsListBox.DataSource == null)
                 {
                     osmStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops;
-                    this.openStreetMapStopsListBox.DataSource =
-                        osmStops.ConvertAll(x => new { Value = x });
-                    this.openStreetMapStopsGroupBox.Text = @"OSM: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count;
+                    this.openStreetMapStopsListBox.DataSource = osmStops.ConvertAll(x => new { Value = x });
+                    this.openStreetMapStopsGroupBox.Text =
+                        @"OSM: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count;
                 }
 
                 if (((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count > 0
                     && this.travelineStopsListBox.DataSource == null)
                 {
                     travelineStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops;
-                    this.travelineStopsListBox.DataSource =
-                        travelineStops.ConvertAll(x => new { Value = x });
-                    this.travelineStopsGroupBox.Text = @"TNDS: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count;
+                    this.travelineStopsListBox.DataSource = travelineStops.ConvertAll(x => new { Value = x });
+                    this.travelineStopsGroupBox.Text =
+                        @"TNDS: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count;
                 }
 
                 if (this.travelineStopsListBox.DataSource != null && this.openStreetMapStopsListBox.DataSource != null)
@@ -1107,7 +1128,7 @@ namespace CheckPublicTransportRelations
             int mostStops = this.travelineStopsListBox.RowCount > this.openStreetMapStopsListBox.RowCount
                                 ? this.travelineStopsListBox.RowCount
                                 : this.openStreetMapStopsListBox.RowCount;
-            for (int i = 0; i < mostStops; i++)
+            for (var i = 0; i < mostStops; i++)
             {
                 if (i < this.openStreetMapStopsListBox.RowCount && i < this.travelineStopsListBox.RowCount)
                 {
@@ -1136,6 +1157,40 @@ namespace CheckPublicTransportRelations
                     }
                 }
             }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by ShowMatchedRoutesCheckBox for checked changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void ShowMatchedRoutesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.comparedRoutesDataGridView.DataSource = null;
+            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => item.StopsEqual == false).ToList();
+
+            Settings.Default.ShowMatchedRoutes = this.showMatchedRoutesCheckBox.Checked;
+            Settings.Default.Save();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by ShowMatchedServicesCheckBox for checked changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void ShowMatchedServicesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.compareRouteMasterDataGridView.DataSource = null;
+            this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch == false).ToList();
+
+            Settings.Default.ShowMatchedServices = this.showMatchedServicesCheckBox.Checked;
+            Settings.Default.Save();
         }
     }
 }

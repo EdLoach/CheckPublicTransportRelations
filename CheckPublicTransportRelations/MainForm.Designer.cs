@@ -38,12 +38,18 @@
             this.openStreetMapDataGridView = new System.Windows.Forms.DataGridView();
             this.compareRouteMastersTabPage = new System.Windows.Forms.TabPage();
             this.compareRouteMasterDataGridView = new System.Windows.Forms.DataGridView();
+            this.servicesTabControlsPanel = new System.Windows.Forms.Panel();
+            this.showMatchedServicesCheckBox = new System.Windows.Forms.CheckBox();
             this.compareRouteVariantsTabPage = new System.Windows.Forms.TabPage();
             this.routesSplitContainer = new System.Windows.Forms.SplitContainer();
             this.comparedRoutesDataGridView = new System.Windows.Forms.DataGridView();
+            this.routesTabControlsPanel = new System.Windows.Forms.Panel();
+            this.showMatchedRoutesCheckBox = new System.Windows.Forms.CheckBox();
             this.stopsSplitContainer = new System.Windows.Forms.SplitContainer();
             this.openStreetMapStopsGroupBox = new System.Windows.Forms.GroupBox();
+            this.openStreetMapStopsListBox = new System.Windows.Forms.DataGridView();
             this.travelineStopsGroupBox = new System.Windows.Forms.GroupBox();
+            this.travelineStopsListBox = new System.Windows.Forms.DataGridView();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetmapDataDownloadedLabel = new System.Windows.Forms.Label();
@@ -63,8 +69,6 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openStreetMapStopsListBox = new System.Windows.Forms.DataGridView();
-            this.travelineStopsListBox = new System.Windows.Forms.DataGridView();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -74,22 +78,24 @@
             ((System.ComponentModel.ISupportInitialize)(this.openStreetMapDataGridView)).BeginInit();
             this.compareRouteMastersTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.compareRouteMasterDataGridView)).BeginInit();
+            this.servicesTabControlsPanel.SuspendLayout();
             this.compareRouteVariantsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.routesSplitContainer)).BeginInit();
             this.routesSplitContainer.Panel1.SuspendLayout();
             this.routesSplitContainer.Panel2.SuspendLayout();
             this.routesSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.comparedRoutesDataGridView)).BeginInit();
+            this.routesTabControlsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stopsSplitContainer)).BeginInit();
             this.stopsSplitContainer.Panel1.SuspendLayout();
             this.stopsSplitContainer.Panel2.SuspendLayout();
             this.stopsSplitContainer.SuspendLayout();
             this.openStreetMapStopsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).BeginInit();
             this.travelineStopsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).BeginInit();
             this.statusGroupBox.SuspendLayout();
             this.mainFormMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).BeginInit();
             this.SuspendLayout();
             // 
             // buttonPanel
@@ -185,6 +191,7 @@
             // compareRouteMastersTabPage
             // 
             this.compareRouteMastersTabPage.Controls.Add(this.compareRouteMasterDataGridView);
+            this.compareRouteMastersTabPage.Controls.Add(this.servicesTabControlsPanel);
             this.compareRouteMastersTabPage.Location = new System.Drawing.Point(4, 22);
             this.compareRouteMastersTabPage.Name = "compareRouteMastersTabPage";
             this.compareRouteMastersTabPage.Size = new System.Drawing.Size(782, 397);
@@ -201,8 +208,31 @@
             this.compareRouteMasterDataGridView.Location = new System.Drawing.Point(0, 0);
             this.compareRouteMasterDataGridView.Name = "compareRouteMasterDataGridView";
             this.compareRouteMasterDataGridView.ReadOnly = true;
-            this.compareRouteMasterDataGridView.Size = new System.Drawing.Size(782, 397);
+            this.compareRouteMasterDataGridView.Size = new System.Drawing.Size(782, 364);
             this.compareRouteMasterDataGridView.TabIndex = 0;
+            // 
+            // servicesTabControlsPanel
+            // 
+            this.servicesTabControlsPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.servicesTabControlsPanel.Controls.Add(this.showMatchedServicesCheckBox);
+            this.servicesTabControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.servicesTabControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.servicesTabControlsPanel.Name = "servicesTabControlsPanel";
+            this.servicesTabControlsPanel.Size = new System.Drawing.Size(782, 33);
+            this.servicesTabControlsPanel.TabIndex = 1;
+            // 
+            // showMatchedServicesCheckBox
+            // 
+            this.showMatchedServicesCheckBox.AutoSize = true;
+            this.showMatchedServicesCheckBox.Checked = true;
+            this.showMatchedServicesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showMatchedServicesCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.showMatchedServicesCheckBox.Name = "showMatchedServicesCheckBox";
+            this.showMatchedServicesCheckBox.Size = new System.Drawing.Size(142, 17);
+            this.showMatchedServicesCheckBox.TabIndex = 0;
+            this.showMatchedServicesCheckBox.Text = "Show Matched Services";
+            this.showMatchedServicesCheckBox.UseVisualStyleBackColor = true;
+            this.showMatchedServicesCheckBox.CheckedChanged += new System.EventHandler(this.ShowMatchedServicesCheckBox_CheckedChanged);
             // 
             // compareRouteVariantsTabPage
             // 
@@ -223,6 +253,7 @@
             // routesSplitContainer.Panel1
             // 
             this.routesSplitContainer.Panel1.Controls.Add(this.comparedRoutesDataGridView);
+            this.routesSplitContainer.Panel1.Controls.Add(this.routesTabControlsPanel);
             this.routesSplitContainer.Panel1MinSize = 600;
             // 
             // routesSplitContainer.Panel2
@@ -243,9 +274,32 @@
             this.comparedRoutesDataGridView.ReadOnly = true;
             this.comparedRoutesDataGridView.RowHeadersVisible = false;
             this.comparedRoutesDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.comparedRoutesDataGridView.Size = new System.Drawing.Size(600, 397);
+            this.comparedRoutesDataGridView.Size = new System.Drawing.Size(600, 364);
             this.comparedRoutesDataGridView.TabIndex = 2;
             this.comparedRoutesDataGridView.SelectionChanged += new System.EventHandler(this.ComparedRoutesDataGridView_SelectionChanged);
+            // 
+            // routesTabControlsPanel
+            // 
+            this.routesTabControlsPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.routesTabControlsPanel.Controls.Add(this.showMatchedRoutesCheckBox);
+            this.routesTabControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.routesTabControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.routesTabControlsPanel.Name = "routesTabControlsPanel";
+            this.routesTabControlsPanel.Size = new System.Drawing.Size(600, 33);
+            this.routesTabControlsPanel.TabIndex = 3;
+            // 
+            // showMatchedRoutesCheckBox
+            // 
+            this.showMatchedRoutesCheckBox.AutoSize = true;
+            this.showMatchedRoutesCheckBox.Checked = true;
+            this.showMatchedRoutesCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showMatchedRoutesCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.showMatchedRoutesCheckBox.Name = "showMatchedRoutesCheckBox";
+            this.showMatchedRoutesCheckBox.Size = new System.Drawing.Size(135, 17);
+            this.showMatchedRoutesCheckBox.TabIndex = 0;
+            this.showMatchedRoutesCheckBox.Text = "Show Matched Routes";
+            this.showMatchedRoutesCheckBox.UseVisualStyleBackColor = true;
+            this.showMatchedRoutesCheckBox.CheckedChanged += new System.EventHandler(this.ShowMatchedRoutesCheckBox_CheckedChanged);
             // 
             // stopsSplitContainer
             // 
@@ -277,6 +331,21 @@
             this.openStreetMapStopsGroupBox.TabStop = false;
             this.openStreetMapStopsGroupBox.Text = "OSM";
             // 
+            // openStreetMapStopsListBox
+            // 
+            this.openStreetMapStopsListBox.AllowUserToAddRows = false;
+            this.openStreetMapStopsListBox.AllowUserToDeleteRows = false;
+            this.openStreetMapStopsListBox.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.openStreetMapStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.openStreetMapStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopsListBox.Location = new System.Drawing.Point(3, 16);
+            this.openStreetMapStopsListBox.Name = "openStreetMapStopsListBox";
+            this.openStreetMapStopsListBox.ReadOnly = true;
+            this.openStreetMapStopsListBox.RowHeadersVisible = false;
+            this.openStreetMapStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.openStreetMapStopsListBox.Size = new System.Drawing.Size(79, 378);
+            this.openStreetMapStopsListBox.TabIndex = 0;
+            // 
             // travelineStopsGroupBox
             // 
             this.travelineStopsGroupBox.Controls.Add(this.travelineStopsListBox);
@@ -287,6 +356,20 @@
             this.travelineStopsGroupBox.TabIndex = 0;
             this.travelineStopsGroupBox.TabStop = false;
             this.travelineStopsGroupBox.Text = "TNDS";
+            // 
+            // travelineStopsListBox
+            // 
+            this.travelineStopsListBox.AllowUserToAddRows = false;
+            this.travelineStopsListBox.AllowUserToDeleteRows = false;
+            this.travelineStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.travelineStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.travelineStopsListBox.Location = new System.Drawing.Point(3, 16);
+            this.travelineStopsListBox.Name = "travelineStopsListBox";
+            this.travelineStopsListBox.ReadOnly = true;
+            this.travelineStopsListBox.RowHeadersVisible = false;
+            this.travelineStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.travelineStopsListBox.Size = new System.Drawing.Size(83, 378);
+            this.travelineStopsListBox.TabIndex = 1;
             // 
             // statusGroupBox
             // 
@@ -463,35 +546,6 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // openStreetMapStopsListBox
-            // 
-            this.openStreetMapStopsListBox.AllowUserToAddRows = false;
-            this.openStreetMapStopsListBox.AllowUserToDeleteRows = false;
-            this.openStreetMapStopsListBox.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
-            this.openStreetMapStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.openStreetMapStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.openStreetMapStopsListBox.Location = new System.Drawing.Point(3, 16);
-            this.openStreetMapStopsListBox.Name = "openStreetMapStopsListBox";
-            this.openStreetMapStopsListBox.ReadOnly = true;
-            this.openStreetMapStopsListBox.RowHeadersVisible = false;
-            this.openStreetMapStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.openStreetMapStopsListBox.Size = new System.Drawing.Size(79, 378);
-            this.openStreetMapStopsListBox.TabIndex = 0;
-            // 
-            // travelineStopsListBox
-            // 
-            this.travelineStopsListBox.AllowUserToAddRows = false;
-            this.travelineStopsListBox.AllowUserToDeleteRows = false;
-            this.travelineStopsListBox.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.travelineStopsListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.travelineStopsListBox.Location = new System.Drawing.Point(3, 16);
-            this.travelineStopsListBox.Name = "travelineStopsListBox";
-            this.travelineStopsListBox.ReadOnly = true;
-            this.travelineStopsListBox.RowHeadersVisible = false;
-            this.travelineStopsListBox.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.travelineStopsListBox.Size = new System.Drawing.Size(83, 378);
-            this.travelineStopsListBox.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -515,24 +569,28 @@
             ((System.ComponentModel.ISupportInitialize)(this.openStreetMapDataGridView)).EndInit();
             this.compareRouteMastersTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.compareRouteMasterDataGridView)).EndInit();
+            this.servicesTabControlsPanel.ResumeLayout(false);
+            this.servicesTabControlsPanel.PerformLayout();
             this.compareRouteVariantsTabPage.ResumeLayout(false);
             this.routesSplitContainer.Panel1.ResumeLayout(false);
             this.routesSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.routesSplitContainer)).EndInit();
             this.routesSplitContainer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.comparedRoutesDataGridView)).EndInit();
+            this.routesTabControlsPanel.ResumeLayout(false);
+            this.routesTabControlsPanel.PerformLayout();
             this.stopsSplitContainer.Panel1.ResumeLayout(false);
             this.stopsSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.stopsSplitContainer)).EndInit();
             this.stopsSplitContainer.ResumeLayout(false);
             this.openStreetMapStopsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).EndInit();
             this.travelineStopsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).EndInit();
             this.statusGroupBox.ResumeLayout(false);
             this.statusGroupBox.PerformLayout();
             this.mainFormMenuStrip.ResumeLayout(false);
             this.mainFormMenuStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsListBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.travelineStopsListBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -577,6 +635,10 @@
         private System.Windows.Forms.GroupBox travelineStopsGroupBox;
         private System.Windows.Forms.DataGridView openStreetMapStopsListBox;
         private System.Windows.Forms.DataGridView travelineStopsListBox;
+        private System.Windows.Forms.Panel servicesTabControlsPanel;
+        private System.Windows.Forms.CheckBox showMatchedServicesCheckBox;
+        private System.Windows.Forms.Panel routesTabControlsPanel;
+        private System.Windows.Forms.CheckBox showMatchedRoutesCheckBox;
     }
 }
 
