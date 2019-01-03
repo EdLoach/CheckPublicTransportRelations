@@ -18,3 +18,6 @@ For correcting the data you'll first want to make sure that operator and service
 My hope is that I can run this monthly and keep local routes up-to-date.
 
 Unfortunately this doesn't make the task of adding services or route variants for the first time any easier. In my initial tests I found a number of services I've added that have since been cancelled (I live near the coast - some are summer only), and a number of new services that intersect the bbox that I've probably missed previously (or I filtered OSM stops based on a boundary rather than a bbox). These are obvious as they appear towards the bottom on the OSM tab.
+
+The NapTan Stops.csv can be useful for finding details of new bus stops that feature in routes from the TNDS information. That is available from here:
+https://data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/national-public-transport-access-nodes-naptan
