@@ -23,13 +23,24 @@ namespace CheckPublicTransportRelations
         /// <param name="elementType">    Type of the element.</param>
         /// <param name="elementId">      Identifier for the element.</param>
         /// <param name="elementAtcoCode">The element atco code.</param>
+        /// <param name="stopName">       The stop name.</param>
         // ===========================================================================================================
-        public BusStop(string elementType, long elementId, string elementAtcoCode)
+        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName)
         {
             this.Type = elementType;
             this.Id = elementId;
             this.AtcoCode = elementAtcoCode;
+            this.StopName = stopName;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the name of the stop.</summary>
+        ///
+        /// <value>The name of the stop.</value>
+        // ===========================================================================================================
+        public string StopName { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
