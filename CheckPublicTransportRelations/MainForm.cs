@@ -1072,6 +1072,8 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void ComparedRoutesDataGridView_SelectionChanged(object sender, EventArgs e)
         {
+            List<string> osmStops = new List<string>();
+            List<string> travelineStops = new List<string>();
             this.openStreetMapStopsGroupBox.Text = @"OSM";
             this.travelineStopsGroupBox.Text = @"TNDS";
             this.openStreetMapStopsListBox.DataSource = null;
@@ -1081,16 +1083,18 @@ namespace CheckPublicTransportRelations
                 if (((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count > 0
                     && this.openStreetMapStopsListBox.DataSource == null)
                 {
+                    osmStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops;
                     this.openStreetMapStopsListBox.DataSource =
-                        ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.ConvertAll(x => new { Value = x });
+                        osmStops.ConvertAll(x => new { Value = x });
                     this.openStreetMapStopsGroupBox.Text = @"OSM: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count;
                 }
 
                 if (((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count > 0
                     && this.travelineStopsListBox.DataSource == null)
                 {
+                    travelineStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops;
                     this.travelineStopsListBox.DataSource =
-                        ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.ConvertAll(x => new { Value = x });
+                        travelineStops.ConvertAll(x => new { Value = x });
                     this.travelineStopsGroupBox.Text = @"TNDS: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count;
                 }
 
@@ -1107,20 +1111,29 @@ namespace CheckPublicTransportRelations
             {
                 if (i < this.openStreetMapStopsListBox.RowCount && i < this.travelineStopsListBox.RowCount)
                 {
-                    if (this.openStreetMapStopsListBox.Rows[i].Cells[0].Value.ToString()
-                        != this.travelineStopsListBox.Rows[i].Cells[0].Value.ToString())
+                    if (!travelineStops.Contains(this.openStreetMapStopsListBox.Rows[i].Cells[0].Value.ToString()))
                     {
                         this.openStreetMapStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    }
+
+                    if (!osmStops.Contains(this.travelineStopsListBox.Rows[i].Cells[0].Value.ToString()))
+                    {
                         this.travelineStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                     }
                 }
                 else if (i < this.openStreetMapStopsListBox.RowCount)
                 {
-                    this.openStreetMapStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    if (!travelineStops.Contains(this.openStreetMapStopsListBox.Rows[i].Cells[0].Value.ToString()))
+                    {
+                        this.openStreetMapStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    }
                 }
                 else if (i < this.travelineStopsListBox.RowCount)
                 {
-                    this.travelineStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    if (!osmStops.Contains(this.travelineStopsListBox.Rows[i].Cells[0].Value.ToString()))
+                    {
+                        this.travelineStopsListBox.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                    }
                 }
             }
         }
