@@ -251,6 +251,7 @@ namespace CheckPublicTransportRelations
             var extractRoutesForm = new ExtractRoutesForm(this.OverpassBusStops);
             extractRoutesForm.ShowDialog(this);
             this.RefreshStatus();
+            this.CompareResults();
             this.Enabled = true;
         }
 
