@@ -28,7 +28,27 @@ namespace CheckPublicTransportRelations
             this.Reference = string.Empty;
             this.Operator = string.Empty;
             this.BusStops = new List<string>();
+            this.RelationFrom = string.Empty;
+            this.RelationTo = string.Empty;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the relation to.</summary>
+        ///
+        /// <value>The relation to.</value>
+        // ===========================================================================================================
+        public string RelationTo { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the relation from.</summary>
+        ///
+        /// <value>The relation from.</value>
+        // ===========================================================================================================
+        public string RelationFrom { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>

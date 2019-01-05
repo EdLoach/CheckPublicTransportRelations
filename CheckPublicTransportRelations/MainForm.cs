@@ -67,6 +67,15 @@ namespace CheckPublicTransportRelations
         private List<BusStop> RouteBusStops { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets from to checks.</summary>
+        ///
+        /// <value>from to checks.</value>
+        // ===========================================================================================================
+        private List<ComparisonResultFromTo> FromToChecks { get; set; }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the comparison results.</summary>
@@ -555,6 +564,7 @@ namespace CheckPublicTransportRelations
         private void MainForm_Load(object sender, EventArgs e)
         {
             this.RouteBusStops = new List<BusStop>();
+            this.FromToChecks = new List<ComparisonResultFromTo>();
             this.travelineDataGridView.AutoGenerateColumns = false;
             this.openStreetMapDataGridView.AutoGenerateColumns = false;
             this.compareRouteMasterDataGridView.AutoGenerateColumns = false;
@@ -570,6 +580,8 @@ namespace CheckPublicTransportRelations
             this.travelineStopsDataGridView.KeyDown += Copy_Click;
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
             this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
+            this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
+            this.highlightStopsComboBox.SelectedIndex = 0;
         }
 
         // ===========================================================================================================
@@ -588,6 +600,8 @@ namespace CheckPublicTransportRelations
             var routesStopsDictionary = new Dictionary<long, List<string>>();
             var routesReferenceDictionary = new Dictionary<long, string>();
             var routesOperatorDictionary = new Dictionary<long, string>();
+            var routesFromDictionary = new Dictionary<long, string>();
+            var routesToDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
             string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmData.json");
             if (!File.Exists(fileName))
@@ -639,7 +653,8 @@ namespace CheckPublicTransportRelations
                 var routeStops = new List<string>();
                 foreach (dynamic member in element.members)
                 {
-                    if (member.role == "platform")
+                    string memberRole = member.role ?? string.Empty;
+                    if (memberRole.Contains("platform"))
                     {
                         long routeId = member.@ref;
                         routeStops.Add(stopsDictionary[routeId]);
@@ -658,8 +673,12 @@ namespace CheckPublicTransportRelations
                     continue;
                 }
 
-                string routeOperator = element.tags["operator"];
+                string routeOperator = element.tags["operator"] ?? string.Empty; 
                 routesOperatorDictionary.Add(id, routeOperator);
+                string relationFrom = element.tags["from"] ?? string.Empty;
+                routesFromDictionary.Add(id, relationFrom);
+                string relationTo = element.tags["to"] ?? string.Empty;
+                routesToDictionary.Add(id, relationTo);
             }
 
             foreach (dynamic element in entities.elements)
@@ -675,6 +694,7 @@ namespace CheckPublicTransportRelations
                 string relationType = element.tags["type"];
                 string reference = element.tags["ref"];
                 string routeOperator = element.tags["operator"];
+
                 if (relationType != "route_master")
                 {
                     continue;
@@ -692,7 +712,9 @@ namespace CheckPublicTransportRelations
                                                             Reference = reference,
                                                             BusStops = routesStopsDictionary[relationId],
                                                             Operator = routeOperator,
-                                                            Id = relationId
+                                                            Id = relationId,
+                                                            RelationFrom = routesFromDictionary[relationId],
+                                                            RelationTo = routesToDictionary[relationId]
                                                         };
                     routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
                 }
@@ -820,10 +842,12 @@ namespace CheckPublicTransportRelations
         {
             this.compareRouteMasterDataGridView.DataSource = null;
             this.comparedRoutesDataGridView.DataSource = null;
+            this.fromToDataGridView.DataSource = null;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.ComparisonResultsRoutes = new List<ComparisonResultRoute>();
             var matchedRoutes = new HashSet<string>();
             var matchedRelations = new HashSet<long>();
+            this.FromToChecks = new List<ComparisonResultFromTo>();
 
             foreach (OpenStreetMapRouteMaster openStreetMapRouteMaster in this.OpenStreetMapRoutes)
             {
@@ -1002,6 +1026,7 @@ namespace CheckPublicTransportRelations
 
             this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch == false).ToList();
             this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => item.StopsEqual == false).ToList();
+            this.fromToDataGridView.DataSource = this.fromToShowMatchedCheckBox.Checked ? this.FromToChecks : this.FromToChecks.Where(item => item.FromNameFound && item.ToNameFound == false).ToList();
         }
 
         // ===========================================================================================================
@@ -1019,6 +1044,29 @@ namespace CheckPublicTransportRelations
             var matchedRouteVariantsTraveline = new HashSet<string>();
             foreach (OpenStreetMapRouteVariant routeVariant in routeMaster.RouteVariants)
             {
+                var fromToResult = new ComparisonResultFromTo
+                                       {
+                                           RelationId = routeVariant.Id,
+                                           RelationService = routeVariant.Reference,
+                                           RelationFrom = routeVariant.RelationFrom,
+                                           RelationTo = routeVariant.RelationTo
+                                       };
+
+                if (routeVariant.BusStops.Count > 0)
+                {
+                    fromToResult.StopFrom = this.RouteBusStops.FirstOrDefault(
+                        item => item.AtcoCode == routeVariant.BusStops[0])?.StopName;
+                    fromToResult.StopTo = this.RouteBusStops.FirstOrDefault(
+                        item => item.AtcoCode == routeVariant.BusStops[routeVariant.BusStops.Count - 1])?.StopName;
+                }
+                else
+                {
+                    fromToResult.StopTo = string.Empty;
+                    fromToResult.StopFrom = string.Empty;
+                }
+
+                this.FromToChecks.Add(fromToResult);
+
                 var comparisonResult = new ComparisonResultRoute
                                            {
                                                ServiceRouteRelationId = routeMaster.Id,
@@ -1064,7 +1112,7 @@ namespace CheckPublicTransportRelations
                                                RelationOperator = routeVariant.Operator,
                                                RelationReference = routeVariant.Reference,
                                                RelationStops = routeVariant.BusStops
-                                           };
+                };
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
             }
@@ -1143,30 +1191,59 @@ namespace CheckPublicTransportRelations
             int mostStops = this.travelineStopsDataGridView.RowCount > this.openStreetMapStopsDataGridView.RowCount
                                 ? this.travelineStopsDataGridView.RowCount
                                 : this.openStreetMapStopsDataGridView.RowCount;
-            for (var i = 0; i < mostStops; i++)
+            if (this.highlightStopsComboBox.SelectedIndex == 0)
             {
-                if (i < this.openStreetMapStopsDataGridView.RowCount && i < this.travelineStopsDataGridView.RowCount)
+                for (var i = 0; i < mostStops; i++)
                 {
-                    if (!travelineStops.Contains(this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                    if (i < this.openStreetMapStopsDataGridView.RowCount
+                        && i < this.travelineStopsDataGridView.RowCount)
                     {
-                        this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
-                    }
+                        if (!travelineStops.Contains(
+                                this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        {
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        }
 
-                    if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        {
+                            this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        }
+                    }
+                    else if (i < this.openStreetMapStopsDataGridView.RowCount)
                     {
-                        this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        if (!travelineStops.Contains(
+                                this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        {
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        }
+                    }
+                    else if (i < this.travelineStopsDataGridView.RowCount)
+                    {
+                        if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        {
+                            this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        }
                     }
                 }
-                else if (i < this.openStreetMapStopsDataGridView.RowCount)
+            }
+            else
+            {
+                for (var i = 0; i < mostStops; i++)
                 {
-                    if (!travelineStops.Contains(this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                    if (i < this.openStreetMapStopsDataGridView.RowCount
+                        && i < this.travelineStopsDataGridView.RowCount)
+                    {
+                        if (this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString() != this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString())
+                        {
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        }
+                    }
+                    else if (i < this.openStreetMapStopsDataGridView.RowCount)
                     {
                         this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                     }
-                }
-                else if (i < this.travelineStopsDataGridView.RowCount)
-                {
-                    if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                    else if (i < this.travelineStopsDataGridView.RowCount)
                     {
                         this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                     }
@@ -1242,6 +1319,36 @@ namespace CheckPublicTransportRelations
             }
 
             this.stopNameLabel.Text = openStreetMapStopName + @" / " + travelineStopName;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by HighlightStopsComboBox for selected index changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void HighlightStopsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.RefreshStopLists();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by FromToShowMatchedCheckBox for checked changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void FromToShowMatchedCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.fromToDataGridView.DataSource = null;
+            this.fromToDataGridView.DataSource = this.fromToShowMatchedCheckBox.Checked ? this.FromToChecks : this.FromToChecks.Where(item => (item.FromNameFound && item.ToNameFound) == false).ToList();
+
+            Settings.Default.ShowMatchedFromToNames = this.fromToShowMatchedCheckBox.Checked;
+            Settings.Default.Save();
         }
     }
 }

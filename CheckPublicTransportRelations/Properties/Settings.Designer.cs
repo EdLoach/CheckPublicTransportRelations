@@ -199,5 +199,17 @@ namespace CheckPublicTransportRelations.Properties {
                 this["ShowMatchedRoutes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowMatchedFromToNames {
+            get {
+                return ((bool)(this["ShowMatchedFromToNames"]));
+            }
+            set {
+                this["ShowMatchedFromToNames"] = value;
+            }
+        }
     }
 }

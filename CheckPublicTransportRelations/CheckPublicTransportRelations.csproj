@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusStop.cs" />
+    <Compile Include="ComparisonResultFromTo.cs" />
     <Compile Include="ComparisonResultRoute.cs" />
     <Compile Include="ComparisonResultService.cs" />
     <Compile Include="ExtractRoutesForm.cs">
