@@ -536,6 +536,9 @@ namespace CheckPublicTransportRelations
             Settings.Default.LastOpenStreetMapDownload = DateTime.Today;
             Settings.Default.Save();
             this.RefreshStatus();
+            this.openStreetMapDataGridView.DataSource = null;
+            this.ExtractOpenStreetMapRoutes();
+            this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.CompareResults();
             this.Enabled = true;
         }
@@ -810,25 +813,12 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Event handler. Called by CompareDataToolStripMenuItem for click events.</summary>
-        ///
-        /// <param name="sender">Source of the event.</param>
-        /// <param name="e">     Event information.</param>
-        // ===========================================================================================================
-        private void CompareDataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Enabled = false;
-            this.CompareResults();
-            this.Enabled = true;
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
-        ///
         /// <summary>Compare results.</summary>
         // ===========================================================================================================
         private void CompareResults()
         {
+            this.compareRouteMasterDataGridView.DataSource = null;
+            this.comparedRoutesDataGridView.DataSource = null;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.ComparisonResultsRoutes = new List<ComparisonResultRoute>();
             var matchedRoutes = new HashSet<string>();
@@ -1009,8 +999,8 @@ namespace CheckPublicTransportRelations
                 this.ComparisonResults.Add(comparisonResult);
             }
 
-            this.compareRouteMasterDataGridView.DataSource = this.ComparisonResults;
-            this.comparedRoutesDataGridView.DataSource = this.ComparisonResultsRoutes;
+            this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch == false).ToList();
+            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => item.StopsEqual == false).ToList();
         }
 
         // ===========================================================================================================

@@ -116,7 +116,6 @@
             this.downloadTravelineNationalDataSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractLocalRoutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getOpenstreetmapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.compareDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -873,7 +872,6 @@
             this.downloadTravelineNationalDataSetToolStripMenuItem,
             this.extractLocalRoutesToolStripMenuItem,
             this.getOpenstreetmapDataToolStripMenuItem,
-            this.compareDataToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -906,13 +904,6 @@
             this.getOpenstreetmapDataToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
             this.getOpenstreetmapDataToolStripMenuItem.Text = "Get OSM Data...";
             this.getOpenstreetmapDataToolStripMenuItem.Click += new System.EventHandler(this.GetOpenStreetMapDataToolStripMenuItem_Click);
-            // 
-            // compareDataToolStripMenuItem
-            // 
-            this.compareDataToolStripMenuItem.Name = "compareDataToolStripMenuItem";
-            this.compareDataToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.compareDataToolStripMenuItem.Text = "&Compare data";
-            this.compareDataToolStripMenuItem.Click += new System.EventHandler(this.CompareDataToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -1017,7 +1008,6 @@
         private System.Windows.Forms.DataGridView travelineDataGridView;
         private System.Windows.Forms.TabPage openStreetMapTabPage;
         private System.Windows.Forms.DataGridView openStreetMapDataGridView;
-        private System.Windows.Forms.ToolStripMenuItem compareDataToolStripMenuItem;
         private System.Windows.Forms.TabPage compareRouteMastersTabPage;
         private System.Windows.Forms.DataGridView compareRouteMasterDataGridView;
         private System.Windows.Forms.TabPage compareRouteVariantsTabPage;
