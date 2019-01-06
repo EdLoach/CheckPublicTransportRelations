@@ -569,6 +569,7 @@ namespace CheckPublicTransportRelations
             this.openStreetMapDataGridView.AutoGenerateColumns = false;
             this.compareRouteMasterDataGridView.AutoGenerateColumns = false;
             this.comparedRoutesDataGridView.AutoGenerateColumns = false;
+            this.fromToDataGridView.AutoGenerateColumns = false;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();

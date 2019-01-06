@@ -48,6 +48,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.closeButton = new System.Windows.Forms.Button();
@@ -104,6 +105,10 @@
             this.travelineStopsDataGridView = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
             this.stopNameLabel = new System.Windows.Forms.Label();
+            this.routeFromToTabPage = new System.Windows.Forms.TabPage();
+            this.fromToDataGridView = new System.Windows.Forms.DataGridView();
+            this.fromToControlsPanel = new System.Windows.Forms.Panel();
+            this.fromToShowMatchedCheckBox = new System.Windows.Forms.CheckBox();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetmapDataDownloadedLabel = new System.Windows.Forms.Label();
@@ -122,10 +127,14 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.routeFromToTabPage = new System.Windows.Forms.TabPage();
-            this.fromToDataGridView = new System.Windows.Forms.DataGridView();
-            this.fromToShowMatchedCheckBox = new System.Windows.Forms.CheckBox();
-            this.fromToControlsPanel = new System.Windows.Forms.Panel();
+            this.fromToServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToRelationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToServiceFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToBusStopFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToFromNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fromToServiceToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToBusStopToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToToNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -152,11 +161,11 @@
             this.travelineStopsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.travelineStopsDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
-            this.statusGroupBox.SuspendLayout();
-            this.mainFormMenuStrip.SuspendLayout();
             this.routeFromToTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).BeginInit();
             this.fromToControlsPanel.SuspendLayout();
+            this.statusGroupBox.SuspendLayout();
+            this.mainFormMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanel
@@ -802,6 +811,64 @@
             this.stopNameLabel.Size = new System.Drawing.Size(0, 13);
             this.stopNameLabel.TabIndex = 0;
             // 
+            // routeFromToTabPage
+            // 
+            this.routeFromToTabPage.Controls.Add(this.fromToDataGridView);
+            this.routeFromToTabPage.Controls.Add(this.fromToControlsPanel);
+            this.routeFromToTabPage.Location = new System.Drawing.Point(4, 22);
+            this.routeFromToTabPage.Name = "routeFromToTabPage";
+            this.routeFromToTabPage.Size = new System.Drawing.Size(782, 397);
+            this.routeFromToTabPage.TabIndex = 4;
+            this.routeFromToTabPage.Text = "Route From/To";
+            this.routeFromToTabPage.UseVisualStyleBackColor = true;
+            // 
+            // fromToDataGridView
+            // 
+            this.fromToDataGridView.AllowUserToAddRows = false;
+            this.fromToDataGridView.AllowUserToDeleteRows = false;
+            this.fromToDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.fromToDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.fromToServiceColumn,
+            this.fromToRelationColumn,
+            this.fromToServiceFromColumn,
+            this.fromToBusStopFromColumn,
+            this.fromToFromNameFoundColumn,
+            this.fromToServiceToColumn,
+            this.fromToBusStopToColumn,
+            this.fromToToNameFoundColumn});
+            this.fromToDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.fromToDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.fromToDataGridView.Name = "fromToDataGridView";
+            this.fromToDataGridView.ReadOnly = true;
+            this.fromToDataGridView.RowHeadersVisible = false;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            this.fromToDataGridView.Size = new System.Drawing.Size(782, 364);
+            this.fromToDataGridView.TabIndex = 0;
+            // 
+            // fromToControlsPanel
+            // 
+            this.fromToControlsPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.fromToControlsPanel.Controls.Add(this.fromToShowMatchedCheckBox);
+            this.fromToControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.fromToControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.fromToControlsPanel.Name = "fromToControlsPanel";
+            this.fromToControlsPanel.Size = new System.Drawing.Size(782, 33);
+            this.fromToControlsPanel.TabIndex = 2;
+            // 
+            // fromToShowMatchedCheckBox
+            // 
+            this.fromToShowMatchedCheckBox.AutoSize = true;
+            this.fromToShowMatchedCheckBox.Checked = true;
+            this.fromToShowMatchedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.fromToShowMatchedCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.fromToShowMatchedCheckBox.Name = "fromToShowMatchedCheckBox";
+            this.fromToShowMatchedCheckBox.Size = new System.Drawing.Size(142, 17);
+            this.fromToShowMatchedCheckBox.TabIndex = 0;
+            this.fromToShowMatchedCheckBox.Text = "Show Matched Services";
+            this.fromToShowMatchedCheckBox.UseVisualStyleBackColor = true;
+            this.fromToShowMatchedCheckBox.CheckedChanged += new System.EventHandler(this.FromToShowMatchedCheckBox_CheckedChanged);
+            // 
             // statusGroupBox
             // 
             this.statusGroupBox.Controls.Add(this.openstreetMapLastDownloadedLabel);
@@ -969,51 +1036,69 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // routeFromToTabPage
+            // fromToServiceColumn
             // 
-            this.routeFromToTabPage.Controls.Add(this.fromToDataGridView);
-            this.routeFromToTabPage.Controls.Add(this.fromToControlsPanel);
-            this.routeFromToTabPage.Location = new System.Drawing.Point(4, 22);
-            this.routeFromToTabPage.Name = "routeFromToTabPage";
-            this.routeFromToTabPage.Size = new System.Drawing.Size(782, 397);
-            this.routeFromToTabPage.TabIndex = 4;
-            this.routeFromToTabPage.Text = "Route From/To";
-            this.routeFromToTabPage.UseVisualStyleBackColor = true;
+            this.fromToServiceColumn.DataPropertyName = "RelationService";
+            this.fromToServiceColumn.HeaderText = "Service";
+            this.fromToServiceColumn.Name = "fromToServiceColumn";
+            this.fromToServiceColumn.ReadOnly = true;
+            this.fromToServiceColumn.Width = 70;
             // 
-            // fromToDataGridView
+            // fromToRelationColumn
             // 
-            this.fromToDataGridView.AllowUserToAddRows = false;
-            this.fromToDataGridView.AllowUserToDeleteRows = false;
-            this.fromToDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.fromToDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fromToDataGridView.Location = new System.Drawing.Point(0, 0);
-            this.fromToDataGridView.Name = "fromToDataGridView";
-            this.fromToDataGridView.ReadOnly = true;
-            this.fromToDataGridView.Size = new System.Drawing.Size(782, 364);
-            this.fromToDataGridView.TabIndex = 0;
+            this.fromToRelationColumn.DataPropertyName = "RelationId";
+            this.fromToRelationColumn.HeaderText = "Id";
+            this.fromToRelationColumn.Name = "fromToRelationColumn";
+            this.fromToRelationColumn.ReadOnly = true;
+            this.fromToRelationColumn.Width = 70;
             // 
-            // fromToShowMatchedCheckBox
+            // fromToServiceFromColumn
             // 
-            this.fromToShowMatchedCheckBox.AutoSize = true;
-            this.fromToShowMatchedCheckBox.Checked = true;
-            this.fromToShowMatchedCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.fromToShowMatchedCheckBox.Location = new System.Drawing.Point(8, 6);
-            this.fromToShowMatchedCheckBox.Name = "fromToShowMatchedCheckBox";
-            this.fromToShowMatchedCheckBox.Size = new System.Drawing.Size(142, 17);
-            this.fromToShowMatchedCheckBox.TabIndex = 0;
-            this.fromToShowMatchedCheckBox.Text = "Show Matched Services";
-            this.fromToShowMatchedCheckBox.UseVisualStyleBackColor = true;
-            this.fromToShowMatchedCheckBox.CheckedChanged += new System.EventHandler(this.FromToShowMatchedCheckBox_CheckedChanged);
+            this.fromToServiceFromColumn.DataPropertyName = "RelationFrom";
+            this.fromToServiceFromColumn.HeaderText = "Service From";
+            this.fromToServiceFromColumn.Name = "fromToServiceFromColumn";
+            this.fromToServiceFromColumn.ReadOnly = true;
+            this.fromToServiceFromColumn.Width = 150;
             // 
-            // fromToControlsPanel
+            // fromToBusStopFromColumn
             // 
-            this.fromToControlsPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.fromToControlsPanel.Controls.Add(this.fromToShowMatchedCheckBox);
-            this.fromToControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.fromToControlsPanel.Location = new System.Drawing.Point(0, 364);
-            this.fromToControlsPanel.Name = "fromToControlsPanel";
-            this.fromToControlsPanel.Size = new System.Drawing.Size(782, 33);
-            this.fromToControlsPanel.TabIndex = 2;
+            this.fromToBusStopFromColumn.DataPropertyName = "StopFrom";
+            this.fromToBusStopFromColumn.HeaderText = "Stop From";
+            this.fromToBusStopFromColumn.Name = "fromToBusStopFromColumn";
+            this.fromToBusStopFromColumn.ReadOnly = true;
+            this.fromToBusStopFromColumn.Width = 150;
+            // 
+            // fromToFromNameFoundColumn
+            // 
+            this.fromToFromNameFoundColumn.DataPropertyName = "FromNameFound";
+            this.fromToFromNameFoundColumn.HeaderText = "Found";
+            this.fromToFromNameFoundColumn.Name = "fromToFromNameFoundColumn";
+            this.fromToFromNameFoundColumn.ReadOnly = true;
+            this.fromToFromNameFoundColumn.Width = 50;
+            // 
+            // fromToServiceToColumn
+            // 
+            this.fromToServiceToColumn.DataPropertyName = "RelationTo";
+            this.fromToServiceToColumn.HeaderText = "Service To";
+            this.fromToServiceToColumn.Name = "fromToServiceToColumn";
+            this.fromToServiceToColumn.ReadOnly = true;
+            this.fromToServiceToColumn.Width = 150;
+            // 
+            // fromToBusStopToColumn
+            // 
+            this.fromToBusStopToColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fromToBusStopToColumn.DataPropertyName = "StopTo";
+            this.fromToBusStopToColumn.HeaderText = "Stop To";
+            this.fromToBusStopToColumn.Name = "fromToBusStopToColumn";
+            this.fromToBusStopToColumn.ReadOnly = true;
+            // 
+            // fromToToNameFoundColumn
+            // 
+            this.fromToToNameFoundColumn.DataPropertyName = "ToNameFound";
+            this.fromToToNameFoundColumn.HeaderText = "Found";
+            this.fromToToNameFoundColumn.Name = "fromToToNameFoundColumn";
+            this.fromToToNameFoundColumn.ReadOnly = true;
+            this.fromToToNameFoundColumn.Width = 50;
             // 
             // MainForm
             // 
@@ -1059,14 +1144,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.travelineStopsDataGridView)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.statusGroupBox.ResumeLayout(false);
-            this.statusGroupBox.PerformLayout();
-            this.mainFormMenuStrip.ResumeLayout(false);
-            this.mainFormMenuStrip.PerformLayout();
             this.routeFromToTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).EndInit();
             this.fromToControlsPanel.ResumeLayout(false);
             this.fromToControlsPanel.PerformLayout();
+            this.statusGroupBox.ResumeLayout(false);
+            this.statusGroupBox.PerformLayout();
+            this.mainFormMenuStrip.ResumeLayout(false);
+            this.mainFormMenuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1151,6 +1236,14 @@
         private System.Windows.Forms.DataGridView fromToDataGridView;
         private System.Windows.Forms.Panel fromToControlsPanel;
         private System.Windows.Forms.CheckBox fromToShowMatchedCheckBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToRelationColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceFromColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopFromColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToFromNameFoundColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceToColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopToColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
     }
 }
 
