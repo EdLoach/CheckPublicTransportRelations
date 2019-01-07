@@ -173,7 +173,15 @@ namespace CheckPublicTransportRelations
             DataObject clipboardContent = dataGridView.GetClipboardContent();
             if (clipboardContent != null)
             {
-                Clipboard.SetDataObject(clipboardContent);
+                try
+                {
+                    Clipboard.SetDataObject(clipboardContent);
+                }
+                catch (Exception exception)
+                {
+                    // ignore the error
+                    Debug.WriteLine(exception);
+                }
             }
         }
 
@@ -274,7 +282,7 @@ namespace CheckPublicTransportRelations
         {
             this.TravelineRoutes = new List<RouteMaster>();
 
-            string subFolder = Settings.Default.LastRouteExtract.ToString("yyyyMMdd");
+            string subFolder = Settings.Default.LastServiceExtract.ToString("yyyyMMdd");
             if (!Directory.Exists(Path.Combine(Settings.Default.LocalPath, subFolder)))
             {
                 return;
@@ -795,17 +803,17 @@ namespace CheckPublicTransportRelations
                 }
             }
 
-            string subFolder = Settings.Default.LastRouteExtract.ToString("yyyyMMdd");
+            string subFolder = Settings.Default.LastServiceExtract.ToString("yyyyMMdd");
             if (Directory.Exists(Path.Combine(Settings.Default.LocalPath, subFolder)))
             {
-                this.localRoutesLabel.Text = @"Local routes extracted: " + Directory.GetFiles(
+                this.localServicesLabel.Text = @"Local services extracted: " + Directory.GetFiles(
                                                  Path.Combine(Settings.Default.LocalPath, subFolder),
                                                  "*.xml",
                                                  SearchOption.TopDirectoryOnly).Length;
-                if (Settings.Default.LastRouteExtract > DateTime.MinValue)
+                if (Settings.Default.LastServiceExtract > DateTime.MinValue)
                 {
                     this.localRoutesLastExtractedLabel.Text = @"Last extracted: "
-                                                              + Settings.Default.LastRouteExtract.ToLongDateString();
+                                                              + Settings.Default.LastServiceExtract.ToLongDateString();
                 }
             }
 

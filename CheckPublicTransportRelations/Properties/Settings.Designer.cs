@@ -47,12 +47,12 @@ namespace CheckPublicTransportRelations.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastRouteExtract {
+        public global::System.DateTime LastServiceExtract {
             get {
-                return ((global::System.DateTime)(this["LastRouteExtract"]));
+                return ((global::System.DateTime)(this["LastServiceExtract"]));
             }
             set {
-                this["LastRouteExtract"] = value;
+                this["LastServiceExtract"] = value;
             }
         }
         

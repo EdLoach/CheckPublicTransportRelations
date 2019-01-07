@@ -8,7 +8,7 @@
     <Setting Name="LastTravelineDownload" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="LastRouteExtract" Type="System.DateTime" Scope="User">
+    <Setting Name="LastServiceExtract" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LastOpenStreetMapDownload" Type="System.DateTime" Scope="User">

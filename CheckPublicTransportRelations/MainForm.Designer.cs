@@ -113,7 +113,7 @@
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetmapDataDownloadedLabel = new System.Windows.Forms.Label();
             this.localRoutesLastExtractedLabel = new System.Windows.Forms.Label();
-            this.localRoutesLabel = new System.Windows.Forms.Label();
+            this.localServicesLabel = new System.Windows.Forms.Label();
             this.travelineLastDownloadedLabel = new System.Windows.Forms.Label();
             this.travelineZipsLabel = new System.Windows.Forms.Label();
             this.busStopsLastDownloadedLabel = new System.Windows.Forms.Label();
@@ -874,7 +874,7 @@
             this.statusGroupBox.Controls.Add(this.openstreetMapLastDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.openstreetmapDataDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.localRoutesLastExtractedLabel);
-            this.statusGroupBox.Controls.Add(this.localRoutesLabel);
+            this.statusGroupBox.Controls.Add(this.localServicesLabel);
             this.statusGroupBox.Controls.Add(this.travelineLastDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.travelineZipsLabel);
             this.statusGroupBox.Controls.Add(this.busStopsLastDownloadedLabel);
@@ -917,15 +917,15 @@
             this.localRoutesLastExtractedLabel.TabIndex = 10;
             this.localRoutesLastExtractedLabel.Text = "Last extracted:";
             // 
-            // localRoutesLabel
+            // localServicesLabel
             // 
-            this.localRoutesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.localRoutesLabel.AutoSize = true;
-            this.localRoutesLabel.Location = new System.Drawing.Point(404, 16);
-            this.localRoutesLabel.Name = "localRoutesLabel";
-            this.localRoutesLabel.Size = new System.Drawing.Size(115, 13);
-            this.localRoutesLabel.TabIndex = 9;
-            this.localRoutesLabel.Text = "Local routes extracted:";
+            this.localServicesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.localServicesLabel.AutoSize = true;
+            this.localServicesLabel.Location = new System.Drawing.Point(404, 16);
+            this.localServicesLabel.Name = "localServicesLabel";
+            this.localServicesLabel.Size = new System.Drawing.Size(125, 13);
+            this.localServicesLabel.TabIndex = 9;
+            this.localServicesLabel.Text = "Local services extracted:";
             // 
             // travelineLastDownloadedLabel
             // 
@@ -1176,7 +1176,7 @@
         private System.Windows.Forms.Label travelineZipsLabel;
         private System.Windows.Forms.Label travelineLastDownloadedLabel;
         private System.Windows.Forms.Label localRoutesLastExtractedLabel;
-        private System.Windows.Forms.Label localRoutesLabel;
+        private System.Windows.Forms.Label localServicesLabel;
         private System.Windows.Forms.Label openstreetMapLastDownloadedLabel;
         private System.Windows.Forms.Label openstreetmapDataDownloadedLabel;
         private System.Windows.Forms.ToolStripMenuItem getOpenstreetmapDataToolStripMenuItem;

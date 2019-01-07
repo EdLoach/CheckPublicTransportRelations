@@ -215,7 +215,7 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            Properties.Settings.Default.LastRouteExtract = DateTime.Today;
+            Properties.Settings.Default.LastServiceExtract = DateTime.Today;
             Properties.Settings.Default.Save();
         }
 
