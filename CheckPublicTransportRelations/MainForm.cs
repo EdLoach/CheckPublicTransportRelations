@@ -531,7 +531,7 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            Settings.Default.LastOpenStreetMapDownload = DateTime.Today;
+            Settings.Default.LastOpenStreetMapDownload = DateTime.Now;
             Settings.Default.Save();
             this.RefreshStatus();
             this.openStreetMapDataGridView.DataSource = null;
@@ -801,7 +801,8 @@ namespace CheckPublicTransportRelations
             {
                 this.openstreetMapLastDownloadedLabel.Text = @"Last downloaded: "
                                                              + Settings.Default.LastOpenStreetMapDownload
-                                                                 .ToLongDateString();
+                                                                 .ToLongDateString() + @" " + Settings.Default.LastOpenStreetMapDownload
+                                                                 .ToShortTimeString();
             }
         }
 
