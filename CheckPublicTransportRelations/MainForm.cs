@@ -472,7 +472,11 @@ namespace CheckPublicTransportRelations
                                             ?.First();
                                         foreach (JourneyStop stop in journeyPattern.JourneyStops)
                                         {
-                                            routeRoute.Stops.Add(stop.StopPointRef);
+                                            if (routeRoute.Stops.Count == 0
+                                                || routeRoute.Stops[routeRoute.Stops.Count - 1] != stop.StopPointRef)
+                                            {
+                                                routeRoute.Stops.Add(stop.StopPointRef);
+                                            }
                                         }
                                     }
                                 }
