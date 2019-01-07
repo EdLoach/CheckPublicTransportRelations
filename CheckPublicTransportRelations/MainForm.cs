@@ -168,19 +168,19 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            dataGridView.Select();
-            DataObject clipboardContent = dataGridView.GetClipboardContent();
-            if (clipboardContent != null)
+            try
             {
-                try
+                dataGridView.Select();
+                DataObject clipboardContent = dataGridView.GetClipboardContent();
+                if (clipboardContent != null)
                 {
                     Clipboard.SetDataObject(clipboardContent);
                 }
-                catch (Exception exception)
-                {
-                    // ignore the error
-                    Debug.WriteLine(exception);
-                }
+            }
+            catch (Exception exception)
+            {
+                // ignore the error
+                Debug.WriteLine(exception);
             }
         }
 

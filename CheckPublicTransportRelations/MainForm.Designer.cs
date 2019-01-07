@@ -48,6 +48,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
@@ -841,8 +842,8 @@
             this.fromToDataGridView.Name = "fromToDataGridView";
             this.fromToDataGridView.ReadOnly = true;
             this.fromToDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle22.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.fromToDataGridView.Size = new System.Drawing.Size(782, 364);
             this.fromToDataGridView.TabIndex = 0;
             // 
@@ -1047,6 +1048,8 @@
             // fromToRelationColumn
             // 
             this.fromToRelationColumn.DataPropertyName = "RelationId";
+            dataGridViewCellStyle21.Format = "N0";
+            this.fromToRelationColumn.DefaultCellStyle = dataGridViewCellStyle21;
             this.fromToRelationColumn.HeaderText = "Id";
             this.fromToRelationColumn.Name = "fromToRelationColumn";
             this.fromToRelationColumn.ReadOnly = true;
