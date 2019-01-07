@@ -9,7 +9,6 @@
 namespace CheckPublicTransportRelations
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Drawing;
@@ -297,26 +296,62 @@ namespace CheckPublicTransportRelations
                 try
                 {
                     XDocument doc = XDocument.Load(file);
-                    var stopPoints = new Hashtable();
-                    XElement stops = null;
+ 
+                    var journeyPatterns = new List<JourneyPatternSection>();
                     for (var i = 0; i < doc.Root.Elements().Count(); i++)
                     {
-                        stops = doc.Root.Elements().ElementAt(i);
-                        if (stops.ToString().StartsWith("<StopPoints"))
+                        XElement journeyPatternSections = doc.Root.Elements().ElementAt(i);
+                        if (journeyPatternSections.ToString().StartsWith("<JourneyPatternSections"))
                         {
+                            foreach (XElement journeyPatternSection in journeyPatternSections.Elements())
+                            {
+                                var journeyPattern =
+                                    new JourneyPatternSection { Id = journeyPatternSection.Attribute("id").Value };
+                                foreach (XElement journeyPatternTimingLink in journeyPatternSection.Elements())
+                                {
+                                    XElement fromElement = journeyPatternTimingLink.Elements().ElementAt(0);
+                                    XElement toElement = journeyPatternTimingLink.Elements().ElementAt(1);
+                                    JourneyStop journeyStop;
+                                    if (journeyPattern.JourneyStops.Count == 0)
+                                    {
+                                        journeyStop = new JourneyStop();
+                                        foreach (XElement element in fromElement.Elements())
+                                        {
+                                            if (element.Name.ToString().Contains("Activity"))
+                                            {
+                                                journeyStop.Activity = element.Value;
+                                            }
+
+                                            if (element.Name.ToString().Contains("StopPointRef"))
+                                            {
+                                                journeyStop.StopPointRef = element.Value;
+                                            }
+                                        }
+
+                                        journeyPattern.JourneyStops.Add(journeyStop);
+                                    }
+
+                                    journeyStop = new JourneyStop();
+                                    foreach (XElement element in toElement.Elements())
+                                    {
+                                        if (element.Name.ToString().Contains("Activity"))
+                                        {
+                                            journeyStop.Activity = element.Value;
+                                        }
+
+                                        if (element.Name.ToString().Contains("StopPointRef"))
+                                        {
+                                            journeyStop.StopPointRef = element.Value;
+                                        }
+                                    }
+
+                                    journeyPattern.JourneyStops.Add(journeyStop);
+                                }
+
+                                journeyPatterns.Add(journeyPattern);
+                            }
+
                             break;
-                        }
-
-                        stops = null;
-                    }
-
-                    if (stops != null && stops.ToString().StartsWith("<StopPoints"))
-                    {
-                        foreach (XElement stop in stops.Elements())
-                        {
-                            stopPoints.Add(
-                                stop.Elements().ElementAt(0).Value,
-                                stop.Elements().ElementAt(1).Value + ", " + stop.Elements().ElementAt(2).Value);
                         }
                     }
 
@@ -332,140 +367,30 @@ namespace CheckPublicTransportRelations
                         services = null;
                     }
 
-                    XElement vehicleJourneys = null;
                     for (var i = 0; i < doc.Root.Elements().Count(); i++)
                     {
-                        vehicleJourneys = doc.Root.Elements().ElementAt(i);
+                        XElement vehicleJourneys = doc.Root.Elements().ElementAt(i);
                         if (vehicleJourneys.ToString().StartsWith("<VehicleJourneys"))
                         {
                             break;
                         }
-
-                        vehicleJourneys = null;
                     }
 
-                    XElement routes = null;
                     for (var i = 0; i < doc.Root.Elements().Count(); i++)
                     {
-                        routes = doc.Root.Elements().ElementAt(i);
+                        XElement routes = doc.Root.Elements().ElementAt(i);
                         if (routes.ToString().StartsWith("<Routes"))
                         {
                             break;
                         }
-
-                        routes = null;
                     }
 
-                    XElement routeSections = null;
                     for (var i = 0; i < doc.Root.Elements().Count(); i++)
                     {
-                        routeSections = doc.Root.Elements().ElementAt(i);
+                        XElement routeSections = doc.Root.Elements().ElementAt(i);
                         if (routeSections.ToString().StartsWith("<RouteSections"))
                         {
                             break;
-                        }
-                    }
-
-                    if (routes != null)
-                    {
-                        foreach (XElement route in routes.Elements())
-                        {
-                            var routeRoute = new Route
-                                                 {
-                                                     Id = route.Attribute("id").Value,
-                                                     Description = route.Elements().ElementAt(1).Value,
-                                                     RouteSectionRef = route.Elements().ElementAt(2).Value,
-                                                     VehicleJourneys = string.Empty
-                                                 };
-
-                            if (services != null)
-                            {
-                                foreach (XElement service in services.Elements())
-                                {
-                                    // find JourneyPattern where RouteRef = routeRoute.Id
-                                    if (service.Elements().Count() < 9 || !service.Elements().ElementAt(8).ToString()
-                                            .StartsWith("<StandardService"))
-                                    {
-                                        continue;
-                                    }
-
-                                    XElement standardService = service.Elements().ElementAt(8);
-                                    foreach (XElement standardServiceElement in standardService.Elements())
-                                    {
-                                        // find a journey pattern
-                                        if (!standardServiceElement.ToString().StartsWith("<JourneyPattern")
-                                            || standardServiceElement.Elements().ElementAt(1).Value != routeRoute.Id)
-                                        {
-                                            continue;
-                                        }
-
-                                        string journeyPattern = standardServiceElement.Attribute("id").Value;
-                                        foreach (XElement vehicleJourney in vehicleJourneys.Elements())
-                                        {
-                                            bool journeyPatternMatched = vehicleJourney.Elements()
-                                                .Where(
-                                                    vehicleJourneyElement =>
-                                                        vehicleJourneyElement.ToString()
-                                                            .StartsWith("<JourneyPatternRef")).Any(
-                                                    vehicleJourneyElement =>
-                                                        vehicleJourneyElement.Value == journeyPattern);
-
-                                            if (!journeyPatternMatched)
-                                            {
-                                                continue;
-                                            }
-
-                                            // vehicleJourneysTextBox.Text += vehicleJourney.ToString() + System.Environment.NewLine ;
-                                            foreach (XElement vehicleJourneyElement in vehicleJourney.Elements())
-                                            {
-                                                if (!vehicleJourneyElement.ToString().StartsWith("<DepartureTime"))
-                                                {
-                                                    continue;
-                                                }
-
-                                                routeRoute.VehicleJourneys += vehicleJourneyElement.Value + " ";
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (routeSections != null)
-                            {
-                                foreach (XElement routeSection in routeSections.Elements())
-                                {
-                                    if (routeSection.Attribute("id").Value != routeRoute.RouteSectionRef)
-                                    {
-                                        continue;
-                                    }
-
-                                    foreach (XElement routeLink in routeSection.Elements())
-                                    {
-                                        var routeRouteSection = new RouteSection
-                                                                    {
-                                                                        FromRef = routeLink.Elements().ElementAt(0)
-                                                                            .Elements().ElementAt(0).Value
-                                                                    };
-                                        routeRouteSection.FromDesc = stopPoints[routeRouteSection.FromRef].ToString();
-                                        routeRouteSection.ToRef = routeLink.Elements().ElementAt(1).Elements()
-                                            .ElementAt(0).Value;
-                                        routeRouteSection.ToDesc = stopPoints[routeRouteSection.ToRef].ToString();
-                                        routeRoute.RouteSection.Add(routeRouteSection);
-                                        if (routeRoute.Stops.Count == 0)
-                                        {
-                                            routeRoute.Stops.Add(routeRouteSection.FromRef);
-                                        }
-
-                                        routeRoute.Stops.Add(routeRouteSection.ToRef);
-                                    }
-
-                                    break;
-                                }
-                            }
-
-                            routeRoute.VehicleJourneys = routeRoute.VehicleJourneys.TrimEnd();
-                            routeMaster.RouteVariants.Add(routeRoute);
                         }
                     }
 
@@ -515,6 +440,61 @@ namespace CheckPublicTransportRelations
                                     {
                                         routeMaster.Reference = lineName.Value;
                                     }
+                                }
+                            }
+                        }
+
+                        foreach (XElement standardService in serviceNode.Elements())
+                        {
+                            if (!standardService.Name.ToString().Contains("StandardService"))
+                            {
+                                continue;
+                            }
+
+                            foreach (XElement routeVariant in standardService.Elements())
+                            {
+                                if (!routeVariant.Name.ToString().Contains("JourneyPattern"))
+                                {
+                                    continue;
+                                }
+
+                                var routeRoute = new Route
+                                                     {
+                                                         Id = routeVariant.Attribute("id").Value,
+                                                         VehicleJourneys = string.Empty
+                                                     };
+
+                                foreach (XElement section in routeVariant.Elements())
+                                {
+                                    if (section.Name.ToString().Contains("JourneyPatternSectionRefs"))
+                                    {
+                                        JourneyPatternSection journeyPattern = journeyPatterns.Where(item => item.Id == section.Value)
+                                            ?.First();
+                                        foreach (JourneyStop stop in journeyPattern.JourneyStops)
+                                        {
+                                            routeRoute.Stops.Add(stop.StopPointRef);
+                                        }
+                                    }
+                                }
+
+                                // don't add duplicates
+                                var matchFound = false;
+                                foreach (Route routeVariantCheck in routeMaster.RouteVariants)
+                                {
+                                    List<string> firstNotSecond = routeVariantCheck.Stops.Except(routeRoute.Stops).ToList();
+                                    List<string> secondNotFirst = routeRoute.Stops.Except(routeVariantCheck.Stops).ToList();
+                                    if (firstNotSecond.Any() || secondNotFirst.Any())
+                                    {
+                                        continue;
+                                    }
+
+                                    matchFound = true;
+                                    break;
+                                }
+
+                                if (!matchFound)
+                                {
+                                    routeMaster.RouteVariants.Add(routeRoute);
                                 }
                             }
                         }

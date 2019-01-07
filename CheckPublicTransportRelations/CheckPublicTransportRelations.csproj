@@ -72,6 +72,8 @@
     <Compile Include="ExtractRoutesForm.Designer.cs">
       <DependentUpon>ExtractRoutesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JourneyPatternSection.cs" />
+    <Compile Include="JourneyStop.cs" />
     <Compile Include="OpenStreetMapRouteMaster.cs" />
     <Compile Include="OpenStreetMapRouteVariant.cs" />
     <Compile Include="OpenStreetMapStop.cs" />
