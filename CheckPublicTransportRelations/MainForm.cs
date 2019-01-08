@@ -336,7 +336,7 @@ namespace CheckPublicTransportRelations
                                     {
                                         if (element.Name.ToString().Contains("Activity"))
                                         {
-                                            journeyStop.Activity = element.Value.Trim().Replace("pickUpAndSetDown","platform").Replace("pickUp","platform_entry_only").Replace("setDown","platform_exit_only");
+                                            journeyStop.Activity = element.Value.Trim().Replace("pickUpAndSetDown", "platform").Replace("pickUp", "platform_entry_only").Replace("setDown", "platform_exit_only");
                                         }
 
                                         if (element.Name.ToString().Contains("StopPointRef"))
@@ -1154,6 +1154,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
         private void AddTravelineRouteVariants(RouteMaster travelineRouteMaster)
         {
             foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
