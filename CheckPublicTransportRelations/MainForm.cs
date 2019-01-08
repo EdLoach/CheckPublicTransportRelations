@@ -1226,6 +1226,7 @@ namespace CheckPublicTransportRelations
                         if (!travelineStops.Contains(openStreetMapStop))
                         {
                             this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                         }
 
                         var travelineDataStop = new JourneyStop
@@ -1239,6 +1240,7 @@ namespace CheckPublicTransportRelations
                         if (!osmStops.Contains(travelineDataStop))
                         {
                             this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.travelineStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                         }
                     }
                     else if (i < this.openStreetMapStopsDataGridView.RowCount)
@@ -1254,6 +1256,7 @@ namespace CheckPublicTransportRelations
                         if (!travelineStops.Contains(openStreetMapStop))
                         {
                             this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                         }
                     }
                     else if (i < this.travelineStopsDataGridView.RowCount)
@@ -1269,6 +1272,7 @@ namespace CheckPublicTransportRelations
                         if (!osmStops.Contains(travelineDataStop))
                         {
                             this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.travelineStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                         }
                     }
                 }
@@ -1283,16 +1287,20 @@ namespace CheckPublicTransportRelations
                         if (this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString() != this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString())
                         {
                             this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                             this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                            this.travelineStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                         }
                     }
                     else if (i < this.openStreetMapStopsDataGridView.RowCount)
                     {
                         this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                     }
                     else if (i < this.travelineStopsDataGridView.RowCount)
                     {
                         this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
+                        this.travelineStopsDataGridView.Rows[i].Cells[1].Style.ForeColor = Color.Red;
                     }
                 }
             }
