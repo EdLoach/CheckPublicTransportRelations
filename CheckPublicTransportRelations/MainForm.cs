@@ -466,17 +466,19 @@ namespace CheckPublicTransportRelations
 
                                 foreach (XElement section in routeVariant.Elements())
                                 {
-                                    if (section.Name.ToString().Contains("JourneyPatternSectionRefs"))
+                                    if (!section.Name.ToString().Contains("JourneyPatternSectionRefs"))
                                     {
-                                        JourneyPatternSection journeyPattern = journeyPatterns.Where(item => item.Id == section.Value)
-                                            ?.First();
-                                        foreach (JourneyStop stop in journeyPattern.JourneyStops)
+                                        continue;
+                                    }
+
+                                    JourneyPatternSection journeyPattern = journeyPatterns.Where(item => item.Id == section.Value)
+                                        ?.First();
+                                    foreach (JourneyStop stop in journeyPattern.JourneyStops)
+                                    {
+                                        if (routeRoute.Stops.Count == 0
+                                            || !routeRoute.Stops[routeRoute.Stops.Count - 1].Equals(stop))
                                         {
-                                            if (routeRoute.Stops.Count == 0
-                                                || !routeRoute.Stops[routeRoute.Stops.Count - 1].Equals(stop))
-                                            {
-                                                routeRoute.Stops.Add(stop);
-                                            }
+                                            routeRoute.Stops.Add(stop);
                                         }
                                     }
                                 }
