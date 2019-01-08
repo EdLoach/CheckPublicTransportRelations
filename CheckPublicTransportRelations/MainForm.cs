@@ -473,7 +473,7 @@ namespace CheckPublicTransportRelations
                                         foreach (JourneyStop stop in journeyPattern.JourneyStops)
                                         {
                                             if (routeRoute.Stops.Count == 0
-                                                || routeRoute.Stops[routeRoute.Stops.Count - 1] != stop)
+                                                || !routeRoute.Stops[routeRoute.Stops.Count - 1].Equals(stop))
                                             {
                                                 routeRoute.Stops.Add(stop);
                                             }
