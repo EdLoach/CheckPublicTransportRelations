@@ -485,9 +485,7 @@ namespace CheckPublicTransportRelations
                                 var matchFound = false;
                                 foreach (Route routeVariantCheck in routeMaster.RouteVariants)
                                 {
-                                    List<JourneyStop> firstNotSecond = routeVariantCheck.Stops.Except(routeRoute.Stops).ToList();
-                                    List<JourneyStop> secondNotFirst = routeRoute.Stops.Except(routeVariantCheck.Stops).ToList();
-                                    if (firstNotSecond.Any() || secondNotFirst.Any())
+                                    if (!routeVariantCheck.Stops.SequenceEqual(routeRoute.Stops))
                                     {
                                         continue;
                                     }
