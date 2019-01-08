@@ -319,7 +319,7 @@ namespace CheckPublicTransportRelations
                                         {
                                             if (element.Name.ToString().Contains("Activity"))
                                             {
-                                                journeyStop.Activity = element.Value;
+                                                journeyStop.Activity = element.Value.Trim().Replace("pickUpAndSetDown", "platform").Replace("pickUp", "platform_entry_only").Replace("setDown", "platform_exit_only");
                                             }
 
                                             if (element.Name.ToString().Contains("StopPointRef"))
@@ -336,7 +336,7 @@ namespace CheckPublicTransportRelations
                                     {
                                         if (element.Name.ToString().Contains("Activity"))
                                         {
-                                            journeyStop.Activity = element.Value;
+                                            journeyStop.Activity = element.Value.Trim().Replace("pickUpAndSetDown","platform").Replace("pickUp","platform_entry_only").Replace("setDown","platform_exit_only");
                                         }
 
                                         if (element.Name.ToString().Contains("StopPointRef"))
@@ -473,9 +473,9 @@ namespace CheckPublicTransportRelations
                                         foreach (JourneyStop stop in journeyPattern.JourneyStops)
                                         {
                                             if (routeRoute.Stops.Count == 0
-                                                || routeRoute.Stops[routeRoute.Stops.Count - 1] != stop.StopPointRef)
+                                                || routeRoute.Stops[routeRoute.Stops.Count - 1] != stop)
                                             {
-                                                routeRoute.Stops.Add(stop.StopPointRef);
+                                                routeRoute.Stops.Add(stop);
                                             }
                                         }
                                     }
@@ -485,8 +485,8 @@ namespace CheckPublicTransportRelations
                                 var matchFound = false;
                                 foreach (Route routeVariantCheck in routeMaster.RouteVariants)
                                 {
-                                    List<string> firstNotSecond = routeVariantCheck.Stops.Except(routeRoute.Stops).ToList();
-                                    List<string> secondNotFirst = routeRoute.Stops.Except(routeVariantCheck.Stops).ToList();
+                                    List<JourneyStop> firstNotSecond = routeVariantCheck.Stops.Except(routeRoute.Stops).ToList();
+                                    List<JourneyStop> secondNotFirst = routeRoute.Stops.Except(routeVariantCheck.Stops).ToList();
                                     if (firstNotSecond.Any() || secondNotFirst.Any())
                                     {
                                         continue;
@@ -562,6 +562,8 @@ namespace CheckPublicTransportRelations
             this.compareRouteMasterDataGridView.AutoGenerateColumns = false;
             this.comparedRoutesDataGridView.AutoGenerateColumns = false;
             this.fromToDataGridView.AutoGenerateColumns = false;
+            this.openStreetMapStopsDataGridView.AutoGenerateColumns = false;
+            this.travelineStopsDataGridView.AutoGenerateColumns = false;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
@@ -590,7 +592,7 @@ namespace CheckPublicTransportRelations
             // This was false as relations weren't all routes before route masters, so split to two loops
             var routeBusStops = new List<BusStop>();
             var stopsDictionary = new Dictionary<long, string>();
-            var routesStopsDictionary = new Dictionary<long, List<string>>();
+            var routesStopsDictionary = new Dictionary<long, List<JourneyStop>>();
             var routesReferenceDictionary = new Dictionary<long, string>();
             var routesOperatorDictionary = new Dictionary<long, string>();
             var routesFromDictionary = new Dictionary<long, string>();
@@ -643,14 +645,18 @@ namespace CheckPublicTransportRelations
                     continue;
                 }
 
-                var routeStops = new List<string>();
+                var routeStops = new List<JourneyStop>();
                 foreach (dynamic member in element.members)
                 {
                     string memberRole = member.role ?? string.Empty;
                     if (memberRole.Contains("platform"))
                     {
                         long routeId = member.@ref;
-                        routeStops.Add(stopsDictionary[routeId]);
+                        var journeyStop = new JourneyStop
+                                              {
+                                                  StopPointRef = stopsDictionary[routeId], Activity = memberRole
+                                              };
+                        routeStops.Add(journeyStop);
                     }
                 }
 
@@ -1016,6 +1022,7 @@ namespace CheckPublicTransportRelations
 
                 // No Match
                 this.ComparisonResults.Add(comparisonResult);
+                this.AddTravelineRouteVariants(routeMaster);
             }
 
             this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => (item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch) == false).ToList();
@@ -1049,9 +1056,9 @@ namespace CheckPublicTransportRelations
                 if (routeVariant.BusStops.Count > 0)
                 {
                     fromToResult.StopFrom = this.RouteBusStops.FirstOrDefault(
-                        item => item.AtcoCode == routeVariant.BusStops[0])?.StopName;
+                        item => item.AtcoCode == routeVariant.BusStops[0].StopPointRef)?.StopName;
                     fromToResult.StopTo = this.RouteBusStops.FirstOrDefault(
-                        item => item.AtcoCode == routeVariant.BusStops[routeVariant.BusStops.Count - 1])?.StopName;
+                        item => item.AtcoCode == routeVariant.BusStops[routeVariant.BusStops.Count - 1].StopPointRef)?.StopName;
                 }
                 else
                 {
@@ -1129,6 +1136,22 @@ namespace CheckPublicTransportRelations
                 this.ComparisonResultsRoutes.Add(comparisonResult);
             }
         }
+        
+        private void AddTravelineRouteVariants(RouteMaster travelineRouteMaster)
+        {
+            foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
+            {
+                var comparisonResult = new ComparisonResultRoute
+                {
+                    ServiceFile = travelineRouteMaster.FileName,
+                    ServiceOperator = travelineRouteMaster.Operator,
+                    ServiceReference = travelineRouteMaster.Reference,
+                    ServiceStops = travelineRouteVariant.Stops
+                };
+
+                this.ComparisonResultsRoutes.Add(comparisonResult);
+            }
+        }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
@@ -1150,8 +1173,8 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void RefreshStopLists()
         { 
-            var osmStops = new List<string>();
-            var travelineStops = new List<string>();
+            var osmStops = new List<JourneyStop>();
+            var travelineStops = new List<JourneyStop>();
             this.openStreetMapStopsGroupBox.Text = @"OSM";
             this.travelineStopsGroupBox.Text = @"TNDS";
             this.openStreetMapStopsDataGridView.DataSource = null;
@@ -1162,7 +1185,7 @@ namespace CheckPublicTransportRelations
                     && this.openStreetMapStopsDataGridView.DataSource == null)
                 {
                     osmStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops;
-                    this.openStreetMapStopsDataGridView.DataSource = osmStops.ConvertAll(x => new { Value = x });
+                    this.openStreetMapStopsDataGridView.DataSource = osmStops;
                     this.openStreetMapStopsGroupBox.Text =
                         @"OSM: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).RelationStops.Count;
                 }
@@ -1171,7 +1194,7 @@ namespace CheckPublicTransportRelations
                     && this.travelineStopsDataGridView.DataSource == null)
                 {
                     travelineStops = ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops;
-                    this.travelineStopsDataGridView.DataSource = travelineStops.ConvertAll(x => new { Value = x });
+                    this.travelineStopsDataGridView.DataSource = travelineStops;
                     this.travelineStopsGroupBox.Text =
                         @"TNDS: " + ((ComparisonResultRoute)selectedRow.DataBoundItem).ServiceStops.Count;
                 }
@@ -1192,28 +1215,58 @@ namespace CheckPublicTransportRelations
                     if (i < this.openStreetMapStopsDataGridView.RowCount
                         && i < this.travelineStopsDataGridView.RowCount)
                     {
-                        if (!travelineStops.Contains(
-                                this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        var openStreetMapStop = new JourneyStop
+                                              {
+                                                  StopPointRef =
+                                                      this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value
+                                                          .ToString(),
+                                                  Activity = this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Value
+                                                      .ToString()
+                                              };
+                        if (!travelineStops.Contains(openStreetMapStop))
                         {
                             this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                         }
 
-                        if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        var travelineDataStop = new JourneyStop
+                                                    {
+                                                        StopPointRef =
+                                                            this.travelineStopsDataGridView.Rows[i].Cells[0].Value
+                                                                .ToString(),
+                                                        Activity = this.travelineStopsDataGridView.Rows[i].Cells[1].Value
+                                                            .ToString()
+                                                    };
+                        if (!osmStops.Contains(travelineDataStop))
                         {
                             this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                         }
                     }
                     else if (i < this.openStreetMapStopsDataGridView.RowCount)
                     {
-                        if (!travelineStops.Contains(
-                                this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        var openStreetMapStop = new JourneyStop
+                                                    {
+                                                        StopPointRef =
+                                                            this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Value
+                                                                .ToString(),
+                                                        Activity = this.openStreetMapStopsDataGridView.Rows[i].Cells[1].Value
+                                                            .ToString()
+                                                    };
+                        if (!travelineStops.Contains(openStreetMapStop))
                         {
                             this.openStreetMapStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                         }
                     }
                     else if (i < this.travelineStopsDataGridView.RowCount)
                     {
-                        if (!osmStops.Contains(this.travelineStopsDataGridView.Rows[i].Cells[0].Value.ToString()))
+                        var travelineDataStop = new JourneyStop
+                                                    {
+                                                        StopPointRef =
+                                                            this.travelineStopsDataGridView.Rows[i].Cells[0].Value
+                                                                .ToString(),
+                                                        Activity = this.travelineStopsDataGridView.Rows[i].Cells[1].Value
+                                                            .ToString()
+                                                    };
+                        if (!osmStops.Contains(travelineDataStop))
                         {
                             this.travelineStopsDataGridView.Rows[i].Cells[0].Style.ForeColor = Color.Red;
                         }

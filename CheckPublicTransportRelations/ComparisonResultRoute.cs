@@ -29,11 +29,11 @@ namespace CheckPublicTransportRelations
             this.RelationReference = string.Empty;
             this.ServiceRouteRelationId = -1;
             this.RouteRelationId = -1;
-            this.RelationStops = new List<string>();
+            this.RelationStops = new List<JourneyStop>();
             this.ServiceFile = string.Empty;
             this.ServiceReference = string.Empty;
             this.ServiceOperator = string.Empty;
-            this.ServiceStops = new List<string>();
+            this.ServiceStops = new List<JourneyStop>();
         }
 
         // ===========================================================================================================
@@ -79,7 +79,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The relation stops.</value>
         // ===========================================================================================================
-        public List<string> RelationStops { get; set; }
+        public List<JourneyStop> RelationStops { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
@@ -133,7 +133,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The service stops.</value>
         // ===========================================================================================================
-        public List<string> ServiceStops { get; set; }
+        public List<JourneyStop> ServiceStops { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>

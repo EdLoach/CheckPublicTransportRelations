@@ -104,7 +104,7 @@
             this.openStreetMapStopsDataGridView = new System.Windows.Forms.DataGridView();
             this.travelineStopsGroupBox = new System.Windows.Forms.GroupBox();
             this.travelineStopsDataGridView = new System.Windows.Forms.DataGridView();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.stopNamesPanel = new System.Windows.Forms.Panel();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
             this.fromToDataGridView = new System.Windows.Forms.DataGridView();
@@ -136,6 +136,10 @@
             this.fromToServiceToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fromToBusStopToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fromToToNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.osmStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.osmActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -161,7 +165,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsDataGridView)).BeginInit();
             this.travelineStopsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.travelineStopsDataGridView)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.stopNamesPanel.SuspendLayout();
             this.routeFromToTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).BeginInit();
             this.fromToControlsPanel.SuspendLayout();
@@ -173,15 +177,15 @@
             // 
             this.buttonPanel.Controls.Add(this.closeButton);
             this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 526);
+            this.buttonPanel.Location = new System.Drawing.Point(0, 694);
             this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Size = new System.Drawing.Size(800, 35);
+            this.buttonPanel.Size = new System.Drawing.Size(1008, 35);
             this.buttonPanel.TabIndex = 0;
             // 
             // closeButton
             // 
             this.closeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.closeButton.Location = new System.Drawing.Point(713, 6);
+            this.closeButton.Location = new System.Drawing.Point(921, 6);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(75, 23);
             this.closeButton.TabIndex = 0;
@@ -197,7 +201,7 @@
             this.mainPanel.Location = new System.Drawing.Point(0, 24);
             this.mainPanel.Name = "mainPanel";
             this.mainPanel.Padding = new System.Windows.Forms.Padding(5);
-            this.mainPanel.Size = new System.Drawing.Size(800, 502);
+            this.mainPanel.Size = new System.Drawing.Size(1008, 670);
             this.mainPanel.TabIndex = 1;
             // 
             // mainTabControl
@@ -211,7 +215,7 @@
             this.mainTabControl.Location = new System.Drawing.Point(5, 74);
             this.mainTabControl.Name = "mainTabControl";
             this.mainTabControl.SelectedIndex = 0;
-            this.mainTabControl.Size = new System.Drawing.Size(790, 423);
+            this.mainTabControl.Size = new System.Drawing.Size(998, 591);
             this.mainTabControl.TabIndex = 19;
             // 
             // travelineTabPage
@@ -516,7 +520,7 @@
             this.compareRouteVariantsTabPage.Controls.Add(this.routesSplitContainer);
             this.compareRouteVariantsTabPage.Location = new System.Drawing.Point(4, 22);
             this.compareRouteVariantsTabPage.Name = "compareRouteVariantsTabPage";
-            this.compareRouteVariantsTabPage.Size = new System.Drawing.Size(782, 397);
+            this.compareRouteVariantsTabPage.Size = new System.Drawing.Size(990, 565);
             this.compareRouteVariantsTabPage.TabIndex = 3;
             this.compareRouteVariantsTabPage.Text = "Routes";
             this.compareRouteVariantsTabPage.UseVisualStyleBackColor = true;
@@ -536,8 +540,8 @@
             // routesSplitContainer.Panel2
             // 
             this.routesSplitContainer.Panel2.Controls.Add(this.stopsSplitContainer);
-            this.routesSplitContainer.Panel2.Controls.Add(this.panel1);
-            this.routesSplitContainer.Size = new System.Drawing.Size(782, 397);
+            this.routesSplitContainer.Panel2.Controls.Add(this.stopNamesPanel);
+            this.routesSplitContainer.Size = new System.Drawing.Size(990, 565);
             this.routesSplitContainer.SplitterDistance = 600;
             this.routesSplitContainer.TabIndex = 0;
             // 
@@ -563,7 +567,7 @@
             this.comparedRoutesDataGridView.ReadOnly = true;
             this.comparedRoutesDataGridView.RowHeadersVisible = false;
             this.comparedRoutesDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.comparedRoutesDataGridView.Size = new System.Drawing.Size(600, 364);
+            this.comparedRoutesDataGridView.Size = new System.Drawing.Size(600, 532);
             this.comparedRoutesDataGridView.TabIndex = 2;
             this.comparedRoutesDataGridView.SelectionChanged += new System.EventHandler(this.ComparedRoutesDataGridView_SelectionChanged);
             // 
@@ -675,7 +679,7 @@
             this.routesTabControlsPanel.Controls.Add(this.highlightStopsLabel);
             this.routesTabControlsPanel.Controls.Add(this.showMatchedRoutesCheckBox);
             this.routesTabControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.routesTabControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.routesTabControlsPanel.Location = new System.Drawing.Point(0, 532);
             this.routesTabControlsPanel.Name = "routesTabControlsPanel";
             this.routesTabControlsPanel.Size = new System.Drawing.Size(600, 33);
             this.routesTabControlsPanel.TabIndex = 3;
@@ -731,8 +735,8 @@
             // 
             this.stopsSplitContainer.Panel2.Controls.Add(this.travelineStopsGroupBox);
             this.stopsSplitContainer.Panel2MinSize = 85;
-            this.stopsSplitContainer.Size = new System.Drawing.Size(178, 364);
-            this.stopsSplitContainer.SplitterDistance = 85;
+            this.stopsSplitContainer.Size = new System.Drawing.Size(386, 532);
+            this.stopsSplitContainer.SplitterDistance = 184;
             this.stopsSplitContainer.TabIndex = 0;
             // 
             // openStreetMapStopsGroupBox
@@ -741,7 +745,7 @@
             this.openStreetMapStopsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openStreetMapStopsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.openStreetMapStopsGroupBox.Name = "openStreetMapStopsGroupBox";
-            this.openStreetMapStopsGroupBox.Size = new System.Drawing.Size(85, 364);
+            this.openStreetMapStopsGroupBox.Size = new System.Drawing.Size(184, 532);
             this.openStreetMapStopsGroupBox.TabIndex = 0;
             this.openStreetMapStopsGroupBox.TabStop = false;
             this.openStreetMapStopsGroupBox.Text = "OSM";
@@ -752,6 +756,9 @@
             this.openStreetMapStopsDataGridView.AllowUserToDeleteRows = false;
             this.openStreetMapStopsDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.openStreetMapStopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.openStreetMapStopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.osmStopPointRefColumn,
+            this.osmActivityColumn});
             this.openStreetMapStopsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openStreetMapStopsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.openStreetMapStopsDataGridView.MultiSelect = false;
@@ -761,7 +768,7 @@
             dataGridViewCellStyle19.BackColor = System.Drawing.Color.AntiqueWhite;
             this.openStreetMapStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.openStreetMapStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.openStreetMapStopsDataGridView.Size = new System.Drawing.Size(79, 345);
+            this.openStreetMapStopsDataGridView.Size = new System.Drawing.Size(178, 513);
             this.openStreetMapStopsDataGridView.TabIndex = 0;
             this.openStreetMapStopsDataGridView.SelectionChanged += new System.EventHandler(this.StopsDataGridView_SelectionChanged);
             // 
@@ -771,7 +778,7 @@
             this.travelineStopsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.travelineStopsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.travelineStopsGroupBox.Name = "travelineStopsGroupBox";
-            this.travelineStopsGroupBox.Size = new System.Drawing.Size(89, 364);
+            this.travelineStopsGroupBox.Size = new System.Drawing.Size(198, 532);
             this.travelineStopsGroupBox.TabIndex = 0;
             this.travelineStopsGroupBox.TabStop = false;
             this.travelineStopsGroupBox.Text = "TNDS";
@@ -781,6 +788,9 @@
             this.travelineStopsDataGridView.AllowUserToAddRows = false;
             this.travelineStopsDataGridView.AllowUserToDeleteRows = false;
             this.travelineStopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.travelineStopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.tndsStopPointRefColumn,
+            this.tndsActivityColumn});
             this.travelineStopsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.travelineStopsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.travelineStopsDataGridView.MultiSelect = false;
@@ -790,19 +800,19 @@
             dataGridViewCellStyle20.BackColor = System.Drawing.Color.LightCyan;
             this.travelineStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.travelineStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.travelineStopsDataGridView.Size = new System.Drawing.Size(83, 345);
+            this.travelineStopsDataGridView.Size = new System.Drawing.Size(192, 513);
             this.travelineStopsDataGridView.TabIndex = 1;
             this.travelineStopsDataGridView.SelectionChanged += new System.EventHandler(this.StopsDataGridView_SelectionChanged);
             // 
-            // panel1
+            // stopNamesPanel
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.stopNameLabel);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 364);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(178, 33);
-            this.panel1.TabIndex = 4;
+            this.stopNamesPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.stopNamesPanel.Controls.Add(this.stopNameLabel);
+            this.stopNamesPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.stopNamesPanel.Location = new System.Drawing.Point(0, 532);
+            this.stopNamesPanel.Name = "stopNamesPanel";
+            this.stopNamesPanel.Size = new System.Drawing.Size(386, 33);
+            this.stopNamesPanel.TabIndex = 4;
             // 
             // stopNameLabel
             // 
@@ -883,7 +893,7 @@
             this.statusGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.statusGroupBox.Location = new System.Drawing.Point(5, 5);
             this.statusGroupBox.Name = "statusGroupBox";
-            this.statusGroupBox.Size = new System.Drawing.Size(790, 69);
+            this.statusGroupBox.Size = new System.Drawing.Size(998, 69);
             this.statusGroupBox.TabIndex = 18;
             this.statusGroupBox.TabStop = false;
             this.statusGroupBox.Text = "Status";
@@ -892,7 +902,7 @@
             // 
             this.openstreetMapLastDownloadedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.openstreetMapLastDownloadedLabel.AutoSize = true;
-            this.openstreetMapLastDownloadedLabel.Location = new System.Drawing.Point(575, 40);
+            this.openstreetMapLastDownloadedLabel.Location = new System.Drawing.Point(783, 40);
             this.openstreetMapLastDownloadedLabel.Name = "openstreetMapLastDownloadedLabel";
             this.openstreetMapLastDownloadedLabel.Size = new System.Drawing.Size(91, 13);
             this.openstreetMapLastDownloadedLabel.TabIndex = 12;
@@ -902,7 +912,7 @@
             // 
             this.openstreetmapDataDownloadedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.openstreetmapDataDownloadedLabel.AutoSize = true;
-            this.openstreetmapDataDownloadedLabel.Location = new System.Drawing.Point(404, 40);
+            this.openstreetmapDataDownloadedLabel.Location = new System.Drawing.Point(612, 40);
             this.openstreetmapDataDownloadedLabel.Name = "openstreetmapDataDownloadedLabel";
             this.openstreetmapDataDownloadedLabel.Size = new System.Drawing.Size(72, 13);
             this.openstreetmapDataDownloadedLabel.TabIndex = 11;
@@ -912,7 +922,7 @@
             // 
             this.localRoutesLastExtractedLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.localRoutesLastExtractedLabel.AutoSize = true;
-            this.localRoutesLastExtractedLabel.Location = new System.Drawing.Point(575, 16);
+            this.localRoutesLastExtractedLabel.Location = new System.Drawing.Point(783, 16);
             this.localRoutesLastExtractedLabel.Name = "localRoutesLastExtractedLabel";
             this.localRoutesLastExtractedLabel.Size = new System.Drawing.Size(77, 13);
             this.localRoutesLastExtractedLabel.TabIndex = 10;
@@ -922,7 +932,7 @@
             // 
             this.localServicesLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.localServicesLabel.AutoSize = true;
-            this.localServicesLabel.Location = new System.Drawing.Point(404, 16);
+            this.localServicesLabel.Location = new System.Drawing.Point(612, 16);
             this.localServicesLabel.Name = "localServicesLabel";
             this.localServicesLabel.Size = new System.Drawing.Size(125, 13);
             this.localServicesLabel.TabIndex = 9;
@@ -971,7 +981,7 @@
             this.optionsToolStripMenuItem});
             this.mainFormMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainFormMenuStrip.Name = "mainFormMenuStrip";
-            this.mainFormMenuStrip.Size = new System.Drawing.Size(800, 24);
+            this.mainFormMenuStrip.Size = new System.Drawing.Size(1008, 24);
             this.mainFormMenuStrip.TabIndex = 2;
             this.mainFormMenuStrip.Text = "menuStrip1";
             // 
@@ -1103,11 +1113,39 @@
             this.fromToToNameFoundColumn.ReadOnly = true;
             this.fromToToNameFoundColumn.Width = 50;
             // 
+            // osmStopPointRefColumn
+            // 
+            this.osmStopPointRefColumn.DataPropertyName = "StopPointRef";
+            this.osmStopPointRefColumn.HeaderText = "Stop";
+            this.osmStopPointRefColumn.Name = "osmStopPointRefColumn";
+            this.osmStopPointRefColumn.ReadOnly = true;
+            // 
+            // osmActivityColumn
+            // 
+            this.osmActivityColumn.DataPropertyName = "Activity";
+            this.osmActivityColumn.HeaderText = "Role";
+            this.osmActivityColumn.Name = "osmActivityColumn";
+            this.osmActivityColumn.ReadOnly = true;
+            // 
+            // tndsStopPointRefColumn
+            // 
+            this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
+            this.tndsStopPointRefColumn.HeaderText = "Stop";
+            this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
+            this.tndsStopPointRefColumn.ReadOnly = true;
+            // 
+            // tndsActivityColumn
+            // 
+            this.tndsActivityColumn.DataPropertyName = "Activity";
+            this.tndsActivityColumn.HeaderText = "Activity";
+            this.tndsActivityColumn.Name = "tndsActivityColumn";
+            this.tndsActivityColumn.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 561);
+            this.ClientSize = new System.Drawing.Size(1008, 729);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.mainFormMenuStrip);
@@ -1145,8 +1183,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopsDataGridView)).EndInit();
             this.travelineStopsGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.travelineStopsDataGridView)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.stopNamesPanel.ResumeLayout(false);
+            this.stopNamesPanel.PerformLayout();
             this.routeFromToTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).EndInit();
             this.fromToControlsPanel.ResumeLayout(false);
@@ -1206,7 +1244,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsServiceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsRoutesColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsFileNameColumn;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel stopNamesPanel;
         private System.Windows.Forms.Label stopNameLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmOperatorColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmServiceColumn;
@@ -1247,6 +1285,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceToColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopToColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn osmStopPointRefColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn osmActivityColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tndsStopPointRefColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
     }
 }
 

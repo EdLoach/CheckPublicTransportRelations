@@ -27,7 +27,7 @@ namespace CheckPublicTransportRelations
             this.Id = -1;
             this.Reference = string.Empty;
             this.Operator = string.Empty;
-            this.BusStops = new List<string>();
+            this.BusStops = new List<JourneyStop>();
             this.RelationFrom = string.Empty;
             this.RelationTo = string.Empty;
         }
@@ -57,7 +57,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The bus stops.</value>
         // ===========================================================================================================
-        public List<string> BusStops { get; set; }
+        public List<JourneyStop> BusStops { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>

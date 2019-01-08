@@ -69,7 +69,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The stops.</value>
         // ===========================================================================================================
-        public List<string> Stops { get; set; }
+        public List<JourneyStop> Stops { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -82,7 +82,7 @@ namespace CheckPublicTransportRelations
             this.Description = string.Empty;
             this.RouteSectionRef = string.Empty;
             this.RouteSection = new List<RouteSection>();
-            this.Stops = new List<string>();
+            this.Stops = new List<JourneyStop>();
         }
     }
 }
