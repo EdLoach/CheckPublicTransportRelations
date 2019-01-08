@@ -14,6 +14,8 @@ namespace CheckPublicTransportRelations
     /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
     ///
     /// <summary>A journey stop.</summary>
+    ///
+    /// ### <inheritdoc/>
     // ===========================================================================================================
     public class JourneyStop : IEquatable<JourneyStop>
     {

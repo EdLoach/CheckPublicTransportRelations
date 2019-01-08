@@ -39,6 +39,10 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -46,10 +50,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.closeButton = new System.Windows.Forms.Button();
@@ -85,16 +85,6 @@
             this.compareRouteVariantsTabPage = new System.Windows.Forms.TabPage();
             this.routesSplitContainer = new System.Windows.Forms.SplitContainer();
             this.comparedRoutesDataGridView = new System.Windows.Forms.DataGridView();
-            this.routesOsmOperatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesTndsOperatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesOperatorsMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.routesOsmServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesTndsServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesServiceMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.routesStopsEqualColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.routesOsmIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesOsmRouteMasterIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.routesTndsFileColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.routesTabControlsPanel = new System.Windows.Forms.Panel();
             this.highlightStopsComboBox = new System.Windows.Forms.ComboBox();
             this.highlightStopsLabel = new System.Windows.Forms.Label();
@@ -102,12 +92,24 @@
             this.stopsSplitContainer = new System.Windows.Forms.SplitContainer();
             this.openStreetMapStopsGroupBox = new System.Windows.Forms.GroupBox();
             this.openStreetMapStopsDataGridView = new System.Windows.Forms.DataGridView();
+            this.osmStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.osmActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.travelineStopsGroupBox = new System.Windows.Forms.GroupBox();
             this.travelineStopsDataGridView = new System.Windows.Forms.DataGridView();
+            this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNamesPanel = new System.Windows.Forms.Panel();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
             this.fromToDataGridView = new System.Windows.Forms.DataGridView();
+            this.fromToServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToRelationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToServiceFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToBusStopFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToFromNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.fromToServiceToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToBusStopToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToToNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.fromToControlsPanel = new System.Windows.Forms.Panel();
             this.fromToShowMatchedCheckBox = new System.Windows.Forms.CheckBox();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
@@ -128,18 +130,18 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fromToServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToRelationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToServiceFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToBusStopFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToFromNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.fromToServiceToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToBusStopToColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToToNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.osmStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.osmActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesOsmOperatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesTndsOperatorColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesOperatorsMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routesOsmServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesTndsServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesServiceMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routesStopsEqualColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routesOsmIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routesOsmRouteMasterIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routeRelationNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routeRelatioNameFormattingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routesTndsFileColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -224,7 +226,7 @@
             this.travelineTabPage.Location = new System.Drawing.Point(4, 22);
             this.travelineTabPage.Name = "travelineTabPage";
             this.travelineTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.travelineTabPage.Size = new System.Drawing.Size(782, 397);
+            this.travelineTabPage.Size = new System.Drawing.Size(990, 565);
             this.travelineTabPage.TabIndex = 0;
             this.travelineTabPage.Text = "TNDS";
             this.travelineTabPage.UseVisualStyleBackColor = true;
@@ -247,7 +249,7 @@
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
             this.travelineDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.travelineDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.travelineDataGridView.Size = new System.Drawing.Size(776, 391);
+            this.travelineDataGridView.Size = new System.Drawing.Size(984, 559);
             this.travelineDataGridView.TabIndex = 0;
             // 
             // tndsOperatorColumn
@@ -288,7 +290,7 @@
             this.openStreetMapTabPage.Location = new System.Drawing.Point(4, 22);
             this.openStreetMapTabPage.Name = "openStreetMapTabPage";
             this.openStreetMapTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.openStreetMapTabPage.Size = new System.Drawing.Size(782, 397);
+            this.openStreetMapTabPage.Size = new System.Drawing.Size(990, 565);
             this.openStreetMapTabPage.TabIndex = 1;
             this.openStreetMapTabPage.Text = "OSM";
             this.openStreetMapTabPage.UseVisualStyleBackColor = true;
@@ -311,7 +313,7 @@
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.AntiqueWhite;
             this.openStreetMapDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.openStreetMapDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.openStreetMapDataGridView.Size = new System.Drawing.Size(776, 391);
+            this.openStreetMapDataGridView.Size = new System.Drawing.Size(984, 559);
             this.openStreetMapDataGridView.TabIndex = 0;
             // 
             // osmOperatorColumn
@@ -354,7 +356,7 @@
             this.compareRouteMastersTabPage.Controls.Add(this.servicesTabControlsPanel);
             this.compareRouteMastersTabPage.Location = new System.Drawing.Point(4, 22);
             this.compareRouteMastersTabPage.Name = "compareRouteMastersTabPage";
-            this.compareRouteMastersTabPage.Size = new System.Drawing.Size(782, 397);
+            this.compareRouteMastersTabPage.Size = new System.Drawing.Size(990, 565);
             this.compareRouteMastersTabPage.TabIndex = 2;
             this.compareRouteMastersTabPage.Text = "Services";
             this.compareRouteMastersTabPage.UseVisualStyleBackColor = true;
@@ -382,7 +384,7 @@
             this.compareRouteMasterDataGridView.ReadOnly = true;
             this.compareRouteMasterDataGridView.RowHeadersVisible = false;
             this.compareRouteMasterDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.compareRouteMasterDataGridView.Size = new System.Drawing.Size(782, 364);
+            this.compareRouteMasterDataGridView.Size = new System.Drawing.Size(990, 532);
             this.compareRouteMasterDataGridView.TabIndex = 0;
             // 
             // servicesOsmOperatorColumn
@@ -497,9 +499,9 @@
             this.servicesTabControlsPanel.BackColor = System.Drawing.SystemColors.Control;
             this.servicesTabControlsPanel.Controls.Add(this.showMatchedServicesCheckBox);
             this.servicesTabControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.servicesTabControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.servicesTabControlsPanel.Location = new System.Drawing.Point(0, 532);
             this.servicesTabControlsPanel.Name = "servicesTabControlsPanel";
-            this.servicesTabControlsPanel.Size = new System.Drawing.Size(782, 33);
+            this.servicesTabControlsPanel.Size = new System.Drawing.Size(990, 33);
             this.servicesTabControlsPanel.TabIndex = 1;
             // 
             // showMatchedServicesCheckBox
@@ -560,6 +562,8 @@
             this.routesStopsEqualColumn,
             this.routesOsmIdColumn,
             this.routesOsmRouteMasterIdColumn,
+            this.routeRelationNameColumn,
+            this.routeRelatioNameFormattingColumn,
             this.routesTndsFileColumn});
             this.comparedRoutesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.comparedRoutesDataGridView.Location = new System.Drawing.Point(0, 0);
@@ -570,107 +574,6 @@
             this.comparedRoutesDataGridView.Size = new System.Drawing.Size(600, 532);
             this.comparedRoutesDataGridView.TabIndex = 2;
             this.comparedRoutesDataGridView.SelectionChanged += new System.EventHandler(this.ComparedRoutesDataGridView_SelectionChanged);
-            // 
-            // routesOsmOperatorColumn
-            // 
-            this.routesOsmOperatorColumn.DataPropertyName = "RelationOperator";
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.routesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle12;
-            this.routesOsmOperatorColumn.HeaderText = "OSM Operator";
-            this.routesOsmOperatorColumn.Name = "routesOsmOperatorColumn";
-            this.routesOsmOperatorColumn.ReadOnly = true;
-            // 
-            // routesTndsOperatorColumn
-            // 
-            this.routesTndsOperatorColumn.DataPropertyName = "ServiceOperator";
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle13;
-            this.routesTndsOperatorColumn.HeaderText = "TNDS Operator";
-            this.routesTndsOperatorColumn.Name = "routesTndsOperatorColumn";
-            this.routesTndsOperatorColumn.ReadOnly = true;
-            // 
-            // routesOperatorsMatchColumn
-            // 
-            this.routesOperatorsMatchColumn.DataPropertyName = "OperatorsEqual";
-            this.routesOperatorsMatchColumn.HeaderText = "Match";
-            this.routesOperatorsMatchColumn.Name = "routesOperatorsMatchColumn";
-            this.routesOperatorsMatchColumn.ReadOnly = true;
-            this.routesOperatorsMatchColumn.Width = 50;
-            // 
-            // routesOsmServiceColumn
-            // 
-            this.routesOsmServiceColumn.DataPropertyName = "RelationReference";
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.routesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle14;
-            this.routesOsmServiceColumn.HeaderText = "OSM Service";
-            this.routesOsmServiceColumn.Name = "routesOsmServiceColumn";
-            this.routesOsmServiceColumn.ReadOnly = true;
-            this.routesOsmServiceColumn.Width = 60;
-            // 
-            // routesTndsServiceColumn
-            // 
-            this.routesTndsServiceColumn.DataPropertyName = "ServiceReference";
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle15;
-            this.routesTndsServiceColumn.HeaderText = "TNDS Service";
-            this.routesTndsServiceColumn.Name = "routesTndsServiceColumn";
-            this.routesTndsServiceColumn.ReadOnly = true;
-            this.routesTndsServiceColumn.Width = 60;
-            // 
-            // routesServiceMatchColumn
-            // 
-            this.routesServiceMatchColumn.DataPropertyName = "ReferencesEqual";
-            this.routesServiceMatchColumn.HeaderText = "Match";
-            this.routesServiceMatchColumn.Name = "routesServiceMatchColumn";
-            this.routesServiceMatchColumn.ReadOnly = true;
-            this.routesServiceMatchColumn.Width = 50;
-            // 
-            // routesStopsEqualColumn
-            // 
-            this.routesStopsEqualColumn.DataPropertyName = "StopsEqual";
-            this.routesStopsEqualColumn.HeaderText = "Stops Match";
-            this.routesStopsEqualColumn.Name = "routesStopsEqualColumn";
-            this.routesStopsEqualColumn.ReadOnly = true;
-            this.routesStopsEqualColumn.Width = 50;
-            // 
-            // routesOsmIdColumn
-            // 
-            this.routesOsmIdColumn.DataPropertyName = "RouteRelationId";
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle16.Format = "N0";
-            dataGridViewCellStyle16.NullValue = null;
-            this.routesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle16;
-            this.routesOsmIdColumn.HeaderText = "OSM Id";
-            this.routesOsmIdColumn.Name = "routesOsmIdColumn";
-            this.routesOsmIdColumn.ReadOnly = true;
-            this.routesOsmIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.routesOsmIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.routesOsmIdColumn.Width = 60;
-            // 
-            // routesOsmRouteMasterIdColumn
-            // 
-            this.routesOsmRouteMasterIdColumn.DataPropertyName = "ServiceRouteRelationId";
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle17.Format = "N0";
-            this.routesOsmRouteMasterIdColumn.DefaultCellStyle = dataGridViewCellStyle17;
-            this.routesOsmRouteMasterIdColumn.HeaderText = "OSM RM Id";
-            this.routesOsmRouteMasterIdColumn.Name = "routesOsmRouteMasterIdColumn";
-            this.routesOsmRouteMasterIdColumn.ReadOnly = true;
-            this.routesOsmRouteMasterIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.routesOsmRouteMasterIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.routesOsmRouteMasterIdColumn.Width = 60;
-            // 
-            // routesTndsFileColumn
-            // 
-            this.routesTndsFileColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.routesTndsFileColumn.DataPropertyName = "ServiceFile";
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle18;
-            this.routesTndsFileColumn.HeaderText = "File";
-            this.routesTndsFileColumn.Name = "routesTndsFileColumn";
-            this.routesTndsFileColumn.ReadOnly = true;
-            this.routesTndsFileColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.routesTndsFileColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // routesTabControlsPanel
             // 
@@ -736,7 +639,7 @@
             this.stopsSplitContainer.Panel2.Controls.Add(this.travelineStopsGroupBox);
             this.stopsSplitContainer.Panel2MinSize = 85;
             this.stopsSplitContainer.Size = new System.Drawing.Size(386, 532);
-            this.stopsSplitContainer.SplitterDistance = 184;
+            this.stopsSplitContainer.SplitterDistance = 183;
             this.stopsSplitContainer.TabIndex = 0;
             // 
             // openStreetMapStopsGroupBox
@@ -745,7 +648,7 @@
             this.openStreetMapStopsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.openStreetMapStopsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.openStreetMapStopsGroupBox.Name = "openStreetMapStopsGroupBox";
-            this.openStreetMapStopsGroupBox.Size = new System.Drawing.Size(184, 532);
+            this.openStreetMapStopsGroupBox.Size = new System.Drawing.Size(183, 532);
             this.openStreetMapStopsGroupBox.TabIndex = 0;
             this.openStreetMapStopsGroupBox.TabStop = false;
             this.openStreetMapStopsGroupBox.Text = "OSM";
@@ -768,9 +671,23 @@
             dataGridViewCellStyle19.BackColor = System.Drawing.Color.AntiqueWhite;
             this.openStreetMapStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle19;
             this.openStreetMapStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.openStreetMapStopsDataGridView.Size = new System.Drawing.Size(178, 513);
+            this.openStreetMapStopsDataGridView.Size = new System.Drawing.Size(177, 513);
             this.openStreetMapStopsDataGridView.TabIndex = 0;
             this.openStreetMapStopsDataGridView.SelectionChanged += new System.EventHandler(this.StopsDataGridView_SelectionChanged);
+            // 
+            // osmStopPointRefColumn
+            // 
+            this.osmStopPointRefColumn.DataPropertyName = "StopPointRef";
+            this.osmStopPointRefColumn.HeaderText = "Stop";
+            this.osmStopPointRefColumn.Name = "osmStopPointRefColumn";
+            this.osmStopPointRefColumn.ReadOnly = true;
+            // 
+            // osmActivityColumn
+            // 
+            this.osmActivityColumn.DataPropertyName = "Activity";
+            this.osmActivityColumn.HeaderText = "Role";
+            this.osmActivityColumn.Name = "osmActivityColumn";
+            this.osmActivityColumn.ReadOnly = true;
             // 
             // travelineStopsGroupBox
             // 
@@ -778,7 +695,7 @@
             this.travelineStopsGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.travelineStopsGroupBox.Location = new System.Drawing.Point(0, 0);
             this.travelineStopsGroupBox.Name = "travelineStopsGroupBox";
-            this.travelineStopsGroupBox.Size = new System.Drawing.Size(198, 532);
+            this.travelineStopsGroupBox.Size = new System.Drawing.Size(199, 532);
             this.travelineStopsGroupBox.TabIndex = 0;
             this.travelineStopsGroupBox.TabStop = false;
             this.travelineStopsGroupBox.Text = "TNDS";
@@ -800,9 +717,23 @@
             dataGridViewCellStyle20.BackColor = System.Drawing.Color.LightCyan;
             this.travelineStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle20;
             this.travelineStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.travelineStopsDataGridView.Size = new System.Drawing.Size(192, 513);
+            this.travelineStopsDataGridView.Size = new System.Drawing.Size(193, 513);
             this.travelineStopsDataGridView.TabIndex = 1;
             this.travelineStopsDataGridView.SelectionChanged += new System.EventHandler(this.StopsDataGridView_SelectionChanged);
+            // 
+            // tndsStopPointRefColumn
+            // 
+            this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
+            this.tndsStopPointRefColumn.HeaderText = "Stop";
+            this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
+            this.tndsStopPointRefColumn.ReadOnly = true;
+            // 
+            // tndsActivityColumn
+            // 
+            this.tndsActivityColumn.DataPropertyName = "Activity";
+            this.tndsActivityColumn.HeaderText = "Activity";
+            this.tndsActivityColumn.Name = "tndsActivityColumn";
+            this.tndsActivityColumn.ReadOnly = true;
             // 
             // stopNamesPanel
             // 
@@ -828,7 +759,7 @@
             this.routeFromToTabPage.Controls.Add(this.fromToControlsPanel);
             this.routeFromToTabPage.Location = new System.Drawing.Point(4, 22);
             this.routeFromToTabPage.Name = "routeFromToTabPage";
-            this.routeFromToTabPage.Size = new System.Drawing.Size(782, 397);
+            this.routeFromToTabPage.Size = new System.Drawing.Size(990, 565);
             this.routeFromToTabPage.TabIndex = 4;
             this.routeFromToTabPage.Text = "Route From/To";
             this.routeFromToTabPage.UseVisualStyleBackColor = true;
@@ -854,17 +785,83 @@
             this.fromToDataGridView.RowHeadersVisible = false;
             dataGridViewCellStyle22.BackColor = System.Drawing.Color.AntiqueWhite;
             this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle22;
-            this.fromToDataGridView.Size = new System.Drawing.Size(782, 364);
+            this.fromToDataGridView.Size = new System.Drawing.Size(990, 532);
             this.fromToDataGridView.TabIndex = 0;
+            // 
+            // fromToServiceColumn
+            // 
+            this.fromToServiceColumn.DataPropertyName = "RelationService";
+            this.fromToServiceColumn.HeaderText = "Service";
+            this.fromToServiceColumn.Name = "fromToServiceColumn";
+            this.fromToServiceColumn.ReadOnly = true;
+            this.fromToServiceColumn.Width = 70;
+            // 
+            // fromToRelationColumn
+            // 
+            this.fromToRelationColumn.DataPropertyName = "RelationId";
+            dataGridViewCellStyle21.Format = "N0";
+            this.fromToRelationColumn.DefaultCellStyle = dataGridViewCellStyle21;
+            this.fromToRelationColumn.HeaderText = "Id";
+            this.fromToRelationColumn.Name = "fromToRelationColumn";
+            this.fromToRelationColumn.ReadOnly = true;
+            this.fromToRelationColumn.Width = 70;
+            // 
+            // fromToServiceFromColumn
+            // 
+            this.fromToServiceFromColumn.DataPropertyName = "RelationFrom";
+            this.fromToServiceFromColumn.HeaderText = "Service From";
+            this.fromToServiceFromColumn.Name = "fromToServiceFromColumn";
+            this.fromToServiceFromColumn.ReadOnly = true;
+            this.fromToServiceFromColumn.Width = 150;
+            // 
+            // fromToBusStopFromColumn
+            // 
+            this.fromToBusStopFromColumn.DataPropertyName = "StopFrom";
+            this.fromToBusStopFromColumn.HeaderText = "Stop From";
+            this.fromToBusStopFromColumn.Name = "fromToBusStopFromColumn";
+            this.fromToBusStopFromColumn.ReadOnly = true;
+            this.fromToBusStopFromColumn.Width = 150;
+            // 
+            // fromToFromNameFoundColumn
+            // 
+            this.fromToFromNameFoundColumn.DataPropertyName = "FromNameFound";
+            this.fromToFromNameFoundColumn.HeaderText = "Found";
+            this.fromToFromNameFoundColumn.Name = "fromToFromNameFoundColumn";
+            this.fromToFromNameFoundColumn.ReadOnly = true;
+            this.fromToFromNameFoundColumn.Width = 50;
+            // 
+            // fromToServiceToColumn
+            // 
+            this.fromToServiceToColumn.DataPropertyName = "RelationTo";
+            this.fromToServiceToColumn.HeaderText = "Service To";
+            this.fromToServiceToColumn.Name = "fromToServiceToColumn";
+            this.fromToServiceToColumn.ReadOnly = true;
+            this.fromToServiceToColumn.Width = 150;
+            // 
+            // fromToBusStopToColumn
+            // 
+            this.fromToBusStopToColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.fromToBusStopToColumn.DataPropertyName = "StopTo";
+            this.fromToBusStopToColumn.HeaderText = "Stop To";
+            this.fromToBusStopToColumn.Name = "fromToBusStopToColumn";
+            this.fromToBusStopToColumn.ReadOnly = true;
+            // 
+            // fromToToNameFoundColumn
+            // 
+            this.fromToToNameFoundColumn.DataPropertyName = "ToNameFound";
+            this.fromToToNameFoundColumn.HeaderText = "Found";
+            this.fromToToNameFoundColumn.Name = "fromToToNameFoundColumn";
+            this.fromToToNameFoundColumn.ReadOnly = true;
+            this.fromToToNameFoundColumn.Width = 50;
             // 
             // fromToControlsPanel
             // 
             this.fromToControlsPanel.BackColor = System.Drawing.SystemColors.Control;
             this.fromToControlsPanel.Controls.Add(this.fromToShowMatchedCheckBox);
             this.fromToControlsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.fromToControlsPanel.Location = new System.Drawing.Point(0, 364);
+            this.fromToControlsPanel.Location = new System.Drawing.Point(0, 532);
             this.fromToControlsPanel.Name = "fromToControlsPanel";
-            this.fromToControlsPanel.Size = new System.Drawing.Size(782, 33);
+            this.fromToControlsPanel.Size = new System.Drawing.Size(990, 33);
             this.fromToControlsPanel.TabIndex = 2;
             // 
             // fromToShowMatchedCheckBox
@@ -1047,99 +1044,122 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // fromToServiceColumn
+            // routesOsmOperatorColumn
             // 
-            this.fromToServiceColumn.DataPropertyName = "RelationService";
-            this.fromToServiceColumn.HeaderText = "Service";
-            this.fromToServiceColumn.Name = "fromToServiceColumn";
-            this.fromToServiceColumn.ReadOnly = true;
-            this.fromToServiceColumn.Width = 70;
+            this.routesOsmOperatorColumn.DataPropertyName = "RelationOperator";
+            dataGridViewCellStyle12.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.routesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle12;
+            this.routesOsmOperatorColumn.HeaderText = "OSM Operator";
+            this.routesOsmOperatorColumn.Name = "routesOsmOperatorColumn";
+            this.routesOsmOperatorColumn.ReadOnly = true;
             // 
-            // fromToRelationColumn
+            // routesTndsOperatorColumn
             // 
-            this.fromToRelationColumn.DataPropertyName = "RelationId";
-            dataGridViewCellStyle21.Format = "N0";
-            this.fromToRelationColumn.DefaultCellStyle = dataGridViewCellStyle21;
-            this.fromToRelationColumn.HeaderText = "Id";
-            this.fromToRelationColumn.Name = "fromToRelationColumn";
-            this.fromToRelationColumn.ReadOnly = true;
-            this.fromToRelationColumn.Width = 70;
+            this.routesTndsOperatorColumn.DataPropertyName = "ServiceOperator";
+            dataGridViewCellStyle13.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle13;
+            this.routesTndsOperatorColumn.HeaderText = "TNDS Operator";
+            this.routesTndsOperatorColumn.Name = "routesTndsOperatorColumn";
+            this.routesTndsOperatorColumn.ReadOnly = true;
             // 
-            // fromToServiceFromColumn
+            // routesOperatorsMatchColumn
             // 
-            this.fromToServiceFromColumn.DataPropertyName = "RelationFrom";
-            this.fromToServiceFromColumn.HeaderText = "Service From";
-            this.fromToServiceFromColumn.Name = "fromToServiceFromColumn";
-            this.fromToServiceFromColumn.ReadOnly = true;
-            this.fromToServiceFromColumn.Width = 150;
+            this.routesOperatorsMatchColumn.DataPropertyName = "OperatorsEqual";
+            this.routesOperatorsMatchColumn.HeaderText = "Match";
+            this.routesOperatorsMatchColumn.Name = "routesOperatorsMatchColumn";
+            this.routesOperatorsMatchColumn.ReadOnly = true;
+            this.routesOperatorsMatchColumn.Width = 50;
             // 
-            // fromToBusStopFromColumn
+            // routesOsmServiceColumn
             // 
-            this.fromToBusStopFromColumn.DataPropertyName = "StopFrom";
-            this.fromToBusStopFromColumn.HeaderText = "Stop From";
-            this.fromToBusStopFromColumn.Name = "fromToBusStopFromColumn";
-            this.fromToBusStopFromColumn.ReadOnly = true;
-            this.fromToBusStopFromColumn.Width = 150;
+            this.routesOsmServiceColumn.DataPropertyName = "RelationReference";
+            dataGridViewCellStyle14.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.routesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle14;
+            this.routesOsmServiceColumn.HeaderText = "OSM Service";
+            this.routesOsmServiceColumn.Name = "routesOsmServiceColumn";
+            this.routesOsmServiceColumn.ReadOnly = true;
+            this.routesOsmServiceColumn.Width = 60;
             // 
-            // fromToFromNameFoundColumn
+            // routesTndsServiceColumn
             // 
-            this.fromToFromNameFoundColumn.DataPropertyName = "FromNameFound";
-            this.fromToFromNameFoundColumn.HeaderText = "Found";
-            this.fromToFromNameFoundColumn.Name = "fromToFromNameFoundColumn";
-            this.fromToFromNameFoundColumn.ReadOnly = true;
-            this.fromToFromNameFoundColumn.Width = 50;
+            this.routesTndsServiceColumn.DataPropertyName = "ServiceReference";
+            dataGridViewCellStyle15.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle15;
+            this.routesTndsServiceColumn.HeaderText = "TNDS Service";
+            this.routesTndsServiceColumn.Name = "routesTndsServiceColumn";
+            this.routesTndsServiceColumn.ReadOnly = true;
+            this.routesTndsServiceColumn.Width = 60;
             // 
-            // fromToServiceToColumn
+            // routesServiceMatchColumn
             // 
-            this.fromToServiceToColumn.DataPropertyName = "RelationTo";
-            this.fromToServiceToColumn.HeaderText = "Service To";
-            this.fromToServiceToColumn.Name = "fromToServiceToColumn";
-            this.fromToServiceToColumn.ReadOnly = true;
-            this.fromToServiceToColumn.Width = 150;
+            this.routesServiceMatchColumn.DataPropertyName = "ReferencesEqual";
+            this.routesServiceMatchColumn.HeaderText = "Match";
+            this.routesServiceMatchColumn.Name = "routesServiceMatchColumn";
+            this.routesServiceMatchColumn.ReadOnly = true;
+            this.routesServiceMatchColumn.Width = 50;
             // 
-            // fromToBusStopToColumn
+            // routesStopsEqualColumn
             // 
-            this.fromToBusStopToColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.fromToBusStopToColumn.DataPropertyName = "StopTo";
-            this.fromToBusStopToColumn.HeaderText = "Stop To";
-            this.fromToBusStopToColumn.Name = "fromToBusStopToColumn";
-            this.fromToBusStopToColumn.ReadOnly = true;
+            this.routesStopsEqualColumn.DataPropertyName = "StopsEqual";
+            this.routesStopsEqualColumn.HeaderText = "Stops Match";
+            this.routesStopsEqualColumn.Name = "routesStopsEqualColumn";
+            this.routesStopsEqualColumn.ReadOnly = true;
+            this.routesStopsEqualColumn.Width = 50;
             // 
-            // fromToToNameFoundColumn
+            // routesOsmIdColumn
             // 
-            this.fromToToNameFoundColumn.DataPropertyName = "ToNameFound";
-            this.fromToToNameFoundColumn.HeaderText = "Found";
-            this.fromToToNameFoundColumn.Name = "fromToToNameFoundColumn";
-            this.fromToToNameFoundColumn.ReadOnly = true;
-            this.fromToToNameFoundColumn.Width = 50;
+            this.routesOsmIdColumn.DataPropertyName = "RouteRelationId";
+            dataGridViewCellStyle16.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle16.Format = "N0";
+            dataGridViewCellStyle16.NullValue = null;
+            this.routesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle16;
+            this.routesOsmIdColumn.HeaderText = "OSM Id";
+            this.routesOsmIdColumn.Name = "routesOsmIdColumn";
+            this.routesOsmIdColumn.ReadOnly = true;
+            this.routesOsmIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.routesOsmIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.routesOsmIdColumn.Width = 60;
             // 
-            // osmStopPointRefColumn
+            // routesOsmRouteMasterIdColumn
             // 
-            this.osmStopPointRefColumn.DataPropertyName = "StopPointRef";
-            this.osmStopPointRefColumn.HeaderText = "Stop";
-            this.osmStopPointRefColumn.Name = "osmStopPointRefColumn";
-            this.osmStopPointRefColumn.ReadOnly = true;
+            this.routesOsmRouteMasterIdColumn.DataPropertyName = "ServiceRouteRelationId";
+            dataGridViewCellStyle17.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle17.Format = "N0";
+            this.routesOsmRouteMasterIdColumn.DefaultCellStyle = dataGridViewCellStyle17;
+            this.routesOsmRouteMasterIdColumn.HeaderText = "OSM RM Id";
+            this.routesOsmRouteMasterIdColumn.Name = "routesOsmRouteMasterIdColumn";
+            this.routesOsmRouteMasterIdColumn.ReadOnly = true;
+            this.routesOsmRouteMasterIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.routesOsmRouteMasterIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.routesOsmRouteMasterIdColumn.Width = 60;
             // 
-            // osmActivityColumn
+            // routeRelationNameColumn
             // 
-            this.osmActivityColumn.DataPropertyName = "Activity";
-            this.osmActivityColumn.HeaderText = "Role";
-            this.osmActivityColumn.Name = "osmActivityColumn";
-            this.osmActivityColumn.ReadOnly = true;
+            this.routeRelationNameColumn.DataPropertyName = "RelationName";
+            this.routeRelationNameColumn.HeaderText = "Name";
+            this.routeRelationNameColumn.Name = "routeRelationNameColumn";
+            this.routeRelationNameColumn.ReadOnly = true;
+            this.routeRelationNameColumn.Width = 150;
             // 
-            // tndsStopPointRefColumn
+            // routeRelatioNameFormattingColumn
             // 
-            this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
-            this.tndsStopPointRefColumn.HeaderText = "Stop";
-            this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
-            this.tndsStopPointRefColumn.ReadOnly = true;
+            this.routeRelatioNameFormattingColumn.DataPropertyName = "NameFormatting";
+            this.routeRelatioNameFormattingColumn.HeaderText = "OK";
+            this.routeRelatioNameFormattingColumn.Name = "routeRelatioNameFormattingColumn";
+            this.routeRelatioNameFormattingColumn.ReadOnly = true;
+            this.routeRelatioNameFormattingColumn.Width = 40;
             // 
-            // tndsActivityColumn
+            // routesTndsFileColumn
             // 
-            this.tndsActivityColumn.DataPropertyName = "Activity";
-            this.tndsActivityColumn.HeaderText = "Activity";
-            this.tndsActivityColumn.Name = "tndsActivityColumn";
-            this.tndsActivityColumn.ReadOnly = true;
+            this.routesTndsFileColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.routesTndsFileColumn.DataPropertyName = "ServiceFile";
+            dataGridViewCellStyle18.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle18;
+            this.routesTndsFileColumn.HeaderText = "File";
+            this.routesTndsFileColumn.Name = "routesTndsFileColumn";
+            this.routesTndsFileColumn.ReadOnly = true;
+            this.routesTndsFileColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.routesTndsFileColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // MainForm
             // 
@@ -1261,16 +1281,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn servicesRoutesMatchColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn servicesOsmIdColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn servicesTndsFileColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmOperatorColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsOperatorColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn routesOperatorsMatchColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmServiceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsServiceColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn routesServiceMatchColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn routesStopsEqualColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmIdColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmRouteMasterIdColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
         private System.Windows.Forms.ComboBox highlightStopsComboBox;
         private System.Windows.Forms.Label highlightStopsLabel;
         private System.Windows.Forms.TabPage routeFromToTabPage;
@@ -1289,6 +1299,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn osmActivityColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsStopPointRefColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmOperatorColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsOperatorColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn routesOperatorsMatchColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmServiceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsServiceColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn routesServiceMatchColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn routesStopsEqualColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmRouteMasterIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routeRelationNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn routeRelatioNameFormattingColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
     }
 }
 

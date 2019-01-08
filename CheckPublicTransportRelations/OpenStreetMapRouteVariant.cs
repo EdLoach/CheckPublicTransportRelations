@@ -27,10 +27,20 @@ namespace CheckPublicTransportRelations
             this.Id = -1;
             this.Reference = string.Empty;
             this.Operator = string.Empty;
+            this.Name = string.Empty;
             this.BusStops = new List<JourneyStop>();
             this.RelationFrom = string.Empty;
             this.RelationTo = string.Empty;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the name.</summary>
+        ///
+        /// <value>The name.</value>
+        // ===========================================================================================================
+        public string Name { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>

@@ -27,6 +27,9 @@ namespace CheckPublicTransportRelations
         {
             this.RelationOperator = string.Empty;
             this.RelationReference = string.Empty;
+            this.RelationFrom = string.Empty;
+            this.RelationTo = string.Empty;
+            this.RelationName = string.Empty;
             this.ServiceRouteRelationId = -1;
             this.RouteRelationId = -1;
             this.RelationStops = new List<JourneyStop>();
@@ -55,6 +58,16 @@ namespace CheckPublicTransportRelations
         public bool ReferencesEqual => this.RelationReference == this.ServiceReference;
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets a value indicating whether the name formatting.</summary>
+        ///
+        /// <value>True if name formatting, false if not.</value>
+        // ===========================================================================================================
+        public bool NameFormatting =>
+            this.RelationName.Contains(this.RelationReference + ": " + this.RelationFrom + " => " + this.RelationTo);
+
+        // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the relation operator.</summary>
@@ -63,6 +76,32 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public string RelationOperator { get; set; }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the relation from.</summary>
+        ///
+        /// <value>The relation from.</value>
+        // ===========================================================================================================
+        public string RelationFrom { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the relation to.</summary>
+        ///
+        /// <value>The relation to.</value>
+        // ===========================================================================================================
+        public string RelationTo { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the name of the relation.</summary>
+        ///
+        /// <value>The name of the relation.</value>
+        // ===========================================================================================================
+        public string RelationName { get; set; }
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
         ///

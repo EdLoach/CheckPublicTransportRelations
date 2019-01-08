@@ -595,6 +595,7 @@ namespace CheckPublicTransportRelations
             var routesOperatorDictionary = new Dictionary<long, string>();
             var routesFromDictionary = new Dictionary<long, string>();
             var routesToDictionary = new Dictionary<long, string>();
+            var routesNameDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
             string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmData.json");
             if (!File.Exists(fileName))
@@ -676,6 +677,8 @@ namespace CheckPublicTransportRelations
                 routesFromDictionary.Add(id, relationFrom);
                 string relationTo = element.tags["to"] ?? string.Empty;
                 routesToDictionary.Add(id, relationTo);
+                string relationName = element.tags["name"] ?? string.Empty;
+                routesNameDictionary.Add(id, relationName);
             }
 
             foreach (dynamic element in entities.elements)
@@ -711,7 +714,8 @@ namespace CheckPublicTransportRelations
                                                             Operator = routeOperator,
                                                             Id = relationId,
                                                             RelationFrom = routesFromDictionary[relationId],
-                                                            RelationTo = routesToDictionary[relationId]
+                                                            RelationTo = routesToDictionary[relationId],
+                                                            Name = routesNameDictionary[relationId]
                                                         };
                     routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
                 }
@@ -1024,7 +1028,7 @@ namespace CheckPublicTransportRelations
             }
 
             this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => (item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch) == false).ToList();
-            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => item.StopsEqual == false).ToList();
+            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => ((item.StopsEqual == false) || (item.NameFormatting == false))).ToList();
             this.fromToDataGridView.DataSource = this.fromToShowMatchedCheckBox.Checked ? this.FromToChecks : this.FromToChecks.Where(item => (item.FromNameFound && item.ToNameFound) == false).ToList();
         }
 
@@ -1072,7 +1076,10 @@ namespace CheckPublicTransportRelations
                                                RouteRelationId = routeVariant.Id,
                                                RelationOperator = routeVariant.Operator,
                                                RelationReference = routeVariant.Reference,
-                                               RelationStops = routeVariant.BusStops
+                                               RelationStops = routeVariant.BusStops,
+                                               RelationName = routeVariant.Name,
+                                               RelationFrom = routeVariant.RelationFrom,
+                                               RelationTo = routeVariant.RelationTo
                                            };
                 foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
                 {
@@ -1110,7 +1117,10 @@ namespace CheckPublicTransportRelations
                                                RouteRelationId = routeVariant.Id,
                                                RelationOperator = routeVariant.Operator,
                                                RelationReference = routeVariant.Reference,
-                                               RelationStops = routeVariant.BusStops
+                                               RelationStops = routeVariant.BusStops,
+                                               RelationName = routeVariant.Name,
+                                               RelationFrom = routeVariant.RelationFrom,
+                                               RelationTo = routeVariant.RelationTo
                 };
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
@@ -1134,7 +1144,14 @@ namespace CheckPublicTransportRelations
                 this.ComparisonResultsRoutes.Add(comparisonResult);
             }
         }
-        
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Adds a traveline route variants.</summary>
+        ///
+        /// <param name="travelineRouteMaster">The traveline route master.</param>
+        // ===========================================================================================================
         private void AddTravelineRouteVariants(RouteMaster travelineRouteMaster)
         {
             foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
@@ -1315,7 +1332,7 @@ namespace CheckPublicTransportRelations
         private void ShowMatchedRoutesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.comparedRoutesDataGridView.DataSource = null;
-            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => item.StopsEqual == false).ToList();
+            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => (item.StopsEqual == false || item.NameFormatting == false)).ToList();
 
             Settings.Default.ShowMatchedRoutes = this.showMatchedRoutesCheckBox.Checked;
             Settings.Default.Save();
