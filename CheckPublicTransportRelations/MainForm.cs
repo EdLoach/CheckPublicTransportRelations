@@ -668,11 +668,6 @@ namespace CheckPublicTransportRelations
                     routesReferenceDictionary.Add(id, routeRef);
                 }
 
-                if (element.tags == null || element.tags["operator"] == null)
-                {
-                    continue;
-                }
-
                 string routeOperator = element.tags["operator"] ?? string.Empty; 
                 routesOperatorDictionary.Add(id, routeOperator);
                 string relationFrom = element.tags["from"] ?? string.Empty;
@@ -1335,7 +1330,7 @@ namespace CheckPublicTransportRelations
         private void ShowMatchedRoutesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.comparedRoutesDataGridView.DataSource = null;
-            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => (item.StopsEqual == false || item.NameFormatting == false)).ToList();
+            this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => (item.OperatorsEqual == false || item.ReferencesEqual == false || item.StopsEqual == false || item.NameFormatting == false)).ToList();
 
             Settings.Default.ShowMatchedRoutes = this.showMatchedRoutesCheckBox.Checked;
             Settings.Default.Save();
@@ -1352,7 +1347,7 @@ namespace CheckPublicTransportRelations
         private void ShowMatchedServicesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.compareRouteMasterDataGridView.DataSource = null;
-            this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => (item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch) == false).ToList();
+            this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => (item.OperatorsMatch == false || item.ReferencesMatch == false || item.RouteVariantsMatch == false)).ToList();
 
             Settings.Default.ShowMatchedServices = this.showMatchedServicesCheckBox.Checked;
             Settings.Default.Save();
