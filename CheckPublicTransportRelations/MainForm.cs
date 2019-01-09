@@ -202,9 +202,14 @@ namespace CheckPublicTransportRelations
             }
 
             string overpassTransportDataXml = await response.Content.ReadAsStringAsync();
+            dynamic entities = JToken.Parse(overpassTransportDataXml);
+            if (entities.elements == null || entities.elements.Count <= 0)
+            {
+                return false;
+            }
+
             string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
-
             return true;
         }
 
