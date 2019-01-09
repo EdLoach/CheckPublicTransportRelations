@@ -205,6 +205,13 @@ namespace CheckPublicTransportRelations
             dynamic entities = JToken.Parse(overpassTransportDataXml);
             if (entities.elements == null || entities.elements.Count <= 0)
             {
+                string remark = entities.remark;
+                MessageBox.Show(
+                    remark,
+                    @"Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
                 return false;
             }
 
