@@ -142,6 +142,10 @@ namespace CheckPublicTransportRelations
             string subFolder = DateTime.Today.ToString("yyyyMMdd");
             string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, subFolder);
             Directory.CreateDirectory(copyPath);
+            // need to clear existing .xml files in case user changes Location on same date as previous extract
+            var directory = new DirectoryInfo(copyPath);
+            directory.GetFiles(@"*.xml").ToList().ForEach(f => f.Delete());
+
             var openStreetMapStops = new HashSet<string>();
             foreach (BusStop stop in this.OverpassBusStops)
             {

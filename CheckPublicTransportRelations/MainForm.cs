@@ -395,6 +395,7 @@ namespace CheckPublicTransportRelations
             this.Enabled = false;
             var extractRoutesForm = new ExtractRoutesForm(this.OverpassBusStops);
             extractRoutesForm.ShowDialog(this);
+            this.ExtractTravelineRoutes();
             this.RefreshStatus();
             this.CompareResults();
             this.Enabled = true;
