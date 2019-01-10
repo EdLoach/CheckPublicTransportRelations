@@ -38,11 +38,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the locations.</summary>
+        /// <summary>Gets the locations.</summary>
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private List<Location> Locations { get; set; }
+        private List<Location> Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
