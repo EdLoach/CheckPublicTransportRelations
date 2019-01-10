@@ -15,6 +15,7 @@ namespace CheckPublicTransportRelations
     using System.IO;
     using System.Linq;
     using System.Net.Http;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using System.Xml.Linq;
@@ -1039,6 +1040,10 @@ namespace CheckPublicTransportRelations
             this.compareRouteMasterDataGridView.DataSource = this.showMatchedServicesCheckBox.Checked ? this.ComparisonResults : this.ComparisonResults.Where(item => (item.OperatorsMatch && item.ReferencesMatch && item.RouteVariantsMatch) == false).ToList();
             this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => ((item.StopsEqual == false) || (item.NameFormatting == false))).ToList();
             this.fromToDataGridView.DataSource = this.fromToShowMatchedCheckBox.Checked ? this.FromToChecks : this.FromToChecks.Where(item => (item.FromNameFound && item.ToNameFound) == false).ToList();
+
+            this.wikiTextButton.Visible = !this.showMatchedRoutesCheckBox.Checked
+                                          && this.comparedRoutesDataGridView.RowCount == 0
+                                          && this.ComparisonResultsRoutes.Count > 0;
         }
 
         // ===========================================================================================================
@@ -1343,6 +1348,9 @@ namespace CheckPublicTransportRelations
         {
             this.comparedRoutesDataGridView.DataSource = null;
             this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked ? this.ComparisonResultsRoutes : this.ComparisonResultsRoutes.Where(item => (item.OperatorsEqual == false || item.ReferencesEqual == false || item.StopsEqual == false || item.NameFormatting == false)).ToList();
+            this.wikiTextButton.Visible = !this.showMatchedRoutesCheckBox.Checked
+                                          && this.comparedRoutesDataGridView.RowCount == 0
+                                          && this.ComparisonResultsRoutes.Count > 0;
 
             Settings.Default.ShowMatchedRoutes = this.showMatchedRoutesCheckBox.Checked;
             Settings.Default.Save();
@@ -1429,6 +1437,76 @@ namespace CheckPublicTransportRelations
 
             Settings.Default.ShowMatchedFromToNames = this.fromToShowMatchedCheckBox.Checked;
             Settings.Default.Save();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by WikiTextButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void WikiTextButton_Click(object sender, EventArgs e)
+        {
+            var wikiText = new StringBuilder();
+            wikiText.Append(
+                @"[https://github.com/EdLoach/CheckPublicTransportRelations Last full check with this tool] : ");
+            wikiText.AppendLine(DateTime.Today.ToLongDateString());
+            wikiText.AppendLine();
+            if (Settings.Default.OverpassBusStops.ToLower().Contains("{{bbox}}")
+                || Settings.Default.OverpassTransportData.Contains("{{bbox}}"))
+            {
+                wikiText.Append(@"Using bbox :");
+                wikiText.AppendLine(Settings.Default.BoundingBox);
+                wikiText.AppendLine();
+            }
+
+            wikiText.Append(@"Overpass bus stops query : <code><nowiki>");
+            wikiText.Append(Settings.Default.OverpassBusStops);
+            wikiText.AppendLine(@"</nowiki></code>");
+            wikiText.AppendLine();
+
+            wikiText.Append(@"Overpass transport data query : <code><nowiki>");
+            wikiText.Append(Settings.Default.OverpassTransportData);
+            wikiText.AppendLine(@"</nowiki></code>");
+            wikiText.AppendLine();
+
+            wikiText.AppendLine(@"{|class=""wikitable sortable""");
+            wikiText.AppendLine(@"|- ");
+            wikiText.AppendLine(@"|- style = ""background-color:#E9E9E9""");
+            wikiText.AppendLine(@"!| Operator");
+            wikiText.AppendLine(@"!| Service Ref");
+            wikiText.AppendLine(@"!| Relation");
+            wikiText.AppendLine(@"!| Last checked");
+            wikiText.AppendLine(@"!| Notes");
+
+            List<OpenStreetMapRouteMaster> sortedList = this.OpenStreetMapRoutes.OrderBy(o => o.Reference).ThenBy(o => o.Operator).ToList();
+            foreach (OpenStreetMapRouteMaster service in sortedList)
+            {
+                wikiText.AppendLine(@"|- ");
+                
+                wikiText.Append(@"| ");
+                wikiText.Append(service.Operator);
+                wikiText.Append(@" || ");
+                wikiText.Append(service.Reference);
+                wikiText.Append(@" || '''{{BrowseRelation|");
+                wikiText.Append(service.Id);
+                wikiText.Append(@"}}''' || ");
+                wikiText.Append(DateTime.Today.ToShortDateString());
+                wikiText.AppendLine(@" || ");
+            }
+
+            wikiText.AppendLine(@"|}");
+
+            Clipboard.SetText(wikiText.ToString());
+            MessageBox.Show(
+                this,
+                @"Text copied to clipboard",
+                @"Check Public Transport Relations",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information,
+                MessageBoxDefaultButton.Button1);
         }
     }
 }
