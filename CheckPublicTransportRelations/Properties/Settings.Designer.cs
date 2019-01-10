@@ -69,18 +69,6 @@ namespace CheckPublicTransportRelations.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("51.767,0.93,51.96,1.294")]
-        public string BoundingBox {
-            get {
-                return ((string)(this["BoundingBox"]));
-            }
-            set {
-                this["BoundingBox"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://overpass-api.de/api/interpreter")]
         public string OverpassServer {
             get {
@@ -100,31 +88,6 @@ namespace CheckPublicTransportRelations.Properties {
             }
             set {
                 this["OverpassQueryPrefix"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[out:json][timeout:25];(node[\"naptan:AtcoCode\"]({{bbox}}););out;>;out skel qt;")]
-        public string OverpassBusStops {
-            get {
-                return ((string)(this["OverpassBusStops"]));
-            }
-            set {
-                this["OverpassBusStops"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[out:json][timeout:25];((relation[\"route\"=\"bus\"]({{bbox}}););<<;)->.b;relation.b[" +
-            "\"route\"!=\"bus\"];(._;>>;);out;")]
-        public string OverpassTransportData {
-            get {
-                return ((string)(this["OverpassTransportData"]));
-            }
-            set {
-                this["OverpassTransportData"] = value;
             }
         }
         
@@ -209,6 +172,18 @@ namespace CheckPublicTransportRelations.Properties {
             }
             set {
                 this["ShowMatchedFromToNames"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedLocation {
+            get {
+                return ((string)(this["SelectedLocation"]));
+            }
+            set {
+                this["SelectedLocation"] = value;
             }
         }
     }

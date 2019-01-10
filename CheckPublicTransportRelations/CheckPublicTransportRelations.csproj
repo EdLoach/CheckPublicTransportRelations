@@ -74,6 +74,13 @@
     </Compile>
     <Compile Include="JourneyPatternSection.cs" />
     <Compile Include="JourneyStop.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="LocationsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LocationsForm.Designer.cs">
+      <DependentUpon>LocationsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OpenStreetMapRouteMaster.cs" />
     <Compile Include="OpenStreetMapRouteVariant.cs" />
     <Compile Include="OpenStreetMapStop.cs" />
@@ -102,6 +109,9 @@
     </Compile>
     <EmbeddedResource Include="ExtractRoutesForm.resx">
       <DependentUpon>ExtractRoutesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LocationsForm.resx">
+      <DependentUpon>LocationsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TravelineDownloadForm.resx">
       <DependentUpon>TravelineDownloadForm.cs</DependentUpon>

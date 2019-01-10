@@ -43,16 +43,13 @@
             this.ftpSiteLabel = new System.Windows.Forms.Label();
             this.pathTextBox = new System.Windows.Forms.TextBox();
             this.overpassGroupBox = new System.Windows.Forms.GroupBox();
-            this.overpassTransportDataTextBox = new System.Windows.Forms.TextBox();
-            this.overpassBusStopQueryTextBox = new System.Windows.Forms.TextBox();
             this.overpassQueryPrefixTextBox = new System.Windows.Forms.TextBox();
             this.overpassServerTextBox = new System.Windows.Forms.TextBox();
-            this.overpassTransportDataLabel = new System.Windows.Forms.Label();
-            this.overpassBusStopQueryLabel = new System.Windows.Forms.Label();
             this.overpassQueryPrefixLabel = new System.Windows.Forms.Label();
             this.overpassServerLabel = new System.Windows.Forms.Label();
             this.boundingBoxGroupBox = new System.Windows.Forms.GroupBox();
-            this.boundingBoxTextBox = new System.Windows.Forms.TextBox();
+            this.locationsButton = new System.Windows.Forms.Button();
+            this.locationsComboBox = new System.Windows.Forms.ComboBox();
             this.boundingBoxLabel = new System.Windows.Forms.Label();
             this.localFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.buttonPanel.SuspendLayout();
@@ -118,7 +115,7 @@
             this.travelineDataGroupBox.Controls.Add(this.ftpSiteLabel);
             this.travelineDataGroupBox.Controls.Add(this.pathTextBox);
             this.travelineDataGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
-            this.travelineDataGroupBox.Location = new System.Drawing.Point(5, 187);
+            this.travelineDataGroupBox.Location = new System.Drawing.Point(5, 130);
             this.travelineDataGroupBox.Name = "travelineDataGroupBox";
             this.travelineDataGroupBox.Size = new System.Drawing.Size(774, 128);
             this.travelineDataGroupBox.TabIndex = 2;
@@ -202,39 +199,17 @@
             // 
             // overpassGroupBox
             // 
-            this.overpassGroupBox.Controls.Add(this.overpassTransportDataTextBox);
-            this.overpassGroupBox.Controls.Add(this.overpassBusStopQueryTextBox);
             this.overpassGroupBox.Controls.Add(this.overpassQueryPrefixTextBox);
             this.overpassGroupBox.Controls.Add(this.overpassServerTextBox);
-            this.overpassGroupBox.Controls.Add(this.overpassTransportDataLabel);
-            this.overpassGroupBox.Controls.Add(this.overpassBusStopQueryLabel);
             this.overpassGroupBox.Controls.Add(this.overpassQueryPrefixLabel);
             this.overpassGroupBox.Controls.Add(this.overpassServerLabel);
             this.overpassGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.overpassGroupBox.Location = new System.Drawing.Point(5, 52);
             this.overpassGroupBox.Name = "overpassGroupBox";
-            this.overpassGroupBox.Size = new System.Drawing.Size(774, 135);
+            this.overpassGroupBox.Size = new System.Drawing.Size(774, 78);
             this.overpassGroupBox.TabIndex = 0;
             this.overpassGroupBox.TabStop = false;
             this.overpassGroupBox.Text = "Overpass";
-            // 
-            // overpassTransportDataTextBox
-            // 
-            this.overpassTransportDataTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.overpassTransportDataTextBox.Location = new System.Drawing.Point(125, 97);
-            this.overpassTransportDataTextBox.Name = "overpassTransportDataTextBox";
-            this.overpassTransportDataTextBox.Size = new System.Drawing.Size(642, 20);
-            this.overpassTransportDataTextBox.TabIndex = 7;
-            // 
-            // overpassBusStopQueryTextBox
-            // 
-            this.overpassBusStopQueryTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.overpassBusStopQueryTextBox.Location = new System.Drawing.Point(125, 71);
-            this.overpassBusStopQueryTextBox.Name = "overpassBusStopQueryTextBox";
-            this.overpassBusStopQueryTextBox.Size = new System.Drawing.Size(642, 20);
-            this.overpassBusStopQueryTextBox.TabIndex = 6;
             // 
             // overpassQueryPrefixTextBox
             // 
@@ -253,24 +228,6 @@
             this.overpassServerTextBox.Name = "overpassServerTextBox";
             this.overpassServerTextBox.Size = new System.Drawing.Size(642, 20);
             this.overpassServerTextBox.TabIndex = 4;
-            // 
-            // overpassTransportDataLabel
-            // 
-            this.overpassTransportDataLabel.AutoSize = true;
-            this.overpassTransportDataLabel.Location = new System.Drawing.Point(8, 100);
-            this.overpassTransportDataLabel.Name = "overpassTransportDataLabel";
-            this.overpassTransportDataLabel.Size = new System.Drawing.Size(94, 13);
-            this.overpassTransportDataLabel.TabIndex = 3;
-            this.overpassTransportDataLabel.Text = "PTv2 data (JSON)";
-            // 
-            // overpassBusStopQueryLabel
-            // 
-            this.overpassBusStopQueryLabel.AutoSize = true;
-            this.overpassBusStopQueryLabel.Location = new System.Drawing.Point(8, 74);
-            this.overpassBusStopQueryLabel.Name = "overpassBusStopQueryLabel";
-            this.overpassBusStopQueryLabel.Size = new System.Drawing.Size(92, 13);
-            this.overpassBusStopQueryLabel.TabIndex = 2;
-            this.overpassBusStopQueryLabel.Text = "Bus Stops (JSON)";
             // 
             // overpassQueryPrefixLabel
             // 
@@ -292,7 +249,8 @@
             // 
             // boundingBoxGroupBox
             // 
-            this.boundingBoxGroupBox.Controls.Add(this.boundingBoxTextBox);
+            this.boundingBoxGroupBox.Controls.Add(this.locationsButton);
+            this.boundingBoxGroupBox.Controls.Add(this.locationsComboBox);
             this.boundingBoxGroupBox.Controls.Add(this.boundingBoxLabel);
             this.boundingBoxGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
             this.boundingBoxGroupBox.Location = new System.Drawing.Point(5, 5);
@@ -300,25 +258,35 @@
             this.boundingBoxGroupBox.Size = new System.Drawing.Size(774, 47);
             this.boundingBoxGroupBox.TabIndex = 1;
             this.boundingBoxGroupBox.TabStop = false;
-            this.boundingBoxGroupBox.Text = "Bounding Box";
+            this.boundingBoxGroupBox.Text = "Location";
             // 
-            // boundingBoxTextBox
+            // locationsButton
             // 
-            this.boundingBoxTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.boundingBoxTextBox.Location = new System.Drawing.Point(125, 19);
-            this.boundingBoxTextBox.Name = "boundingBoxTextBox";
-            this.boundingBoxTextBox.Size = new System.Drawing.Size(642, 20);
-            this.boundingBoxTextBox.TabIndex = 1;
+            this.locationsButton.Location = new System.Drawing.Point(734, 17);
+            this.locationsButton.Name = "locationsButton";
+            this.locationsButton.Size = new System.Drawing.Size(33, 23);
+            this.locationsButton.TabIndex = 25;
+            this.locationsButton.Text = "...";
+            this.locationsButton.UseVisualStyleBackColor = true;
+            this.locationsButton.Click += new System.EventHandler(this.LocationsButton_Click);
+            // 
+            // locationsComboBox
+            // 
+            this.locationsComboBox.DisplayMember = "Description";
+            this.locationsComboBox.FormattingEnabled = true;
+            this.locationsComboBox.Location = new System.Drawing.Point(125, 19);
+            this.locationsComboBox.Name = "locationsComboBox";
+            this.locationsComboBox.Size = new System.Drawing.Size(603, 21);
+            this.locationsComboBox.TabIndex = 1;
             // 
             // boundingBoxLabel
             // 
             this.boundingBoxLabel.AutoSize = true;
             this.boundingBoxLabel.Location = new System.Drawing.Point(8, 22);
             this.boundingBoxLabel.Name = "boundingBoxLabel";
-            this.boundingBoxLabel.Size = new System.Drawing.Size(105, 13);
+            this.boundingBoxLabel.Size = new System.Drawing.Size(89, 13);
             this.boundingBoxLabel.TabIndex = 0;
-            this.boundingBoxLabel.Text = "Bounding Box (bbox)";
+            this.boundingBoxLabel.Text = "Selected location";
             // 
             // SettingsForm
             // 
@@ -357,14 +325,9 @@
         private System.Windows.Forms.GroupBox overpassGroupBox;
         private System.Windows.Forms.Label overpassQueryPrefixLabel;
         private System.Windows.Forms.Label overpassServerLabel;
-        private System.Windows.Forms.TextBox overpassTransportDataTextBox;
-        private System.Windows.Forms.TextBox overpassBusStopQueryTextBox;
         private System.Windows.Forms.TextBox overpassQueryPrefixTextBox;
         private System.Windows.Forms.TextBox overpassServerTextBox;
-        private System.Windows.Forms.Label overpassTransportDataLabel;
-        private System.Windows.Forms.Label overpassBusStopQueryLabel;
         private System.Windows.Forms.GroupBox boundingBoxGroupBox;
-        private System.Windows.Forms.TextBox boundingBoxTextBox;
         private System.Windows.Forms.Label boundingBoxLabel;
         private System.Windows.Forms.GroupBox travelineDataGroupBox;
         private System.Windows.Forms.TextBox passwordTextBox;
@@ -377,5 +340,7 @@
         private System.Windows.Forms.TextBox pathTextBox;
         private System.Windows.Forms.Button localPathBrowseButton;
         private System.Windows.Forms.FolderBrowserDialog localFolderBrowserDialog;
+        private System.Windows.Forms.Button locationsButton;
+        private System.Windows.Forms.ComboBox locationsComboBox;
     }
 }

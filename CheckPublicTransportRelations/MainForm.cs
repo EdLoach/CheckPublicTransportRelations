@@ -41,12 +41,33 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Initializes a new instance of the <see cref="MainForm"/> class.</summary>
+        /// <summary>Initializes a new instance of the
+        ///          <see cref="T:CheckPublicTransportRelations.MainForm" /> class.</summary>
+        ///
+        /// <inheritdoc/>
         // ===========================================================================================================
         public MainForm()
         {
             this.InitializeComponent();
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the locations.</summary>
+        ///
+        /// <value>The locations.</value>
+        // ===========================================================================================================
+        private List<Location> Locations { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the selected location.</summary>
+        ///
+        /// <value>The selected location.</value>
+        // ===========================================================================================================
+        private Location SelectedLocation { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
@@ -219,6 +240,98 @@ namespace CheckPublicTransportRelations
             string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Loads the locations.</summary>
+        ///
+        /// <returns>The locations.</returns>
+        // ===========================================================================================================
+        internal static List<Location> LoadLocations()
+        {
+            var returnValue = new List<Location>();
+            string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
+            if (File.Exists(fileName))
+            {
+                string locationsText = File.ReadAllText(fileName);
+                returnValue = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Location>>(locationsText);
+            }
+
+            if (returnValue.Count >= 1)
+            {
+                return returnValue;
+            }
+
+            returnValue.Add(new Location() { Description = @"Tendring (Essex) - BBox" });
+            returnValue.Add(
+                new Location()
+                    {
+                        Description = @"Tendring (Essex) - Boundary Relation",
+                        BoundingBox = string.Empty,
+                        BusStopQuery =
+                            @"[out:json][timeout:25];area[official_name=""Tendring District""]->.a;(node(area.a)[""naptan:AtcoCode""];);out;>;out skel qt;",
+                        TransportQuery =
+                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                    });
+            returnValue.Add(
+                new Location()
+                    {
+                        Description = @"Colchester (Essex) - Boundary Relation",
+                        BoundingBox = string.Empty,
+                        BusStopQuery =
+                            @"[out:json][timeout:25];area[official_name=""Borough of Colchester""]->.a;(node(area.a)[""naptan:AtcoCode""];);out;>;out skel qt;",
+                        TransportQuery =
+                            @"[out:json][timeout:35];area[official_name=""Borough of Colchester""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                    });
+
+            Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
+            Settings.Default.Save();
+            try
+            {
+                string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    returnValue,
+                    Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText(fileName, outputText + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                // Might not have permissions, for example, in which case likely to only ever have the default location
+                Debug.WriteLine(ex.Message);
+            }
+
+            return returnValue;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Sets the location.</summary>
+        // ===========================================================================================================
+        private void SetLocation()
+        { 
+            string selectedLocation = Settings.Default.SelectedLocation;
+            this.SelectedLocation = null;
+            foreach (Location location in this.Locations)
+            {
+                if (location.Description != selectedLocation)
+                {
+                    continue;
+                }
+
+                this.SelectedLocation = location;
+                break;
+            }
+
+            if (this.SelectedLocation != null)
+            {
+                return;
+            }
+
+            this.SelectedLocation = this.Locations[0];
+            Settings.Default.SelectedLocation = this.Locations[0].Description;
+            Settings.Default.Save();
         }
 
         // ===========================================================================================================
@@ -538,9 +651,9 @@ namespace CheckPublicTransportRelations
         {
             this.Enabled = false;
             string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
-                                                                   + Settings.Default.OverpassTransportData.Replace(
+                                                                   + this.SelectedLocation.TransportQuery.Replace(
                                                                        "{{bbox}}",
-                                                                       Settings.Default.BoundingBox);
+                                                                       this.SelectedLocation.BoundingBox);
 
             if (!await GetDataAsync(overPassQuery))
             {
@@ -568,6 +681,8 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.Locations = LoadLocations();
+            this.SetLocation();
             this.RouteBusStops = new List<BusStop>();
             this.FromToChecks = new List<ComparisonResultFromTo>();
             this.travelineDataGridView.AutoGenerateColumns = false;
@@ -748,9 +863,9 @@ namespace CheckPublicTransportRelations
         {
             this.Enabled = false;
             string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
-                                                                   + Settings.Default.OverpassBusStops.Replace(
+                                                                   + this.SelectedLocation.BusStopQuery.Replace(
                                                                        "{{bbox}}",
-                                                                       Settings.Default.BoundingBox);
+                                                                       this.SelectedLocation.BoundingBox);
             this.OverpassBusStops = await GetBusStopsAsync(overPassQuery);
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
             Settings.Default.LastOpenStreetMapBusStopRefresh = DateTime.Today;
@@ -839,9 +954,11 @@ namespace CheckPublicTransportRelations
         private void SettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            var settingsForm = new SettingsForm();
+            var settingsForm = new SettingsForm(this.SelectedLocation, this.Locations);
             settingsForm.ShowDialog(this);
             this.RefreshStatus();
+            this.Locations = LoadLocations();
+            this.SetLocation();
             this.Enabled = true;
         }
 
@@ -1454,21 +1571,21 @@ namespace CheckPublicTransportRelations
                 @"[https://github.com/EdLoach/CheckPublicTransportRelations Last full check with this tool] : ");
             wikiText.AppendLine(DateTime.Today.ToLongDateString());
             wikiText.AppendLine();
-            if (Settings.Default.OverpassBusStops.ToLower().Contains("{{bbox}}")
-                || Settings.Default.OverpassTransportData.Contains("{{bbox}}"))
+            if (this.SelectedLocation.BusStopQuery.ToLower().Contains("{{bbox}}")
+                || this.SelectedLocation.TransportQuery.Contains("{{bbox}}"))
             {
                 wikiText.Append(@"Using bbox :");
-                wikiText.AppendLine(Settings.Default.BoundingBox);
+                wikiText.AppendLine(this.SelectedLocation.BoundingBox);
                 wikiText.AppendLine();
             }
 
             wikiText.Append(@"Overpass bus stops query : <code><nowiki>");
-            wikiText.Append(Settings.Default.OverpassBusStops);
+            wikiText.Append(this.SelectedLocation.BusStopQuery);
             wikiText.AppendLine(@"</nowiki></code>");
             wikiText.AppendLine();
 
             wikiText.Append(@"Overpass transport data query : <code><nowiki>");
-            wikiText.Append(Settings.Default.OverpassTransportData);
+            wikiText.Append(this.SelectedLocation.TransportQuery);
             wikiText.AppendLine(@"</nowiki></code>");
             wikiText.AppendLine();
 

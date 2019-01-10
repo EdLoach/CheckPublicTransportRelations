@@ -9,8 +9,11 @@
 namespace CheckPublicTransportRelations
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
+
+    using CheckPublicTransportRelations.Properties;
 
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -23,16 +26,37 @@ namespace CheckPublicTransportRelations
     {
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
-        ///
+        /// 
         /// <summary>Initializes a new instance of the
         ///          <see cref="T:CheckPublicTransportRelations.SettingsForm" /> class.</summary>
-        ///
+        /// <param name="selectedLocation"></param>
+        /// <param name="locations"></param>
         /// <inheritdoc/>
         // ===========================================================================================================
-        public SettingsForm()
+        public SettingsForm(Location selectedLocation, List<Location> locations)
         {
             this.InitializeComponent();
+            this.SelectedLocation = selectedLocation;
+            this.Locations = locations;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the selected location as at the time the form loads.</summary>
+        ///
+        /// <value>The selected location.</value>
+        // ===========================================================================================================
+        private Location SelectedLocation { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets the locations.</summary>
+        ///
+        /// <value>The locations.</value>
+        // ===========================================================================================================
+        private List<Location> Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -57,19 +81,15 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            Properties.Settings.Default.BoundingBox = this.boundingBoxTextBox.Text;
+            Settings.Default.OverpassServer = this.overpassServerTextBox.Text;
+            Settings.Default.OverpassQueryPrefix = this.overpassQueryPrefixTextBox.Text;
 
-            Properties.Settings.Default.OverpassServer = this.overpassServerTextBox.Text;
-            Properties.Settings.Default.OverpassQueryPrefix = this.overpassQueryPrefixTextBox.Text;
-            Properties.Settings.Default.OverpassBusStops = this.overpassBusStopQueryTextBox.Text;
-            Properties.Settings.Default.OverpassTransportData = this.overpassTransportDataTextBox.Text;
-
-            Properties.Settings.Default.TravelineSite = this.ftpSiteTextBox.Text;
-            Properties.Settings.Default.TravelineUsername = this.usernameTextBox.Text;
-            Properties.Settings.Default.TravelinePassword = this.passwordTextBox.Text;
-            Properties.Settings.Default.LocalPath = this.pathTextBox.Text;
-
-            Properties.Settings.Default.Save();
+            Settings.Default.TravelineSite = this.ftpSiteTextBox.Text;
+            Settings.Default.TravelineUsername = this.usernameTextBox.Text;
+            Settings.Default.TravelinePassword = this.passwordTextBox.Text;
+            Settings.Default.LocalPath = this.pathTextBox.Text;
+            Settings.Default.SelectedLocation = ((Location)this.locationsComboBox.SelectedItem).Description;
+            Settings.Default.Save();
 
             this.Close();
         }
@@ -84,17 +104,25 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void SettingsForm_Load(object sender, EventArgs e)
         {
-            this.boundingBoxTextBox.Text = Properties.Settings.Default.BoundingBox;
+            this.locationsComboBox.DataSource = this.Locations;
+            foreach (object item in this.locationsComboBox.Items)
+            {
+                if ((Location)item != this.SelectedLocation)
+                {
+                    continue;
+                }
 
-            this.overpassServerTextBox.Text = Properties.Settings.Default.OverpassServer;
-            this.overpassQueryPrefixTextBox.Text = Properties.Settings.Default.OverpassQueryPrefix;
-            this.overpassBusStopQueryTextBox.Text = Properties.Settings.Default.OverpassBusStops;
-            this.overpassTransportDataTextBox.Text = Properties.Settings.Default.OverpassTransportData;
+                this.locationsComboBox.SelectedItem = item;
+                break;
+            }
+            
+            this.overpassServerTextBox.Text = Settings.Default.OverpassServer;
+            this.overpassQueryPrefixTextBox.Text = Settings.Default.OverpassQueryPrefix;
 
-            this.ftpSiteTextBox.Text = Properties.Settings.Default.TravelineSite;
-            this.usernameTextBox.Text = Properties.Settings.Default.TravelineUsername;
-            this.passwordTextBox.Text = Properties.Settings.Default.TravelinePassword;
-            this.pathTextBox.Text = Properties.Settings.Default.LocalPath;
+            this.ftpSiteTextBox.Text = Settings.Default.TravelineSite;
+            this.usernameTextBox.Text = Settings.Default.TravelineUsername;
+            this.passwordTextBox.Text = Settings.Default.TravelinePassword;
+            this.pathTextBox.Text = Settings.Default.LocalPath;
         }
 
         // ===========================================================================================================
@@ -117,6 +145,44 @@ namespace CheckPublicTransportRelations
             {
                 this.pathTextBox.Text = this.localFolderBrowserDialog.SelectedPath;
             }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by LocationsButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void LocationsButton_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            var settingsForm = new LocationsForm(this.Locations);
+            settingsForm.ShowDialog(this);
+            MainForm.LoadLocations();
+            string selectedLocationName = Settings.Default.SelectedLocation;
+            Location selectedLocation = null;
+            foreach (Location location in this.Locations)
+            {
+                if (location.Description != selectedLocationName)
+                {
+                    continue;
+                }
+
+                selectedLocation = location;
+                break;
+            }
+
+            this.SelectedLocation = selectedLocation;
+            if (selectedLocation != null)
+            {
+                Settings.Default.SelectedLocation = selectedLocation.Description;
+            }
+
+            Settings.Default.Save();
+
+            this.Enabled = true;
         }
     }
 }
