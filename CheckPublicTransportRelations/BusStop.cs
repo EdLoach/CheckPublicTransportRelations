@@ -8,6 +8,8 @@
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System.Diagnostics.CodeAnalysis;
+
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
     ///
@@ -31,7 +33,18 @@ namespace CheckPublicTransportRelations
             this.Id = elementId;
             this.AtcoCode = elementAtcoCode;
             this.StopName = stopName;
+            this.NaptanName = string.Empty;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the name of the naptan.</summary>
+        ///
+        /// <value>The name of the naptan.</value>
+        // ===========================================================================================================
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        public string NaptanName { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
@@ -68,5 +81,20 @@ namespace CheckPublicTransportRelations
         /// <value>The type.</value>
         // ===========================================================================================================
         public string Type { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets a value indicating whether the names match.</summary>
+        ///
+        /// <value>True if names match, false if not.</value>
+        // ===========================================================================================================
+        public bool NamesMatch => this.StopName.Contains(this.NaptanName
+                                                            .Replace(" Rd", " Road")
+                                                            .Replace(" Ln"," Lane")
+                                                            .Replace(" Gdns", " Gardens")
+                                                            .Replace(" Cotts", " Cottages")
+                                                            .Replace(" Ave", " Avenue")
+                                                            .Replace(" Avenuenue", " Avenue"));
     }
 }

@@ -11,9 +11,12 @@ namespace CheckPublicTransportRelations
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Drawing;
     using System.IO;
+    using System.IO.Compression;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Text;
     using System.Threading.Tasks;
@@ -134,6 +137,68 @@ namespace CheckPublicTransportRelations
         private List<BusStop> OverpassBusStops { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Loads the locations.</summary>
+        ///
+        /// <returns>The locations.</returns>
+        // ===========================================================================================================
+        internal static List<Location> LoadLocations()
+        {
+            var returnValue = new List<Location>();
+            string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
+            if (File.Exists(fileName))
+            {
+                string locationsText = File.ReadAllText(fileName);
+                returnValue = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Location>>(locationsText);
+            }
+
+            if (returnValue.Count >= 1)
+            {
+                return returnValue;
+            }
+
+            returnValue.Add(new Location() { Description = @"Tendring (Essex) - BBox" });
+            returnValue.Add(
+                new Location()
+                {
+                    Description = @"Tendring (Essex) - Boundary Relation",
+                    BoundingBox = string.Empty,
+                    BusStopQuery =
+                            @"[out:json][timeout:25];area[official_name=""Tendring District""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                    TransportQuery =
+                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                });
+            returnValue.Add(
+                new Location()
+                {
+                    Description = @"Colchester (Essex) - Boundary Relation",
+                    BoundingBox = string.Empty,
+                    BusStopQuery =
+                            @"[out:json][timeout:25];area[official_name=""Borough of Colchester""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                    TransportQuery =
+                            @"[out:json][timeout:35];area[official_name=""Borough of Colchester""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                });
+
+            Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
+            Settings.Default.Save();
+            try
+            {
+                string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    returnValue,
+                    Newtonsoft.Json.Formatting.Indented);
+                File.WriteAllText(fileName, outputText + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                // Might not have permissions, for example, in which case likely to only ever have the default location
+                Debug.WriteLine(ex.Message);
+            }
+
+            return returnValue;
+        }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets bus stops asynchronous.</summary>
@@ -240,68 +305,6 @@ namespace CheckPublicTransportRelations
             string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
-        ///
-        /// <summary>Loads the locations.</summary>
-        ///
-        /// <returns>The locations.</returns>
-        // ===========================================================================================================
-        internal static List<Location> LoadLocations()
-        {
-            var returnValue = new List<Location>();
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
-            if (File.Exists(fileName))
-            {
-                string locationsText = File.ReadAllText(fileName);
-                returnValue = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Location>>(locationsText);
-            }
-
-            if (returnValue.Count >= 1)
-            {
-                return returnValue;
-            }
-
-            returnValue.Add(new Location() { Description = @"Tendring (Essex) - BBox" });
-            returnValue.Add(
-                new Location()
-                    {
-                        Description = @"Tendring (Essex) - Boundary Relation",
-                        BoundingBox = string.Empty,
-                        BusStopQuery =
-                            @"[out:json][timeout:25];area[official_name=""Tendring District""]->.a;(node(area.a)[""naptan:AtcoCode""];);out;>;out skel qt;",
-                        TransportQuery =
-                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
-                    });
-            returnValue.Add(
-                new Location()
-                    {
-                        Description = @"Colchester (Essex) - Boundary Relation",
-                        BoundingBox = string.Empty,
-                        BusStopQuery =
-                            @"[out:json][timeout:25];area[official_name=""Borough of Colchester""]->.a;(node(area.a)[""naptan:AtcoCode""];);out;>;out skel qt;",
-                        TransportQuery =
-                            @"[out:json][timeout:35];area[official_name=""Borough of Colchester""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
-                    });
-
-            Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
-            Settings.Default.Save();
-            try
-            {
-                string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    returnValue,
-                    Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText(fileName, outputText + Environment.NewLine);
-            }
-            catch (Exception ex)
-            {
-                // Might not have permissions, for example, in which case likely to only ever have the default location
-                Debug.WriteLine(ex.Message);
-            }
-
-            return returnValue;
         }
 
         // ===========================================================================================================
@@ -692,6 +695,7 @@ namespace CheckPublicTransportRelations
             this.fromToDataGridView.AutoGenerateColumns = false;
             this.openStreetMapStopsDataGridView.AutoGenerateColumns = false;
             this.travelineStopsDataGridView.AutoGenerateColumns = false;
+            this.stopsDataGridView.AutoGenerateColumns = false;
             this.ComparisonResults = new List<ComparisonResultService>();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
@@ -699,11 +703,15 @@ namespace CheckPublicTransportRelations
             this.ExtractOpenStreetMapRoutes();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.CompareResults();
+            this.stopsDataGridView.DataSource = null;
+            this.ExtractNaptanStops();
             this.openStreetMapStopsDataGridView.KeyDown += Copy_Click;
             this.travelineStopsDataGridView.KeyDown += Copy_Click;
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
             this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
             this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
+            this.showMatchedStopsCheckBox.Checked = Settings.Default.ShowMatchedStops;
+            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
             this.highlightStopsComboBox.SelectedIndex = 0;
         }
 
@@ -866,11 +874,39 @@ namespace CheckPublicTransportRelations
                                                                    + this.SelectedLocation.BusStopQuery.Replace(
                                                                        "{{bbox}}",
                                                                        this.SelectedLocation.BoundingBox);
-            this.OverpassBusStops = await GetBusStopsAsync(overPassQuery);
-            this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
-            Settings.Default.LastOpenStreetMapBusStopRefresh = DateTime.Today;
-            Settings.Default.Save();
-            this.RefreshStatus();
+            try
+            {
+                this.OverpassBusStops = await GetBusStopsAsync(overPassQuery);
+                this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
+                Settings.Default.LastOpenStreetMapBusStopRefresh = DateTime.Today;
+                Settings.Default.Save();
+                this.stopsDataGridView.DataSource = null;
+                this.ExtractNaptanStops();
+                this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
+                this.RefreshStatus();
+            }
+            catch (HttpRequestException exception)
+            {
+                Debug.WriteLine(exception);
+                MessageBox.Show(
+                    this,
+                    @"Internet connection issue",
+                    @"Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    this,
+                    exception.Message,
+                    @"Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
+            }
+            
             this.Enabled = true;
         }
 
@@ -898,6 +934,8 @@ namespace CheckPublicTransportRelations
             }
 
             this.OverpassBusStops = overpassBusStops;
+            this.naptanDownloadedLabel.Text =
+                @"Naptan Downloaded: " + Settings.Default.LastNaptanRefresh.ToLongDateString();
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
             if (Settings.Default.LastOpenStreetMapBusStopRefresh > DateTime.MinValue)
             {
@@ -1624,6 +1662,108 @@ namespace CheckPublicTransportRelations
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by NaptanStopsDownloadToolStripMenuItem for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void NaptanStopsDownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
+            using (var client = new WebClient())
+            {
+                client.DownloadFile(Settings.Default.NaptanUrl, fileName);
+            }
+
+            Settings.Default.LastNaptanRefresh = DateTime.Today;
+            Settings.Default.Save();
+            this.RefreshStatus();
+            this.Enabled = true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Extracts the naptan stops.</summary>
+        // ===========================================================================================================
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void ExtractNaptanStops()
+        {
+            string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
+            using (ZipArchive archive = ZipFile.OpenRead(fileName))
+            {
+                foreach (ZipArchiveEntry entry in archive.Entries)
+                {
+                    if (!entry.FullName.StartsWith("Stops.csv", StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+
+                    using (Stream stream = entry.Open())
+                    {
+                        using (var reader = new StreamReader(stream))
+                        {
+                            string line;
+                            string columnHeadings = string.Empty;
+                            var atcoCodeIndex = 0;
+                            var commonNameIndex = 4;
+                            while ((line = reader.ReadLine()) != null)
+                            {
+                                if (columnHeadings == string.Empty)
+                                {
+                                    columnHeadings = line;
+                                    string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
+                                    atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
+                                    commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
+                                    if (atcoCodeIndex == -1 || commonNameIndex == -1)
+                                    {
+                                        break;
+                                    }
+                                }
+                                else
+                                {
+                                    string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
+                                    BusStop stop = this.OverpassBusStops.FirstOrDefault(i => i.AtcoCode == naptanStop[atcoCodeIndex]);
+                                    if (stop == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    this.OverpassBusStops.Remove(stop);
+                                    stop.NaptanName = naptanStop[commonNameIndex];
+                                    this.OverpassBusStops.Add(stop);
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by ShowMatchedStopsCheckBox for checked changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void ShowMatchedStopsCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.stopsDataGridView.DataSource = null;
+            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
+            
+            Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
+            Settings.Default.Save();
         }
     }
 }

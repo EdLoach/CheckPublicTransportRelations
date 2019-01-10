@@ -52,11 +52,15 @@
             this.locationsComboBox = new System.Windows.Forms.ComboBox();
             this.boundingBoxLabel = new System.Windows.Forms.Label();
             this.localFolderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.naptanGroupBox = new System.Windows.Forms.GroupBox();
+            this.naptanTextBox = new System.Windows.Forms.TextBox();
+            this.naptanLabel = new System.Windows.Forms.Label();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.travelineDataGroupBox.SuspendLayout();
             this.overpassGroupBox.SuspendLayout();
             this.boundingBoxGroupBox.SuspendLayout();
+            this.naptanGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // buttonPanel
@@ -93,6 +97,7 @@
             // 
             // mainPanel
             // 
+            this.mainPanel.Controls.Add(this.naptanGroupBox);
             this.mainPanel.Controls.Add(this.travelineDataGroupBox);
             this.mainPanel.Controls.Add(this.overpassGroupBox);
             this.mainPanel.Controls.Add(this.boundingBoxGroupBox);
@@ -288,6 +293,36 @@
             this.boundingBoxLabel.TabIndex = 0;
             this.boundingBoxLabel.Text = "Selected location";
             // 
+            // naptanGroupBox
+            // 
+            this.naptanGroupBox.Controls.Add(this.naptanTextBox);
+            this.naptanGroupBox.Controls.Add(this.naptanLabel);
+            this.naptanGroupBox.Dock = System.Windows.Forms.DockStyle.Top;
+            this.naptanGroupBox.Location = new System.Drawing.Point(5, 258);
+            this.naptanGroupBox.Name = "naptanGroupBox";
+            this.naptanGroupBox.Size = new System.Drawing.Size(774, 55);
+            this.naptanGroupBox.TabIndex = 3;
+            this.naptanGroupBox.TabStop = false;
+            this.naptanGroupBox.Text = "Naptan";
+            // 
+            // naptanTextBox
+            // 
+            this.naptanTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.naptanTextBox.Location = new System.Drawing.Point(125, 17);
+            this.naptanTextBox.Name = "naptanTextBox";
+            this.naptanTextBox.Size = new System.Drawing.Size(642, 20);
+            this.naptanTextBox.TabIndex = 6;
+            // 
+            // naptanLabel
+            // 
+            this.naptanLabel.AutoSize = true;
+            this.naptanLabel.Location = new System.Drawing.Point(8, 20);
+            this.naptanLabel.Name = "naptanLabel";
+            this.naptanLabel.Size = new System.Drawing.Size(63, 13);
+            this.naptanLabel.TabIndex = 5;
+            this.naptanLabel.Text = "Server URL";
+            // 
             // SettingsForm
             // 
             this.AcceptButton = this.saveButton;
@@ -312,6 +347,8 @@
             this.overpassGroupBox.PerformLayout();
             this.boundingBoxGroupBox.ResumeLayout(false);
             this.boundingBoxGroupBox.PerformLayout();
+            this.naptanGroupBox.ResumeLayout(false);
+            this.naptanGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -342,5 +379,8 @@
         private System.Windows.Forms.FolderBrowserDialog localFolderBrowserDialog;
         private System.Windows.Forms.Button locationsButton;
         private System.Windows.Forms.ComboBox locationsComboBox;
+        private System.Windows.Forms.GroupBox naptanGroupBox;
+        private System.Windows.Forms.TextBox naptanTextBox;
+        private System.Windows.Forms.Label naptanLabel;
     }
 }

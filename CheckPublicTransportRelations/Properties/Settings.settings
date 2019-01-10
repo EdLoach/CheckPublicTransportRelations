@@ -44,5 +44,14 @@
     <Setting Name="SelectedLocation" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="LastNaptanRefresh" Type="System.DateTime" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="NaptanUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://naptan.app.dft.gov.uk/DataRequest/Naptan.ashx?format=csv</Value>
+    </Setting>
+    <Setting Name="ShowMatchedStops" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

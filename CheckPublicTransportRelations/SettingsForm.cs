@@ -89,6 +89,7 @@ namespace CheckPublicTransportRelations
             Settings.Default.TravelinePassword = this.passwordTextBox.Text;
             Settings.Default.LocalPath = this.pathTextBox.Text;
             Settings.Default.SelectedLocation = ((Location)this.locationsComboBox.SelectedItem).Description;
+            Settings.Default.NaptanUrl = this.naptanTextBox.Text;
             Settings.Default.Save();
 
             this.Close();
@@ -123,6 +124,7 @@ namespace CheckPublicTransportRelations
             this.usernameTextBox.Text = Settings.Default.TravelineUsername;
             this.passwordTextBox.Text = Settings.Default.TravelinePassword;
             this.pathTextBox.Text = Settings.Default.LocalPath;
+            this.naptanTextBox.Text = Settings.Default.NaptanUrl;
         }
 
         // ===========================================================================================================

@@ -50,6 +50,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.closeButton = new System.Windows.Forms.Button();
@@ -98,6 +103,7 @@
             this.routeRelatioNameFormattingColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.routesTndsFileColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.routesTabControlsPanel = new System.Windows.Forms.Panel();
+            this.wikiTextButton = new System.Windows.Forms.Button();
             this.highlightStopsComboBox = new System.Windows.Forms.ComboBox();
             this.highlightStopsLabel = new System.Windows.Forms.Label();
             this.showMatchedRoutesCheckBox = new System.Windows.Forms.CheckBox();
@@ -124,6 +130,10 @@
             this.fromToToNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.fromToControlsPanel = new System.Windows.Forms.Panel();
             this.fromToShowMatchedCheckBox = new System.Windows.Forms.CheckBox();
+            this.stopsTabPage = new System.Windows.Forms.TabPage();
+            this.stopsDataGridView = new System.Windows.Forms.DataGridView();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.showMatchedStopsCheckBox = new System.Windows.Forms.CheckBox();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetmapDataDownloadedLabel = new System.Windows.Forms.Label();
@@ -139,10 +149,17 @@
             this.downloadTravelineNationalDataSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractLocalRoutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getOpenstreetmapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.naptanStopsDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.wikiTextButton = new System.Windows.Forms.Button();
+            this.naptanDownloadedLabel = new System.Windows.Forms.Label();
+            this.stopTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAtcoCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopNaptanNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -172,6 +189,9 @@
             this.routeFromToTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).BeginInit();
             this.fromToControlsPanel.SuspendLayout();
+            this.stopsTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stopsDataGridView)).BeginInit();
+            this.panel1.SuspendLayout();
             this.statusGroupBox.SuspendLayout();
             this.mainFormMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -214,6 +234,7 @@
             this.mainTabControl.Controls.Add(this.compareRouteMastersTabPage);
             this.mainTabControl.Controls.Add(this.compareRouteVariantsTabPage);
             this.mainTabControl.Controls.Add(this.routeFromToTabPage);
+            this.mainTabControl.Controls.Add(this.stopsTabPage);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(5, 74);
             this.mainTabControl.Name = "mainTabControl";
@@ -706,6 +727,17 @@
             this.routesTabControlsPanel.Size = new System.Drawing.Size(600, 33);
             this.routesTabControlsPanel.TabIndex = 3;
             // 
+            // wikiTextButton
+            // 
+            this.wikiTextButton.Location = new System.Drawing.Point(149, 2);
+            this.wikiTextButton.Name = "wikiTextButton";
+            this.wikiTextButton.Size = new System.Drawing.Size(75, 23);
+            this.wikiTextButton.TabIndex = 3;
+            this.wikiTextButton.Text = "WikiText";
+            this.wikiTextButton.UseVisualStyleBackColor = true;
+            this.wikiTextButton.Visible = false;
+            this.wikiTextButton.Click += new System.EventHandler(this.WikiTextButton_Click);
+            // 
             // highlightStopsComboBox
             // 
             this.highlightStopsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -996,8 +1028,64 @@
             this.fromToShowMatchedCheckBox.UseVisualStyleBackColor = true;
             this.fromToShowMatchedCheckBox.CheckedChanged += new System.EventHandler(this.FromToShowMatchedCheckBox_CheckedChanged);
             // 
+            // stopsTabPage
+            // 
+            this.stopsTabPage.Controls.Add(this.stopsDataGridView);
+            this.stopsTabPage.Controls.Add(this.panel1);
+            this.stopsTabPage.Location = new System.Drawing.Point(4, 22);
+            this.stopsTabPage.Name = "stopsTabPage";
+            this.stopsTabPage.Size = new System.Drawing.Size(990, 565);
+            this.stopsTabPage.TabIndex = 5;
+            this.stopsTabPage.Text = "Stops";
+            this.stopsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // stopsDataGridView
+            // 
+            this.stopsDataGridView.AllowUserToAddRows = false;
+            this.stopsDataGridView.AllowUserToDeleteRows = false;
+            this.stopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.stopTypeColumn,
+            this.stopIdColumn,
+            this.stopAtcoCodeColumn,
+            this.stopNameColumn,
+            this.stopNaptanNameColumn,
+            this.stopMatchColumn});
+            this.stopsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stopsDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.stopsDataGridView.Name = "stopsDataGridView";
+            this.stopsDataGridView.ReadOnly = true;
+            this.stopsDataGridView.RowHeadersVisible = false;
+            this.stopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.stopsDataGridView.Size = new System.Drawing.Size(990, 532);
+            this.stopsDataGridView.TabIndex = 4;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.showMatchedStopsCheckBox);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panel1.Location = new System.Drawing.Point(0, 532);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(990, 33);
+            this.panel1.TabIndex = 3;
+            // 
+            // showMatchedStopsCheckBox
+            // 
+            this.showMatchedStopsCheckBox.AutoSize = true;
+            this.showMatchedStopsCheckBox.Checked = true;
+            this.showMatchedStopsCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.showMatchedStopsCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.showMatchedStopsCheckBox.Name = "showMatchedStopsCheckBox";
+            this.showMatchedStopsCheckBox.Size = new System.Drawing.Size(128, 17);
+            this.showMatchedStopsCheckBox.TabIndex = 0;
+            this.showMatchedStopsCheckBox.Text = "Show Matched Stops";
+            this.showMatchedStopsCheckBox.UseVisualStyleBackColor = true;
+            this.showMatchedStopsCheckBox.CheckedChanged += new System.EventHandler(this.ShowMatchedStopsCheckBox_CheckedChanged);
+            // 
             // statusGroupBox
             // 
+            this.statusGroupBox.Controls.Add(this.naptanDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.openstreetMapLastDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.openstreetmapDataDownloadedLabel);
             this.statusGroupBox.Controls.Add(this.localRoutesLastExtractedLabel);
@@ -1057,7 +1145,7 @@
             // travelineLastDownloadedLabel
             // 
             this.travelineLastDownloadedLabel.AutoSize = true;
-            this.travelineLastDownloadedLabel.Location = new System.Drawing.Point(180, 39);
+            this.travelineLastDownloadedLabel.Location = new System.Drawing.Point(137, 39);
             this.travelineLastDownloadedLabel.Name = "travelineLastDownloadedLabel";
             this.travelineLastDownloadedLabel.Size = new System.Drawing.Size(91, 13);
             this.travelineLastDownloadedLabel.TabIndex = 8;
@@ -1075,7 +1163,7 @@
             // busStopsLastDownloadedLabel
             // 
             this.busStopsLastDownloadedLabel.AutoSize = true;
-            this.busStopsLastDownloadedLabel.Location = new System.Drawing.Point(180, 16);
+            this.busStopsLastDownloadedLabel.Location = new System.Drawing.Point(137, 16);
             this.busStopsLastDownloadedLabel.Name = "busStopsLastDownloadedLabel";
             this.busStopsLastDownloadedLabel.Size = new System.Drawing.Size(91, 13);
             this.busStopsLastDownloadedLabel.TabIndex = 6;
@@ -1108,6 +1196,7 @@
             this.downloadTravelineNationalDataSetToolStripMenuItem,
             this.extractLocalRoutesToolStripMenuItem,
             this.getOpenstreetmapDataToolStripMenuItem,
+            this.naptanStopsDownloadToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -1116,35 +1205,42 @@
             // refreshBusStopsToolStripMenuItem
             // 
             this.refreshBusStopsToolStripMenuItem.Name = "refreshBusStopsToolStripMenuItem";
-            this.refreshBusStopsToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.refreshBusStopsToolStripMenuItem.Text = "Refresh Bus Stops";
+            this.refreshBusStopsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.refreshBusStopsToolStripMenuItem.Text = "Refresh Bus Stops in Area";
             this.refreshBusStopsToolStripMenuItem.Click += new System.EventHandler(this.RefreshBusStopsToolStripMenuItem_Click);
             // 
             // downloadTravelineNationalDataSetToolStripMenuItem
             // 
             this.downloadTravelineNationalDataSetToolStripMenuItem.Name = "downloadTravelineNationalDataSetToolStripMenuItem";
-            this.downloadTravelineNationalDataSetToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.downloadTravelineNationalDataSetToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.downloadTravelineNationalDataSetToolStripMenuItem.Text = "Download TNDS...";
             this.downloadTravelineNationalDataSetToolStripMenuItem.Click += new System.EventHandler(this.DownloadTravelineNationalDataSetToolStripMenuItem_Click);
             // 
             // extractLocalRoutesToolStripMenuItem
             // 
             this.extractLocalRoutesToolStripMenuItem.Name = "extractLocalRoutesToolStripMenuItem";
-            this.extractLocalRoutesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.extractLocalRoutesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.extractLocalRoutesToolStripMenuItem.Text = "Extract Local Routes...";
             this.extractLocalRoutesToolStripMenuItem.Click += new System.EventHandler(this.ExtractLocalRoutesToolStripMenuItem_Click);
             // 
             // getOpenstreetmapDataToolStripMenuItem
             // 
             this.getOpenstreetmapDataToolStripMenuItem.Name = "getOpenstreetmapDataToolStripMenuItem";
-            this.getOpenstreetmapDataToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.getOpenstreetmapDataToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.getOpenstreetmapDataToolStripMenuItem.Text = "Get OSM Data...";
             this.getOpenstreetmapDataToolStripMenuItem.Click += new System.EventHandler(this.GetOpenStreetMapDataToolStripMenuItem_Click);
+            // 
+            // naptanStopsDownloadToolStripMenuItem
+            // 
+            this.naptanStopsDownloadToolStripMenuItem.Name = "naptanStopsDownloadToolStripMenuItem";
+            this.naptanStopsDownloadToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.naptanStopsDownloadToolStripMenuItem.Text = "Naptan Stops Download";
+            this.naptanStopsDownloadToolStripMenuItem.Click += new System.EventHandler(this.NaptanStopsDownloadToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -1163,16 +1259,72 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // wikiTextButton
+            // naptanDownloadedLabel
             // 
-            this.wikiTextButton.Location = new System.Drawing.Point(149, 2);
-            this.wikiTextButton.Name = "wikiTextButton";
-            this.wikiTextButton.Size = new System.Drawing.Size(75, 23);
-            this.wikiTextButton.TabIndex = 3;
-            this.wikiTextButton.Text = "WikiText";
-            this.wikiTextButton.UseVisualStyleBackColor = true;
-            this.wikiTextButton.Visible = false;
-            this.wikiTextButton.Click += new System.EventHandler(this.WikiTextButton_Click);
+            this.naptanDownloadedLabel.AutoSize = true;
+            this.naptanDownloadedLabel.Location = new System.Drawing.Point(295, 16);
+            this.naptanDownloadedLabel.Name = "naptanDownloadedLabel";
+            this.naptanDownloadedLabel.Size = new System.Drawing.Size(108, 13);
+            this.naptanDownloadedLabel.TabIndex = 13;
+            this.naptanDownloadedLabel.Text = "Naptan Downloaded:";
+            // 
+            // stopTypeColumn
+            // 
+            this.stopTypeColumn.DataPropertyName = "Type";
+            dataGridViewCellStyle23.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopTypeColumn.DefaultCellStyle = dataGridViewCellStyle23;
+            this.stopTypeColumn.HeaderText = "Type";
+            this.stopTypeColumn.Name = "stopTypeColumn";
+            this.stopTypeColumn.ReadOnly = true;
+            this.stopTypeColumn.Width = 60;
+            // 
+            // stopIdColumn
+            // 
+            this.stopIdColumn.DataPropertyName = "Id";
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle24.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle24.Format = "N0";
+            this.stopIdColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            this.stopIdColumn.HeaderText = "Id";
+            this.stopIdColumn.Name = "stopIdColumn";
+            this.stopIdColumn.ReadOnly = true;
+            // 
+            // stopAtcoCodeColumn
+            // 
+            this.stopAtcoCodeColumn.DataPropertyName = "AtcoCode";
+            dataGridViewCellStyle25.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopAtcoCodeColumn.DefaultCellStyle = dataGridViewCellStyle25;
+            this.stopAtcoCodeColumn.HeaderText = "AtcoCode";
+            this.stopAtcoCodeColumn.Name = "stopAtcoCodeColumn";
+            this.stopAtcoCodeColumn.ReadOnly = true;
+            // 
+            // stopNameColumn
+            // 
+            this.stopNameColumn.DataPropertyName = "StopName";
+            dataGridViewCellStyle26.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopNameColumn.DefaultCellStyle = dataGridViewCellStyle26;
+            this.stopNameColumn.HeaderText = "Name";
+            this.stopNameColumn.Name = "stopNameColumn";
+            this.stopNameColumn.ReadOnly = true;
+            this.stopNameColumn.Width = 200;
+            // 
+            // stopNaptanNameColumn
+            // 
+            this.stopNaptanNameColumn.DataPropertyName = "NaptanName";
+            dataGridViewCellStyle27.BackColor = System.Drawing.Color.LightCyan;
+            this.stopNaptanNameColumn.DefaultCellStyle = dataGridViewCellStyle27;
+            this.stopNaptanNameColumn.HeaderText = "Naptan Name";
+            this.stopNaptanNameColumn.Name = "stopNaptanNameColumn";
+            this.stopNaptanNameColumn.ReadOnly = true;
+            this.stopNaptanNameColumn.Width = 200;
+            // 
+            // stopMatchColumn
+            // 
+            this.stopMatchColumn.DataPropertyName = "NamesMatch";
+            this.stopMatchColumn.HeaderText = "Match";
+            this.stopMatchColumn.Name = "stopMatchColumn";
+            this.stopMatchColumn.ReadOnly = true;
+            this.stopMatchColumn.Width = 50;
             // 
             // MainForm
             // 
@@ -1222,6 +1374,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.fromToDataGridView)).EndInit();
             this.fromToControlsPanel.ResumeLayout(false);
             this.fromToControlsPanel.PerformLayout();
+            this.stopsTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.stopsDataGridView)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.statusGroupBox.ResumeLayout(false);
             this.statusGroupBox.PerformLayout();
             this.mainFormMenuStrip.ResumeLayout(false);
@@ -1325,6 +1481,18 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn routeRelatioNameFormattingColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
         private System.Windows.Forms.Button wikiTextButton;
+        private System.Windows.Forms.ToolStripMenuItem naptanStopsDownloadToolStripMenuItem;
+        private System.Windows.Forms.TabPage stopsTabPage;
+        private System.Windows.Forms.DataGridView stopsDataGridView;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox showMatchedStopsCheckBox;
+        private System.Windows.Forms.Label naptanDownloadedLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopTypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAtcoCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopNaptanNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn stopMatchColumn;
     }
 }
 
