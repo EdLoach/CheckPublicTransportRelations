@@ -855,6 +855,7 @@
             // 
             this.travelineStopsDataGridView.AllowUserToAddRows = false;
             this.travelineStopsDataGridView.AllowUserToDeleteRows = false;
+            this.travelineStopsDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             this.travelineStopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.travelineStopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.tndsStopPointRefColumn,

@@ -236,44 +236,6 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Event handler. Called by Copy for click events.</summary>
-        ///
-        /// <param name="sender">Source of the event.</param>
-        /// <param name="e">     Key event information.</param>
-        // ===========================================================================================================
-        private static void Copy_Click(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode != Keys.C || !e.Control)
-            {
-                return;
-            }
-
-            // copy logic
-            var dataGridView = (DataGridView)sender;
-            if (dataGridView == null)
-            {
-                return;
-            }
-
-            try
-            {
-                dataGridView.Select();
-                DataObject clipboardContent = dataGridView.GetClipboardContent();
-                if (clipboardContent != null)
-                {
-                    Clipboard.SetDataObject(clipboardContent);
-                }
-            }
-            catch (Exception exception)
-            {
-                // ignore the error
-                Debug.WriteLine(exception);
-            }
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
-        ///
         /// <summary>Gets data asynchronous.</summary>
         ///
         /// <param name="overPassQuery">The over pass query.</param>
@@ -706,8 +668,6 @@ namespace CheckPublicTransportRelations
             this.CompareResults();
             this.stopsDataGridView.DataSource = null;
             this.ExtractNaptanStops();
-            this.openStreetMapStopsDataGridView.KeyDown += Copy_Click;
-            this.travelineStopsDataGridView.KeyDown += Copy_Click;
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
             this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
             this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
