@@ -764,6 +764,10 @@ namespace CheckPublicTransportRelations
                     string routeRef = element.tags["ref"];
                     routesReferenceDictionary.Add(id, routeRef);
                 }
+                else
+                {
+                    routesReferenceDictionary.Add(id, string.Empty);
+                }
 
                 string routeOperator = element.tags["operator"] ?? string.Empty; 
                 routesOperatorDictionary.Add(id, routeOperator);
