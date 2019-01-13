@@ -501,7 +501,7 @@ namespace CheckPublicTransportRelations
                         var operatorNode = (XElement)operators.FirstNode;
                         foreach (XElement thing in operatorNode.Descendants())
                         {
-                            if (thing.Name.ToString().Contains("OperatorNameOnLicence")
+                            if (thing.Name.ToString().Contains("OperatorShortName")
                                 || thing.Name.ToString().Contains("TradingName"))
                             {
                                 routeMaster.Operator = thing.Value;
@@ -1658,54 +1658,68 @@ namespace CheckPublicTransportRelations
         private void ExtractNaptanStops()
         {
             string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
-            using (ZipArchive archive = ZipFile.OpenRead(fileName))
+            if (File.Exists(fileName))
             {
-                foreach (ZipArchiveEntry entry in archive.Entries)
+                using (ZipArchive archive = ZipFile.OpenRead(fileName))
                 {
-                    if (!entry.FullName.StartsWith("Stops.csv", StringComparison.OrdinalIgnoreCase))
+                    foreach (ZipArchiveEntry entry in archive.Entries)
                     {
-                        continue;
-                    }
-
-                    using (Stream stream = entry.Open())
-                    {
-                        using (var reader = new StreamReader(stream))
+                        if (!entry.FullName.StartsWith("Stops.csv", StringComparison.OrdinalIgnoreCase))
                         {
-                            string line;
-                            string columnHeadings = string.Empty;
-                            var atcoCodeIndex = 0;
-                            var commonNameIndex = 4;
-                            while ((line = reader.ReadLine()) != null)
-                            {
-                                if (columnHeadings == string.Empty)
-                                {
-                                    columnHeadings = line;
-                                    string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
-                                    atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
-                                    commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
-                                    if (atcoCodeIndex == -1 || commonNameIndex == -1)
-                                    {
-                                        break;
-                                    }
-                                }
-                                else
-                                {
-                                    string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
-                                    BusStop stop = this.OverpassBusStops.FirstOrDefault(i => i.AtcoCode == naptanStop[atcoCodeIndex]);
-                                    if (stop == null)
-                                    {
-                                        continue;
-                                    }
+                            continue;
+                        }
 
-                                    this.OverpassBusStops.Remove(stop);
-                                    stop.NaptanName = naptanStop[commonNameIndex];
-                                    this.OverpassBusStops.Add(stop);
+                        using (Stream stream = entry.Open())
+                        {
+                            using (var reader = new StreamReader(stream))
+                            {
+                                string line;
+                                string columnHeadings = string.Empty;
+                                var atcoCodeIndex = 0;
+                                var commonNameIndex = 4;
+                                while ((line = reader.ReadLine()) != null)
+                                {
+                                    if (columnHeadings == string.Empty)
+                                    {
+                                        columnHeadings = line;
+                                        string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
+                                        atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
+                                        commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
+                                        if (atcoCodeIndex == -1 || commonNameIndex == -1)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
+                                        BusStop stop = this.OverpassBusStops.FirstOrDefault(
+                                            i => i.AtcoCode == naptanStop[atcoCodeIndex]);
+                                        if (stop == null)
+                                        {
+                                            continue;
+                                        }
+
+                                        this.OverpassBusStops.Remove(stop);
+                                        string returnValue = naptanStop[commonNameIndex].Contains("(")
+                                                                 ? naptanStop[commonNameIndex].Substring(
+                                                                     0,
+                                                                     naptanStop[commonNameIndex].IndexOf("(", StringComparison.Ordinal) - 1).Trim()
+                                                                 : naptanStop[commonNameIndex];
+                                        if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                                        {
+                                            returnValue = returnValue.Substring(0, returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                                        }
+
+                                        stop.NaptanName = returnValue;
+                                        this.OverpassBusStops.Add(stop);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    break;
+                        break;
+                    }
                 }
             }
         }
@@ -1725,6 +1739,26 @@ namespace CheckPublicTransportRelations
             
             Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
             Settings.Default.Save();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 13 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by StopsDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void StopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.stopsDataGridView.Columns["stopIdColumn"] == null
+                || e.ColumnIndex != this.stopsDataGridView.Columns["stopIdColumn"].Index || e.RowIndex == -1)
+            {
+                return;
+            }
+
+            string value = "http://127.0.0.1:8111/load_object?new_layer=false&objects=n" + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            Process.Start(value);
         }
     }
 }

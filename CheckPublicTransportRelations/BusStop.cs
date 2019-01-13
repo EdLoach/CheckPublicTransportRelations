@@ -90,6 +90,7 @@ namespace CheckPublicTransportRelations
         /// <value>True if names match, false if not.</value>
         // ===========================================================================================================
         public bool NamesMatch => this.StopName.Contains(this.NaptanName
+                                                            .Replace(" Rdbt", " Roundabout")
                                                             .Replace(" Rd", " Road")
                                                             .Replace(" Ln"," Lane")
                                                             .Replace(" Gdns", " Gardens")

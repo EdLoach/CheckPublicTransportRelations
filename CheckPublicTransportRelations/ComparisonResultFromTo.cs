@@ -9,7 +9,6 @@
 namespace CheckPublicTransportRelations
 {
     using System;
-    using System.Collections.Generic;
 
     // ===========================================================================================================
     /// <createdBy>EdLoach - 5 January 2019 (1.0.0.0)</createdBy>
@@ -92,7 +91,21 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public string StopFrom
         {
-            get => this.stopFrom.Contains("(") ? this.stopFrom.Substring(0, this.stopFrom.IndexOf("(", StringComparison.Ordinal) - 1).Trim() : this.stopFrom;
+            get
+            {
+                string returnValue = this.stopFrom.Contains("(")
+                                         ? this.stopFrom.Substring(
+                                             0,
+                                             this.stopFrom.IndexOf("(", StringComparison.Ordinal) - 1).Trim()
+                                         : this.stopFrom;
+                if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                {
+                    return returnValue.Substring(0, returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                }
+
+                return returnValue;
+            }
+
             set => this.stopFrom = value;
         }
 
@@ -105,7 +118,21 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public string StopTo
         {
-            get => this.stopTo.Contains("(") ? this.stopTo.Substring(0, this.stopTo.IndexOf("(", StringComparison.Ordinal) - 1).Trim() : this.stopTo;
+            get
+            {
+                string returnValue = this.stopTo.Contains("(")
+                                         ? this.stopTo.Substring(
+                                             0,
+                                             this.stopTo.IndexOf("(", StringComparison.Ordinal) - 1).Trim()
+                                         : this.stopTo;
+                if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                {
+                    return returnValue.Substring(0, returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                }
+
+                return returnValue;
+            }
+
             set => this.stopTo = value;
         }
 

@@ -133,7 +133,7 @@
             this.stopsTabPage = new System.Windows.Forms.TabPage();
             this.stopsDataGridView = new System.Windows.Forms.DataGridView();
             this.stopTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.stopIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopIdColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.stopAtcoCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNaptanNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -1057,9 +1057,10 @@
             this.stopsDataGridView.Name = "stopsDataGridView";
             this.stopsDataGridView.ReadOnly = true;
             this.stopsDataGridView.RowHeadersVisible = false;
-            this.stopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.stopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.stopsDataGridView.Size = new System.Drawing.Size(990, 532);
             this.stopsDataGridView.TabIndex = 4;
+            this.stopsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.StopsDataGridView_CellContentClick);
             // 
             // stopTypeColumn
             // 
@@ -1081,6 +1082,8 @@
             this.stopIdColumn.HeaderText = "Id";
             this.stopIdColumn.Name = "stopIdColumn";
             this.stopIdColumn.ReadOnly = true;
+            this.stopIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.stopIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // stopAtcoCodeColumn
             // 
@@ -1489,7 +1492,7 @@
         private System.Windows.Forms.CheckBox showMatchedStopsCheckBox;
         private System.Windows.Forms.Label naptanDownloadedLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopTypeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn stopIdColumn;
+        private System.Windows.Forms.DataGridViewLinkColumn stopIdColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopAtcoCodeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNaptanNameColumn;
