@@ -114,8 +114,6 @@
             this.osmActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.travelineStopsGroupBox = new System.Windows.Forms.GroupBox();
             this.travelineStopsDataGridView = new System.Windows.Forms.DataGridView();
-            this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNamesPanel = new System.Windows.Forms.Panel();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
@@ -160,6 +158,8 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -871,21 +871,8 @@
             this.travelineStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.travelineStopsDataGridView.Size = new System.Drawing.Size(193, 513);
             this.travelineStopsDataGridView.TabIndex = 1;
+            this.travelineStopsDataGridView.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.TravelineStopsDataGridView_CellContentDoubleClick);
             this.travelineStopsDataGridView.SelectionChanged += new System.EventHandler(this.StopsDataGridView_SelectionChanged);
-            // 
-            // tndsStopPointRefColumn
-            // 
-            this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
-            this.tndsStopPointRefColumn.HeaderText = "Stop";
-            this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
-            this.tndsStopPointRefColumn.ReadOnly = true;
-            // 
-            // tndsActivityColumn
-            // 
-            this.tndsActivityColumn.DataPropertyName = "Activity";
-            this.tndsActivityColumn.HeaderText = "Activity";
-            this.tndsActivityColumn.Name = "tndsActivityColumn";
-            this.tndsActivityColumn.ReadOnly = true;
             // 
             // stopNamesPanel
             // 
@@ -1330,6 +1317,22 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
+            // tndsStopPointRefColumn
+            // 
+            this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
+            this.tndsStopPointRefColumn.HeaderText = "Stop (double-click)";
+            this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
+            this.tndsStopPointRefColumn.ReadOnly = true;
+            this.tndsStopPointRefColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.tndsStopPointRefColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // tndsActivityColumn
+            // 
+            this.tndsActivityColumn.DataPropertyName = "Activity";
+            this.tndsActivityColumn.HeaderText = "Activity";
+            this.tndsActivityColumn.Name = "tndsActivityColumn";
+            this.tndsActivityColumn.ReadOnly = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1470,8 +1473,6 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmStopPointRefColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmActivityColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tndsStopPointRefColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmOperatorColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsOperatorColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn routesOperatorsMatchColumn;
@@ -1497,6 +1498,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNaptanNameColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn stopMatchColumn;
+        private System.Windows.Forms.DataGridViewLinkColumn tndsStopPointRefColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
     }
 }
 

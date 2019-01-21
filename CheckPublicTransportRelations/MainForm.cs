@@ -1764,5 +1764,29 @@ namespace CheckPublicTransportRelations
             string value = "http://127.0.0.1:8111/load_object?new_layer=false&objects=n" + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 21 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content double click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
+        private void TravelineStopsDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // moved to double-click, so still possible to click and ctrl-C to paste reference in JOSM search box
+            // import doesn't zoom, so I envision this method as being used to add stops that are already in OSM but
+            // not in the currently downloaded data to the existing data layer (and a search for the AtcoCode will then find it)
+            if (this.travelineStopsDataGridView.Columns["tndsStopPointRefColumn"] == null
+                || e.ColumnIndex != this.travelineStopsDataGridView.Columns["tndsStopPointRefColumn"].Index || e.RowIndex == -1)
+            {
+                return;
+            }
+
+            string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Fxapi_meta%3F*%5Bnaptan%253AAtcoCode%253D" + this.travelineStopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "%5D";
+            Process.Start(value);
+        }
     }
 }
