@@ -96,6 +96,7 @@ namespace CheckPublicTransportRelations
                                                             .Replace(" Gdns", " Gardens")
                                                             .Replace(" Cotts", " Cottages")
                                                             .Replace(" Ave", " Avenue")
-                                                            .Replace(" Avenuenue", " Avenue"));
+                                                            .Replace(" Avenuenue", " Avenue")) 
+                                  && this.NaptanName.Length > 0;
     }
 }
