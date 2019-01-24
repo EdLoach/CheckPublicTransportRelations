@@ -25,7 +25,7 @@ namespace CheckPublicTransportRelations
             this.Description = @"New Location";
             this.BoundingBox = @"51.767,0.93,51.96,1.294";
             this.BusStopQuery = @"[out:json][timeout:25];(node[""naptan: AtcoCode""][!""railway""]({{bbox}}););out;>;out skel qt;";
-            this.TransportQuery = @"[out:json][timeout:25];((relation[""route""=""bus""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+            this.TransportQuery = @"[out:json][timeout:25];((node[""naptan:AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
         }
 
         // ===========================================================================================================

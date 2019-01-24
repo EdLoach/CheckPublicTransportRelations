@@ -167,7 +167,7 @@ namespace CheckPublicTransportRelations
                     BusStopQuery =
                             @"[out:json][timeout:25];area[official_name=""Tendring District""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                     TransportQuery =
-                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
                 });
             returnValue.Add(
                 new Location()
@@ -177,7 +177,17 @@ namespace CheckPublicTransportRelations
                     BusStopQuery =
                             @"[out:json][timeout:25];area[official_name=""Borough of Colchester""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                     TransportQuery =
-                            @"[out:json][timeout:35];area[official_name=""Borough of Colchester""]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                            @"[out:json][timeout:45];area[official_name=""Borough of Colchester""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                });
+            returnValue.Add(
+                new Location()
+                    {
+                        Description = @"Maldon (Essex) - Boundary Relation",
+                        BoundingBox = string.Empty,
+                        BusStopQuery =
+                            @"[out:json][timeout:25];area[council_name=""Maldon District Council""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                        TransportQuery =
+                            @"[out:json][timeout:45];area[council_name=""Maldon District Council""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
                 });
 
             Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
@@ -1785,7 +1795,28 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
+            // ReSharper disable once StringLiteralTypo
             string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Fxapi_meta%3F*%5Bnaptan%253AAtcoCode%253D" + this.travelineStopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value + "%5D";
+            Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 23 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by FromToDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void FromToDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.fromToDataGridView.Columns["fromToRelationColumn"] == null
+                || e.ColumnIndex != this.fromToDataGridView.Columns["fromToRelationColumn"].Index || e.RowIndex == -1)
+            {
+                return;
+            }
+
+            string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=r" + this.fromToDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
         }
     }

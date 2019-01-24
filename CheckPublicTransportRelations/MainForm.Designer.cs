@@ -119,7 +119,7 @@
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
             this.fromToDataGridView = new System.Windows.Forms.DataGridView();
             this.fromToServiceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.fromToRelationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.fromToRelationColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.fromToServiceFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fromToBusStopFromColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fromToFromNameFoundColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -926,6 +926,7 @@
             this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle22;
             this.fromToDataGridView.Size = new System.Drawing.Size(990, 532);
             this.fromToDataGridView.TabIndex = 0;
+            this.fromToDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FromToDataGridView_CellContentClick);
             // 
             // fromToServiceColumn
             // 
@@ -943,6 +944,8 @@
             this.fromToRelationColumn.HeaderText = "Id";
             this.fromToRelationColumn.Name = "fromToRelationColumn";
             this.fromToRelationColumn.ReadOnly = true;
+            this.fromToRelationColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.fromToRelationColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.fromToRelationColumn.Width = 70;
             // 
             // fromToServiceFromColumn
@@ -1320,7 +1323,7 @@
             // tndsStopPointRefColumn
             // 
             this.tndsStopPointRefColumn.DataPropertyName = "StopPointRef";
-            this.tndsStopPointRefColumn.HeaderText = "Stop (double-click)";
+            this.tndsStopPointRefColumn.HeaderText = "Stop (dbl-click)";
             this.tndsStopPointRefColumn.Name = "tndsStopPointRefColumn";
             this.tndsStopPointRefColumn.ReadOnly = true;
             this.tndsStopPointRefColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -1463,14 +1466,6 @@
         private System.Windows.Forms.DataGridView fromToDataGridView;
         private System.Windows.Forms.Panel fromToControlsPanel;
         private System.Windows.Forms.CheckBox fromToShowMatchedCheckBox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToRelationColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceFromColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopFromColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToFromNameFoundColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceToColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopToColumn;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmStopPointRefColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn osmActivityColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn routesOsmOperatorColumn;
@@ -1498,6 +1493,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn stopNaptanNameColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn stopMatchColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceColumn;
+        private System.Windows.Forms.DataGridViewLinkColumn fromToRelationColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceFromColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopFromColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToFromNameFoundColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceToColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn fromToBusStopToColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
         private System.Windows.Forms.DataGridViewLinkColumn tndsStopPointRefColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
     }
