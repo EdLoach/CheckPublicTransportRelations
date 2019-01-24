@@ -1660,6 +1660,10 @@ namespace CheckPublicTransportRelations
             Settings.Default.LastNaptanRefresh = DateTime.Today;
             Settings.Default.Save();
             this.RefreshStatus();
+            this.stopsDataGridView.DataSource = null;
+            this.ExtractNaptanStops();
+            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
+
             this.Enabled = true;
         }
 
