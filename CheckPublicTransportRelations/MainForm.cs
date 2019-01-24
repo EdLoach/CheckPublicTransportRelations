@@ -1783,7 +1783,6 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Data grid view cell event information.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void TravelineStopsDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // moved to double-click, so still possible to click and ctrl-C to paste reference in JOSM search box
@@ -1818,6 +1817,37 @@ namespace CheckPublicTransportRelations
 
             string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=r" + this.fromToDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by various DataGridViews for link cell formatting events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell formatting event information.</param>
+        // ===========================================================================================================
+        private void DataGridView_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var grid = (DataGridView)sender;
+            if (grid.Columns[e.ColumnIndex].GetType() != typeof(DataGridViewLinkColumn))
+            {
+                return;
+            }
+
+            if (grid.CurrentCell.ColumnIndex == e.ColumnIndex
+                && grid.CurrentCell.RowIndex == e.RowIndex)
+            {
+                ((DataGridViewLinkCell)grid.Rows[e.RowIndex].Cells[e.ColumnIndex]).LinkColor
+                    = SystemColors.HighlightText;
+            }
+            else
+            {
+                Color linkColor = ((DataGridViewLinkColumn)grid.Columns[e.ColumnIndex]).LinkColor;
+                Color visitedLinkColor = ((DataGridViewLinkColumn)grid.Columns[e.ColumnIndex]).LinkColor;
+                var cell = (DataGridViewLinkCell)grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                cell.LinkColor = cell.LinkVisited ? visitedLinkColor : linkColor;
+            }
         }
     }
 }
