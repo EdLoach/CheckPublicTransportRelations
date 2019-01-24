@@ -367,7 +367,9 @@ namespace CheckPublicTransportRelations
             this.Enabled = false;
             var extractRoutesForm = new ExtractRoutesForm(this.OverpassBusStops);
             extractRoutesForm.ShowDialog(this);
+            this.travelineDataGridView.DataSource = null;
             this.ExtractTravelineRoutes();
+            this.travelineDataGridView.DataSource = this.TravelineRoutes;
             this.RefreshStatus();
             this.CompareResults();
             this.Enabled = true;
@@ -921,10 +923,15 @@ namespace CheckPublicTransportRelations
 
             if (Directory.Exists(Settings.Default.LocalPath))
             {
-                this.travelineZipsLabel.Text = @"TNDS zips: " + Directory.GetFiles(
-                                                   Settings.Default.LocalPath,
-                                                   "*.zip",
-                                                   SearchOption.TopDirectoryOnly).Length;
+                int zipFiles = Directory.GetFiles(Settings.Default.LocalPath, "*.zip", SearchOption.TopDirectoryOnly)
+                    .Length;
+                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip")))
+                {
+                    // don't count Naptan zip as TNDS zip
+                    zipFiles -= 1;
+                }
+
+                this.travelineZipsLabel.Text = @"TNDS zips: " + zipFiles;
                 if (Settings.Default.LastTravelineDownload > DateTime.MinValue)
                 {
                     this.travelineLastDownloadedLabel.Text = @"Last downloaded: "
