@@ -221,17 +221,5 @@ namespace CheckPublicTransportRelations.Properties {
                 this["ShowMatchedStops"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("163")]
-        public int StopsSplitterDistance {
-            get {
-                return ((int)(this["StopsSplitterDistance"]));
-            }
-            set {
-                this["StopsSplitterDistance"] = value;
-            }
-        }
     }
 }

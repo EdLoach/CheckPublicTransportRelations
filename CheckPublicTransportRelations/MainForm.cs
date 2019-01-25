@@ -681,6 +681,7 @@ namespace CheckPublicTransportRelations
         {
             this.Locations = LoadLocations();
             this.SetLocation();
+            this.ReadBusStops();
             this.RouteBusStops = new List<BusStop>();
             this.FromToChecks = new List<ComparisonResultFromTo>();
             this.travelineDataGridView.AutoGenerateColumns = false;
@@ -706,8 +707,6 @@ namespace CheckPublicTransportRelations
             this.showMatchedStopsCheckBox.Checked = Settings.Default.ShowMatchedStops;
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
             this.highlightStopsComboBox.SelectedIndex = 0;
-            this.stopsSplitContainer.SplitterDistance = Settings.Default.StopsSplitterDistance;
-            this.stopsSplitContainer.SplitterMoved += this.StopsSplitContainer_SplitterMoved;
         }
 
         // ===========================================================================================================
@@ -880,9 +879,9 @@ namespace CheckPublicTransportRelations
                 Settings.Default.LastOpenStreetMapBusStopRefresh = DateTime.Today;
                 Settings.Default.Save();
                 this.stopsDataGridView.DataSource = null;
+                this.RefreshStatus();
                 this.ExtractNaptanStops();
                 this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
-                this.RefreshStatus();
             }
             catch (HttpRequestException exception)
             {
@@ -916,23 +915,6 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void RefreshStatus()
         {
-            var overpassBusStops = new List<BusStop>();
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmBusStops.json");
-            if (File.Exists(fileName))
-            {
-                dynamic stops = JToken.Parse(File.ReadAllText(fileName));
-                foreach (dynamic element in stops.elements)
-                {
-                    string type = element.type;
-                    long id = element.id;
-                    string atcoCode = element.tags["naptan:AtcoCode"];
-                    string stopName = element.tags["name"];
-                    var busStop = new BusStop(type, id, atcoCode, stopName);
-                    overpassBusStops.Add(busStop);
-                }
-            }
-
-            this.OverpassBusStops = overpassBusStops;
             this.naptanDownloadedLabel.Text =
                 @"Naptan Downloaded: " + Settings.Default.LastNaptanRefresh.ToLongDateString();
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
@@ -983,6 +965,27 @@ namespace CheckPublicTransportRelations
                                                                  .ToLongDateString() + @" " + Settings.Default.LastOpenStreetMapDownload
                                                                  .ToShortTimeString();
             }
+        }
+
+        private void ReadBusStops()
+        {
+            var overpassBusStops = new List<BusStop>();
+            string fileName = Path.Combine(Application.LocalUserAppDataPath, "OsmBusStops.json");
+            if (File.Exists(fileName))
+            {
+                dynamic stops = JToken.Parse(File.ReadAllText(fileName));
+                foreach (dynamic element in stops.elements)
+                {
+                    string type = element.type;
+                    long id = element.id;
+                    string atcoCode = element.tags["naptan:AtcoCode"];
+                    string stopName = element.tags["name"];
+                    var busStop = new BusStop(type, id, atcoCode, stopName);
+                    overpassBusStops.Add(busStop);
+                }
+            }
+
+            this.OverpassBusStops = overpassBusStops;
         }
 
         // ===========================================================================================================
@@ -1544,24 +1547,23 @@ namespace CheckPublicTransportRelations
         {
             string openStreetMapStopName = string.Empty;
             string travelineStopName = string.Empty;
-            List<BusStop> busStops = this.RouteBusStops;
             if (this.openStreetMapStopsDataGridView.SelectedCells.Count > 0)
             {
-                if (busStops != null)
+                if (this.OverpassBusStops != null)
                 {
-                    openStreetMapStopName = busStops.FirstOrDefault(
-                            item => item.AtcoCode == this.openStreetMapStopsDataGridView.SelectedCells[0].Value.ToString())
-                        ?.StopName;
+                    openStreetMapStopName = this.OverpassBusStops.FirstOrDefault(
+                            item => item.AtcoCode == ((JourneyStop)this.openStreetMapStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
+                        ?.JourneyStopName;
                 }
             }
 
             if (this.travelineStopsDataGridView.SelectedCells.Count > 0)
             {
-                if (busStops != null)
+                if (this.OverpassBusStops != null)
                 {
-                    travelineStopName = busStops.FirstOrDefault(
-                            item => item.AtcoCode == this.travelineStopsDataGridView.SelectedCells[0].Value.ToString())
-                        ?.StopName;
+                    travelineStopName = this.OverpassBusStops.FirstOrDefault(
+                            item => item.AtcoCode == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
+                        ?.JourneyStopName;
                 }
             }
 
@@ -1822,6 +1824,7 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Data grid view cell event information.</param>
         // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
         private void TravelineStopsDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // moved to double-click, so still possible to click and ctrl-C to paste reference in JOSM search box
@@ -1887,20 +1890,6 @@ namespace CheckPublicTransportRelations
                 var cell = (DataGridViewLinkCell)grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 cell.LinkColor = cell.LinkVisited ? visitedLinkColor : linkColor;
             }
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
-        ///
-        /// <summary>Event handler. Called by StopsSplitContainer for splitter moved events.</summary>
-        ///
-        /// <param name="sender">Source of the event.</param>
-        /// <param name="e">     Event information.</param>
-        // ===========================================================================================================
-        private void StopsSplitContainer_SplitterMoved(object sender, SplitterEventArgs e)
-        {
-            Settings.Default.StopsSplitterDistance = this.stopsSplitContainer.SplitterDistance;
-            Settings.Default.Save();
         }
     }
 }

@@ -120,5 +120,15 @@ namespace CheckPublicTransportRelations
                                                             .Replace(" Ave", " Avenue")
                                                             .Replace(" Avenuenue", " Avenue")) 
                                   && this.NaptanName.Length > 0;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets the name of the journey stop.</summary>
+        ///
+        /// <value>The name of the journey stop.</value>
+        // ===========================================================================================================
+        public string JourneyStopName =>
+            this.StopName + " (" + this.NaptanBusStopType + "/" + this.NaptanStatus + ")";
     }
 }
