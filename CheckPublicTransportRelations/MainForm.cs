@@ -681,7 +681,6 @@ namespace CheckPublicTransportRelations
         {
             this.Locations = LoadLocations();
             this.SetLocation();
-            this.ReadBusStops();
             this.RouteBusStops = new List<BusStop>();
             this.FromToChecks = new List<ComparisonResultFromTo>();
             this.travelineDataGridView.AutoGenerateColumns = false;
@@ -693,6 +692,7 @@ namespace CheckPublicTransportRelations
             this.travelineStopsDataGridView.AutoGenerateColumns = false;
             this.stopsDataGridView.AutoGenerateColumns = false;
             this.ComparisonResults = new List<ComparisonResultService>();
+            this.ReadBusStops();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
@@ -967,6 +967,11 @@ namespace CheckPublicTransportRelations
             }
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Reads bus stops.</summary>
+        // ===========================================================================================================
         private void ReadBusStops()
         {
             var overpassBusStops = new List<BusStop>();
@@ -1551,7 +1556,7 @@ namespace CheckPublicTransportRelations
             {
                 if (this.OverpassBusStops != null)
                 {
-                    openStreetMapStopName = this.OverpassBusStops.FirstOrDefault(
+                    openStreetMapStopName = this.RouteBusStops.FirstOrDefault(
                             item => item.AtcoCode == ((JourneyStop)this.openStreetMapStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
                         ?.JourneyStopName;
                 }
@@ -1561,7 +1566,7 @@ namespace CheckPublicTransportRelations
             {
                 if (this.OverpassBusStops != null)
                 {
-                    travelineStopName = this.OverpassBusStops.FirstOrDefault(
+                    travelineStopName = this.RouteBusStops.FirstOrDefault(
                             item => item.AtcoCode == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
                         ?.JourneyStopName;
                 }
@@ -1748,26 +1753,53 @@ namespace CheckPublicTransportRelations
                                         string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
                                         BusStop stop = this.OverpassBusStops.FirstOrDefault(
                                             i => i.AtcoCode == naptanStop[atcoCodeIndex]);
-                                        if (stop == null)
+                                        if (stop != null)
                                         {
-                                            continue;
+                                            this.OverpassBusStops.Remove(stop);
+                                            string returnValue = naptanStop[commonNameIndex].Contains("(")
+                                                                     ? naptanStop[commonNameIndex].Substring(
+                                                                         0,
+                                                                         naptanStop[commonNameIndex].IndexOf(
+                                                                             "(",
+                                                                             StringComparison.Ordinal) - 1).Trim()
+                                                                     : naptanStop[commonNameIndex];
+                                            if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                                            {
+                                                returnValue = returnValue.Substring(
+                                                    0,
+                                                    returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                                            }
+
+                                            stop.NaptanName = returnValue;
+                                            stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
+                                            stop.NaptanStatus = naptanStop[statusIndex];
+                                            this.OverpassBusStops.Add(stop);
                                         }
 
-                                        this.OverpassBusStops.Remove(stop);
-                                        string returnValue = naptanStop[commonNameIndex].Contains("(")
-                                                                 ? naptanStop[commonNameIndex].Substring(
-                                                                     0,
-                                                                     naptanStop[commonNameIndex].IndexOf("(", StringComparison.Ordinal) - 1).Trim()
-                                                                 : naptanStop[commonNameIndex];
-                                        if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                                        stop = this.RouteBusStops.FirstOrDefault(
+                                            i => i.AtcoCode == naptanStop[atcoCodeIndex]);
+                                        if (stop != null)
                                         {
-                                            returnValue = returnValue.Substring(0, returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
-                                        }
+                                            this.RouteBusStops.Remove(stop);
+                                            string returnValue = naptanStop[commonNameIndex].Contains("(")
+                                                                     ? naptanStop[commonNameIndex].Substring(
+                                                                         0,
+                                                                         naptanStop[commonNameIndex].IndexOf(
+                                                                             "(",
+                                                                             StringComparison.Ordinal) - 1).Trim()
+                                                                     : naptanStop[commonNameIndex];
+                                            if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                                            {
+                                                returnValue = returnValue.Substring(
+                                                    0,
+                                                    returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                                            }
 
-                                        stop.NaptanName = returnValue;
-                                        stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
-                                        stop.NaptanStatus = naptanStop[statusIndex];
-                                        this.OverpassBusStops.Add(stop);
+                                            stop.NaptanName = returnValue;
+                                            stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
+                                            stop.NaptanStatus = naptanStop[statusIndex];
+                                            this.RouteBusStops.Add(stop);
+                                        }
                                     }
                                 }
                             }
