@@ -182,12 +182,32 @@ namespace CheckPublicTransportRelations
             returnValue.Add(
                 new Location()
                     {
+                        Description = @"Tendring/Colchester",
+                        BoundingBox = string.Empty,
+                        BusStopQuery =
+                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                        TransportQuery =
+                            @"[out:json][timeout:45];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);<<;)->.c;relation.c[""route""!=""bus""];(._;>>;);out;"
+                });
+            returnValue.Add(
+                new Location()
+                    {
                         Description = @"Maldon (Essex) - Boundary Relation",
                         BoundingBox = string.Empty,
                         BusStopQuery =
                             @"[out:json][timeout:25];area[council_name=""Maldon District Council""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
                             @"[out:json][timeout:45];area[council_name=""Maldon District Council""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                });
+            returnValue.Add(
+                new Location()
+                    {
+                        Description = @"Tendring/Colchester/Maldon",
+                        BoundingBox = string.Empty,
+                        BusStopQuery =
+                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                        TransportQuery =
+                            @"[out:json][timeout:45];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);<<;)->.d;relation.d[""route""!=""bus""];(._;>>;);out;"
                 });
 
             Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
