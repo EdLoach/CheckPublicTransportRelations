@@ -53,5 +53,8 @@
     <Setting Name="ShowMatchedStops" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="StopsSplitterDistance" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">163</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -116,6 +116,8 @@
             this.travelineStopsDataGridView = new System.Windows.Forms.DataGridView();
             this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tndsStopStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tndsStopTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNamesPanel = new System.Windows.Forms.Panel();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
@@ -859,7 +861,9 @@
             this.travelineStopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.travelineStopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.tndsStopPointRefColumn,
-            this.tndsActivityColumn});
+            this.tndsActivityColumn,
+            this.tndsStopStatusColumn,
+            this.tndsStopTypeColumn});
             this.travelineStopsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.travelineStopsDataGridView.Location = new System.Drawing.Point(3, 16);
             this.travelineStopsDataGridView.MultiSelect = false;
@@ -890,6 +894,22 @@
             this.tndsActivityColumn.HeaderText = "Activity";
             this.tndsActivityColumn.Name = "tndsActivityColumn";
             this.tndsActivityColumn.ReadOnly = true;
+            // 
+            // tndsStopStatusColumn
+            // 
+            this.tndsStopStatusColumn.DataPropertyName = "NaptanStatus";
+            this.tndsStopStatusColumn.HeaderText = "Status";
+            this.tndsStopStatusColumn.Name = "tndsStopStatusColumn";
+            this.tndsStopStatusColumn.ReadOnly = true;
+            this.tndsStopStatusColumn.Width = 50;
+            // 
+            // tndsStopTypeColumn
+            // 
+            this.tndsStopTypeColumn.DataPropertyName = "NaptanBusStopType";
+            this.tndsStopTypeColumn.HeaderText = "Type";
+            this.tndsStopTypeColumn.Name = "tndsStopTypeColumn";
+            this.tndsStopTypeColumn.ReadOnly = true;
+            this.tndsStopTypeColumn.Width = 50;
             // 
             // stopNamesPanel
             // 
@@ -1506,6 +1526,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn fromToToNameFoundColumn;
         private System.Windows.Forms.DataGridViewLinkColumn tndsStopPointRefColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn tndsActivityColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tndsStopStatusColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn tndsStopTypeColumn;
     }
 }
 

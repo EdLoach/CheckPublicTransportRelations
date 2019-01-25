@@ -34,7 +34,29 @@ namespace CheckPublicTransportRelations
             this.AtcoCode = elementAtcoCode;
             this.StopName = stopName;
             this.NaptanName = string.Empty;
+            this.NaptanStatus = string.Empty;
+            this.NaptanBusStopType = string.Empty;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the type of the naptan bus stop.</summary>
+        ///
+        /// <value>The type of the naptan bus stop.</value>
+        // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
+        public string NaptanBusStopType { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the naptan status.</summary>
+        ///
+        /// <value>The naptan status.</value>
+        // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
+        public string NaptanStatus { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>

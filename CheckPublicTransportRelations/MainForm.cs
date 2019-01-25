@@ -686,6 +686,8 @@ namespace CheckPublicTransportRelations
             this.showMatchedStopsCheckBox.Checked = Settings.Default.ShowMatchedStops;
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked ? this.OverpassBusStops : this.OverpassBusStops.Where(item => (item.NamesMatch == false)).ToList();
             this.highlightStopsComboBox.SelectedIndex = 0;
+            this.stopsSplitContainer.SplitterDistance = Settings.Default.StopsSplitterDistance;
+            this.stopsSplitContainer.SplitterMoved += this.StopsSplitContainer_SplitterMoved;
         }
 
         // ===========================================================================================================
@@ -1702,6 +1704,8 @@ namespace CheckPublicTransportRelations
                                 string columnHeadings = string.Empty;
                                 var atcoCodeIndex = 0;
                                 var commonNameIndex = 4;
+                                var busStopTypeIndex = 32;
+                                var statusIndex = 42;
                                 while ((line = reader.ReadLine()) != null)
                                 {
                                     if (columnHeadings == string.Empty)
@@ -1710,6 +1714,8 @@ namespace CheckPublicTransportRelations
                                         string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
                                         atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
                                         commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
+                                        busStopTypeIndex = Array.IndexOf(columnHeading, "BusStopType");
+                                        statusIndex = Array.IndexOf(columnHeading, "Status");
                                         if (atcoCodeIndex == -1 || commonNameIndex == -1)
                                         {
                                             break;
@@ -1737,6 +1743,8 @@ namespace CheckPublicTransportRelations
                                         }
 
                                         stop.NaptanName = returnValue;
+                                        stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
+                                        stop.NaptanStatus = naptanStop[statusIndex];
                                         this.OverpassBusStops.Add(stop);
                                     }
                                 }
@@ -1859,6 +1867,20 @@ namespace CheckPublicTransportRelations
                 var cell = (DataGridViewLinkCell)grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 cell.LinkColor = cell.LinkVisited ? visitedLinkColor : linkColor;
             }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by StopsSplitContainer for splitter moved events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void StopsSplitContainer_SplitterMoved(object sender, SplitterEventArgs e)
+        {
+            Settings.Default.StopsSplitterDistance = this.stopsSplitContainer.SplitterDistance;
+            Settings.Default.Save();
         }
     }
 }
