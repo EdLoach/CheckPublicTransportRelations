@@ -664,6 +664,7 @@ namespace CheckPublicTransportRelations
             this.RefreshStatus();
             this.openStreetMapDataGridView.DataSource = null;
             this.ExtractOpenStreetMapRoutes();
+            this.ExtractNaptanStops();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.CompareResults();
             this.Enabled = true;
