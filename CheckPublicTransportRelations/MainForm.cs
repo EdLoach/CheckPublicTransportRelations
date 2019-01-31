@@ -458,6 +458,10 @@ namespace CheckPublicTransportRelations
                                         }
 
                                         journeyPattern.JourneyStops.Add(journeyStop);
+                                        if (!this.TravelineStops.Contains(journeyStop.StopPointRef))
+                                        {
+                                            this.TravelineStops.Add(journeyStop.StopPointRef);
+                                        }
                                     }
 
                                     journeyStop = new JourneyStop();
@@ -612,6 +616,11 @@ namespace CheckPublicTransportRelations
                                             || !routeRoute.Stops[routeRoute.Stops.Count - 1].Equals(stop))
                                         {
                                             routeRoute.Stops.Add(stop);
+                                        }
+
+                                        if (!this.TravelineStops.Contains(stop.StopPointRef))
+                                        {
+                                            this.TravelineStops.Add(stop.StopPointRef);
                                         }
                                     }
                                 }
@@ -1577,7 +1586,7 @@ namespace CheckPublicTransportRelations
             {
                 if (this.OverpassBusStops != null)
                 {
-                    openStreetMapStopName = this.RouteBusStops.FirstOrDefault(
+                    openStreetMapStopName = this.NaptanStops.FirstOrDefault(
                             item => item.AtcoCode == ((JourneyStop)this.openStreetMapStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
                         ?.JourneyStopName;
                 }
@@ -1587,7 +1596,7 @@ namespace CheckPublicTransportRelations
             {
                 if (this.OverpassBusStops != null)
                 {
-                    travelineStopName = this.RouteBusStops.FirstOrDefault(
+                    travelineStopName = this.NaptanStops.FirstOrDefault(
                             item => item.AtcoCode == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem).StopPointRef)
                         ?.JourneyStopName;
                 }
@@ -1795,6 +1804,7 @@ namespace CheckPublicTransportRelations
 
             if (File.Exists(areaFileName))
             {
+                this.NaptanStops = new List<BusStop>();
                 using (var reader = new StreamReader(areaFileName))
                 { 
                     string line;
@@ -1822,62 +1832,51 @@ namespace CheckPublicTransportRelations
                         else
                         {
                             string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
+                            string returnValue = naptanStop[commonNameIndex].Contains("(")
+                                                     ? naptanStop[commonNameIndex].Substring(
+                                                         0,
+                                                         naptanStop[commonNameIndex].IndexOf(
+                                                             "(",
+                                                             StringComparison.Ordinal) - 1).Trim()
+                                                     : naptanStop[commonNameIndex];
+                            if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
+                            {
+                                returnValue = returnValue.Substring(
+                                        0,
+                                        returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1)
+                                    .Trim();
+                            }
+
+                            var newNaptanStop = new BusStop("node", -1, naptanStop[atcoCodeIndex], returnValue);
+                            newNaptanStop.NaptanName = returnValue;
+                            newNaptanStop.NaptanBusStopType = naptanStop[busStopTypeIndex];
+                            newNaptanStop.NaptanStatus = naptanStop[statusIndex];
+                            this.NaptanStops.Add(newNaptanStop);
+
                             BusStop stop = this.OverpassBusStops.FirstOrDefault(
                                 i => i.AtcoCode == naptanStop[atcoCodeIndex]);
                             if (stop != null)
                             {
                                 this.OverpassBusStops.Remove(stop);
-                                string returnValue = naptanStop[commonNameIndex].Contains("(")
-                                                         ? naptanStop[commonNameIndex].Substring(
-                                                             0,
-                                                             naptanStop[commonNameIndex].IndexOf(
-                                                                 "(",
-                                                                 StringComparison.Ordinal) - 1).Trim()
-                                                         : naptanStop[commonNameIndex];
-                                if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
-                                {
-                                    returnValue = returnValue.Substring(
-                                            0,
-                                            returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1)
-                                        .Trim();
-                                }
-
                                 stop.NaptanName = returnValue;
                                 stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
                                 stop.NaptanStatus = naptanStop[statusIndex];
                                 this.OverpassBusStops.Add(stop);
-                            }
-
-                            stop = this.RouteBusStops.FirstOrDefault(
-                                i => i.AtcoCode == naptanStop[atcoCodeIndex]);
-                            if (stop != null)
-                            {
-                                this.RouteBusStops.Remove(stop);
-                                string returnValue = naptanStop[commonNameIndex].Contains("(")
-                                                         ? naptanStop[commonNameIndex].Substring(
-                                                             0,
-                                                             naptanStop[commonNameIndex].IndexOf(
-                                                                 "(",
-                                                                 StringComparison.Ordinal) - 1).Trim()
-                                                         : naptanStop[commonNameIndex];
-                                if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
-                                {
-                                    returnValue = returnValue.Substring(
-                                            0,
-                                            returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1)
-                                        .Trim();
-                                }
-
-                                stop.NaptanName = returnValue;
-                                stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
-                                stop.NaptanStatus = naptanStop[statusIndex];
-                                this.RouteBusStops.Add(stop);
                             }
                         }
                     }
                 }
             }
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 30 January 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the naptan stops.</summary>
+        ///
+        /// <value>The naptan stops.</value>
+        // ===========================================================================================================
+        public List<BusStop> NaptanStops { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
