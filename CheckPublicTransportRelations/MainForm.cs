@@ -900,15 +900,15 @@ namespace CheckPublicTransportRelations
                                                     };
                             this.NaptanStops.Add(newNaptanStop);
 
-                            BusStop stop = this.OverpassBusStops.FirstOrDefault(
+                            BusStop stop = this.RouteBusStops.FirstOrDefault(
                                 i => i.AtcoCode == naptanStop[atcoCodeIndex]);
                             if (stop != null)
                             {
-                                this.OverpassBusStops.Remove(stop);
+                                this.RouteBusStops.Remove(stop);
                                 stop.NaptanName = returnValue;
                                 stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
                                 stop.NaptanStatus = naptanStop[statusIndex];
-                                this.OverpassBusStops.Add(stop);
+                                this.RouteBusStops.Add(stop);
                             }
                         }
                     }
@@ -1458,8 +1458,8 @@ namespace CheckPublicTransportRelations
             this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
             this.showMatchedStopsCheckBox.Checked = Settings.Default.ShowMatchedStops;
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.OverpassBusStops
-                                                    : this.OverpassBusStops.Where(item => item.NamesMatch == false)
+                                                    ? this.RouteBusStops
+                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
                                                         .ToList();
             this.highlightStopsComboBox.SelectedIndex = 0;
         }
@@ -1497,8 +1497,8 @@ namespace CheckPublicTransportRelations
             this.stopsDataGridView.DataSource = null;
             this.ExtractNaptanStops();
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.OverpassBusStops
-                                                    : this.OverpassBusStops.Where(item => item.NamesMatch == false)
+                                                    ? this.RouteBusStops
+                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
                                                         .ToList();
 
             this.Enabled = true;
@@ -1555,8 +1555,8 @@ namespace CheckPublicTransportRelations
                 this.RefreshStatus();
                 this.ExtractNaptanStops();
                 this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                        ? this.OverpassBusStops
-                                                        : this.OverpassBusStops.Where(item => item.NamesMatch == false)
+                                                        ? this.RouteBusStops
+                                                        : this.RouteBusStops.Where(item => item.NamesMatch == false)
                                                             .ToList();
             }
             catch (HttpRequestException exception)
@@ -1896,8 +1896,8 @@ namespace CheckPublicTransportRelations
         {
             this.stopsDataGridView.DataSource = null;
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.OverpassBusStops
-                                                    : this.OverpassBusStops.Where(item => item.NamesMatch == false)
+                                                    ? this.RouteBusStops
+                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
                                                         .ToList();
 
             Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
