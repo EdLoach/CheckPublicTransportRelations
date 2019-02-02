@@ -22,3 +22,7 @@ Unfortunately this doesn't make the task of adding services or route variants fo
 The NapTan Stops.csv can be useful for finding details of new bus stops that feature in routes from the TNDS information. That is available from here:
 https://data.gov.uk/dataset/ff93ffc1-6656-47d8-9155-85ea0b8f2251/national-public-transport-access-nodes-naptan
 Since writing the above, I've added an option to download the Naptan stops and they are used to compare names between OSM and NapTan with a few hard-coded rules that work for me locally (ignore stuff after an opening bracket, or anything after " - " except for "Co - Op", and expand abbreviations found in NapTan such as Rdbt Rd Ave etc). I'm still considering adding something to validate stop area names match updated stop names.
+
+<h2>WinSCP</h2>
+
+This utility uses WinSCP for ftp transfers. WinSCP.exe is licenced GPL 3 and WinSCPnet.dll is licenced MPL 2.0 - details available at https://winscp.net/eng/docs/license
