@@ -1649,6 +1649,7 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void RefreshStatus()
         {
+            this.statusGroupBox.Text = @"Status - " + this.SelectedLocation.Description;
             this.naptanDownloadedLabel.Text =
                 @"Naptan Downloaded: " + Settings.Default.LastNaptanRefresh.ToLongDateString();
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
