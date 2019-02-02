@@ -834,7 +834,7 @@ namespace CheckPublicTransportRelations
             string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
             Directory.CreateDirectory(areaPath);
             string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
-            if (File.Exists(fileName) && !File.Exists(areaFileName))
+            if (File.Exists(fileName) && !File.Exists(areaFileName) && this.TravelineStops.Count > 0)
             {
                 using (ZipArchive archive = ZipFile.OpenRead(fileName))
                 {
