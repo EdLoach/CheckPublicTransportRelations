@@ -299,7 +299,10 @@ namespace CheckPublicTransportRelations
                 long id = element.id;
                 string atcoCode = element.tags["naptan:AtcoCode"];
                 string stopName = element.tags["name"];
-                var busStop = new BusStop(type, id, atcoCode, stopName);
+                string naptanCode = element.tags["naptan:NaptanCode"];
+                string stopStatus = element.tags["naptan:Status"];
+                string busStopType = element.tags["naptan:BusStopType"];
+                var busStop = new BusStop(type, id, atcoCode, stopName, naptanCode, stopStatus, busStopType);
                 overpassBusStops.Add(busStop);
             }
 
@@ -937,14 +940,14 @@ namespace CheckPublicTransportRelations
                                     returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
                             }
 
-                            var newNaptanStop = new BusStop("node", -1, naptanStop[atcoCodeIndex], returnValue)
+                            var newNaptanStop = new BusStop("node", -1, naptanStop[atcoCodeIndex], returnValue, naptanStop[naptanCodeIndex], naptanStop[statusIndex], naptanStop[busStopTypeIndex])
                                                     {
                                                         NaptanName = returnValue,
                                                         NaptanBusStopType = naptanStop[busStopTypeIndex],
                                                         NaptanStatus = naptanStop[statusIndex],
                                                         Latitude = decimal.Parse(naptanStop[latitudeIndex]),
                                                         Longitude = decimal.Parse(naptanStop[longitudeIndex]),
-                                                        NaptanCode = naptanStop[naptanCodeIndex]
+                                                        NaptanNaptanCode = naptanStop[naptanCodeIndex]
                                                     };
                             this.NaptanStops.Add(newNaptanStop);
 
@@ -958,7 +961,7 @@ namespace CheckPublicTransportRelations
                                 stop.NaptanStatus = naptanStop[statusIndex];
                                 stop.Latitude = decimal.Parse(naptanStop[latitudeIndex]);
                                 stop.Longitude = decimal.Parse(naptanStop[longitudeIndex]);
-                                stop.NaptanCode = naptanStop[naptanCodeIndex];
+                                stop.NaptanNaptanCode = naptanStop[naptanCodeIndex];
                                 this.RouteBusStops.Add(stop);
                             }
                         }
@@ -1006,18 +1009,24 @@ namespace CheckPublicTransportRelations
                     {
                         string atcoCode = element.tags["naptan:AtcoCode"];
                         string stopName = element.tags["name"];
+                        string naptanCode = element.tags["naptan:NaptanCode"];
+                        string stopStatus = element.tags["naptan:Status"];
+                        string busStopType = element.tags["naptan:BusStopType"];
                         if (atcoCode.Length > 0)
                         {
                             stopsDictionary.Add(nodeId, atcoCode);
                         }
 
-                        routeBusStops.Add(new BusStop("node", nodeId, atcoCode, stopName));
+                        routeBusStops.Add(new BusStop("node", nodeId, atcoCode, stopName, naptanCode, stopStatus, busStopType));
                     }
                     else if (element.tags != null && element.tags["public_transport"] == "platform")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
                         string stopName = element.tags["name"];
-                        routeBusStops.Add(new BusStop("node", nodeId, string.Empty, stopName));
+                        string naptanCode = element.tags["naptan:NaptanCode"];
+                        string stopStatus = element.tags["naptan:Status"];
+                        string busStopType = element.tags["naptan:BusStopType"];
+                        routeBusStops.Add(new BusStop("node", nodeId, string.Empty, stopName, naptanCode, stopStatus, busStopType));
                     }
                 }
 
@@ -1454,10 +1463,7 @@ namespace CheckPublicTransportRelations
             this.ExtractOpenStreetMapRoutes();
             this.ExtractNaptanStops();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
-            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.RouteBusStops
-                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
-                                                        .ToList();
+            this.RefreshStopsGrid();
             this.CompareResults();
             this.Enabled = true;
         }
@@ -1516,15 +1522,12 @@ namespace CheckPublicTransportRelations
             this.ExtractOpenStreetMapRoutes();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.CompareResults();
-            this.stopsDataGridView.DataSource = null;
             this.ExtractNaptanStops();
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
             this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
             this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
             this.showMatchedStopsCheckBox.Checked = Settings.Default.ShowMatchedStops;
-            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.RouteBusStops
-                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false).ToList();
+            this.RefreshStopsGrid();
             this.highlightStopsComboBox.SelectedIndex = 0;
         }
 
@@ -1564,12 +1567,8 @@ namespace CheckPublicTransportRelations
             Settings.Default.LastNaptanRefresh = DateTime.Today;
             Settings.Default.Save();
             this.RefreshStatus();
-            this.stopsDataGridView.DataSource = null;
             this.ExtractNaptanStops();
-            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.RouteBusStops
-                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
-                                                        .ToList();
+            this.RefreshStopsGrid();
 
             this.Enabled = true;
         }
@@ -1592,7 +1591,10 @@ namespace CheckPublicTransportRelations
                     long id = element.id;
                     string atcoCode = element.tags["naptan:AtcoCode"];
                     string stopName = element.tags["name"];
-                    var busStop = new BusStop(type, id, atcoCode, stopName);
+                    string naptanCode = element.tags["naptan:NaptanCode"];
+                    string stopStatus = element.tags["naptan:Status"];
+                    string busStopType = element.tags["naptan:BusStopType"];
+                    var busStop = new BusStop(type, id, atcoCode, stopName, naptanCode, stopStatus, busStopType);
                     overpassBusStops.Add(busStop);
                 }
             }
@@ -1621,13 +1623,9 @@ namespace CheckPublicTransportRelations
                 this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
                 this.SelectedLocation.LastOpenStreetMapBusStopRefresh = DateTime.Today;
                 this.Locations.Save();
-                this.stopsDataGridView.DataSource = null;
                 this.RefreshStatus();
                 this.ExtractNaptanStops();
-                this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                        ? this.RouteBusStops
-                                                        : this.RouteBusStops.Where(item => item.NamesMatch == false)
-                                                            .ToList();
+                this.RefreshStopsGrid();
             }
             catch (HttpRequestException exception)
             {
@@ -1970,15 +1968,26 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void ShowMatchedStopsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            this.stopsDataGridView.DataSource = null;
-            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
-                                                    ? this.RouteBusStops
-                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
-                                                        .ToList();
+            this.RefreshStopsGrid();
             this.downloadUnmatchedStopsButton.Visible =
                 !this.showMatchedStopsCheckBox.Checked && this.stopsDataGridView.Rows.Count > 0;
             Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
             Settings.Default.Save();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Refresh stops grid.</summary>
+        // ===========================================================================================================
+        private void RefreshStopsGrid()
+        {
+            this.stopsDataGridView.DataSource = null;
+            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
+                                                    ? this.RouteBusStops
+                                                    : this.RouteBusStops.Where(
+                                                        item => item.NamesMatch == false || item.StatusesMatch == false
+                                                                                         || item.TypesMatch == false).ToList();
         }
 
         // ===========================================================================================================
@@ -2216,7 +2225,7 @@ namespace CheckPublicTransportRelations
             remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.AtcoCode));
             remoteCommand.Append(HttpUtility.UrlEncode("|"));
             remoteCommand.Append(HttpUtility.UrlEncode("naptan:NaptanCode="));
-            remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanCode));
+            remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanNaptanCode));
             if (naptanStop.NaptanBusStopType != "MKD")
             {
                 remoteCommand.Append(HttpUtility.UrlEncode("|"));
@@ -2244,12 +2253,20 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void DownloadUnmatchedStopsButton_Click(object sender, EventArgs e)
         {
-            if (this.showMatchedStopsCheckBox.Checked != false || this.stopsDataGridView.Rows.Count <= 0)
+            if (this.showMatchedStopsCheckBox.Checked || this.stopsDataGridView.Rows.Count <= 0)
             {
                 return;
             }
 
-            string value = this.stopsDataGridView.Rows.Cast<DataGridViewRow>().Aggregate("http://127.0.0.1:8111/load_object?new_layer=false&objects=", (current, row) => current + "n" + row.Cells[this.stopsDataGridView.Columns["stopIdColumn"].Index].Value + ",");
+            if (this.stopsDataGridView.Columns["stopIdColumn"] == null)
+            {
+                return;
+            }
+
+            int index = this.stopsDataGridView.Columns["stopIdColumn"].Index;
+            string value = this.stopsDataGridView.Rows.Cast<DataGridViewRow>().Aggregate(
+                "http://127.0.0.1:8111/load_object?new_layer=false&objects=",
+                (current, row) => current + "n" + row.Cells[index].Value + ",");
             value = value.Substring(0, value.Length - 1);
             Process.Start(value);
         }
