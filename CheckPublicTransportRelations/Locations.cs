@@ -12,7 +12,7 @@
         {
             try
             {
-                string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
+                string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, "Locations.json");
                 string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
                     this,
                     Newtonsoft.Json.Formatting.Indented);

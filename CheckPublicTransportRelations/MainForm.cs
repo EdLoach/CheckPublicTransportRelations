@@ -168,7 +168,7 @@ namespace CheckPublicTransportRelations
         internal static Locations LoadLocations()
         {
             var returnValue = new Locations();
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, "Locations.json");
             if (File.Exists(fileName))
             {
                 string locationsText = File.ReadAllText(fileName);
@@ -288,7 +288,7 @@ namespace CheckPublicTransportRelations
             }
 
             string overpassBusStopsJson = await response.Content.ReadAsStringAsync();
-            string filePath = Path.Combine(Application.LocalUserAppDataPath, locationSubfolder);
+            string filePath = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder);
             Directory.CreateDirectory(filePath);
             string fileName = Path.Combine(filePath, "OsmBusStops.json");
             File.WriteAllText(fileName, overpassBusStopsJson);
@@ -338,7 +338,7 @@ namespace CheckPublicTransportRelations
                 return false;
             }
 
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, locationSubfolder, "OsmData.json");
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder, "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
         }
@@ -975,7 +975,7 @@ namespace CheckPublicTransportRelations
             var routesToDictionary = new Dictionary<long, string>();
             var routesNameDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, ValidPathString(this.SelectedLocation.Description), "OsmData.json");
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmData.json");
             if (!File.Exists(fileName))
             {
                 return;
@@ -1570,7 +1570,7 @@ namespace CheckPublicTransportRelations
         private void ReadBusStops()
         {
             var overpassBusStops = new List<BusStop>();
-            string fileName = Path.Combine(Application.LocalUserAppDataPath, ValidPathString(this.SelectedLocation.Description), "OsmBusStops.json");
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmBusStops.json");
             if (File.Exists(fileName))
             {
                 dynamic stops = JToken.Parse(File.ReadAllText(fileName));
