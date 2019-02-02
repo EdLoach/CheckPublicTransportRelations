@@ -120,7 +120,7 @@
             this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNamesPanel = new System.Windows.Forms.Panel();
-            this.AddNodeButton = new System.Windows.Forms.Button();
+            this.addNodeButton = new System.Windows.Forms.Button();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
             this.fromToDataGridView = new System.Windows.Forms.DataGridView();
@@ -145,6 +145,7 @@
             this.stopsStatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopsTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.downloadUnmatchedStopsButton = new System.Windows.Forms.Button();
             this.showMatchedStopsCheckBox = new System.Windows.Forms.CheckBox();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.naptanDownloadedLabel = new System.Windows.Forms.Label();
@@ -906,7 +907,7 @@
             // stopNamesPanel
             // 
             this.stopNamesPanel.BackColor = System.Drawing.SystemColors.Control;
-            this.stopNamesPanel.Controls.Add(this.AddNodeButton);
+            this.stopNamesPanel.Controls.Add(this.addNodeButton);
             this.stopNamesPanel.Controls.Add(this.stopNameLabel);
             this.stopNamesPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.stopNamesPanel.Location = new System.Drawing.Point(0, 532);
@@ -914,17 +915,17 @@
             this.stopNamesPanel.Size = new System.Drawing.Size(386, 33);
             this.stopNamesPanel.TabIndex = 4;
             // 
-            // AddNodeButton
+            // addNodeButton
             // 
-            this.AddNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddNodeButton.Location = new System.Drawing.Point(355, 5);
-            this.AddNodeButton.Name = "AddNodeButton";
-            this.AddNodeButton.Size = new System.Drawing.Size(28, 23);
-            this.AddNodeButton.TabIndex = 1;
-            this.AddNodeButton.Text = "+";
-            this.AddNodeButton.UseVisualStyleBackColor = true;
-            this.AddNodeButton.Visible = false;
-            this.AddNodeButton.Click += new System.EventHandler(this.AddNodeButton_Click);
+            this.addNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.addNodeButton.Location = new System.Drawing.Point(355, 5);
+            this.addNodeButton.Name = "addNodeButton";
+            this.addNodeButton.Size = new System.Drawing.Size(28, 23);
+            this.addNodeButton.TabIndex = 1;
+            this.addNodeButton.Text = "+";
+            this.addNodeButton.UseVisualStyleBackColor = true;
+            this.addNodeButton.Visible = false;
+            this.addNodeButton.Click += new System.EventHandler(this.AddNodeButton_Click);
             // 
             // stopNameLabel
             // 
@@ -1181,12 +1182,25 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
+            this.panel1.Controls.Add(this.downloadUnmatchedStopsButton);
             this.panel1.Controls.Add(this.showMatchedStopsCheckBox);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel1.Location = new System.Drawing.Point(0, 532);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(990, 33);
             this.panel1.TabIndex = 3;
+            // 
+            // downloadUnmatchedStopsButton
+            // 
+            this.downloadUnmatchedStopsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.downloadUnmatchedStopsButton.Location = new System.Drawing.Point(912, 2);
+            this.downloadUnmatchedStopsButton.Name = "downloadUnmatchedStopsButton";
+            this.downloadUnmatchedStopsButton.Size = new System.Drawing.Size(75, 23);
+            this.downloadUnmatchedStopsButton.TabIndex = 1;
+            this.downloadUnmatchedStopsButton.Text = "Download";
+            this.downloadUnmatchedStopsButton.UseVisualStyleBackColor = true;
+            this.downloadUnmatchedStopsButton.Visible = false;
+            this.downloadUnmatchedStopsButton.Click += new System.EventHandler(this.DownloadUnmatchedStopsButton_Click);
             // 
             // showMatchedStopsCheckBox
             // 
@@ -1585,7 +1599,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem sparseEditAreaRemoteControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
-        private System.Windows.Forms.Button AddNodeButton;
+        private System.Windows.Forms.Button addNodeButton;
+        private System.Windows.Forms.Button downloadUnmatchedStopsButton;
     }
 }
 

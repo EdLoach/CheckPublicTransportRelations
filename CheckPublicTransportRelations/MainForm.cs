@@ -1975,7 +1975,8 @@ namespace CheckPublicTransportRelations
                                                     ? this.RouteBusStops
                                                     : this.RouteBusStops.Where(item => item.NamesMatch == false)
                                                         .ToList();
-
+            this.downloadUnmatchedStopsButton.Visible =
+                !this.showMatchedStopsCheckBox.Checked && this.stopsDataGridView.Rows.Count > 0;
             Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
             Settings.Default.Save();
         }
@@ -1996,7 +1997,7 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            string value = "http://127.0.0.1:8111/load_object?new_layer=false&objects=n"
+            string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
                            + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
         }
@@ -2024,7 +2025,7 @@ namespace CheckPublicTransportRelations
                 }
             }
 
-            this.AddNodeButton.Visible = false;
+            this.addNodeButton.Visible = false;
             if (this.travelineStopsDataGridView.SelectedCells.Count > 0)
             {
                 if (this.OverpassBusStops != null)
@@ -2036,7 +2037,7 @@ namespace CheckPublicTransportRelations
                     if (naptanStop != null)
                     {
                         travelineStopName = naptanStop.JourneyStopName;
-                        this.AddNodeButton.Visible = true;
+                        this.addNodeButton.Visible = true;
                     }
                 }
             }
@@ -2231,6 +2232,26 @@ namespace CheckPublicTransportRelations
             }
 
             Process.Start(remoteCommand.ToString());
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by downloadUnmatchedStopsButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void DownloadUnmatchedStopsButton_Click(object sender, EventArgs e)
+        {
+            if (this.showMatchedStopsCheckBox.Checked != false || this.stopsDataGridView.Rows.Count <= 0)
+            {
+                return;
+            }
+
+            string value = this.stopsDataGridView.Rows.Cast<DataGridViewRow>().Aggregate("http://127.0.0.1:8111/load_object?new_layer=false&objects=", (current, row) => current + "n" + row.Cells[this.stopsDataGridView.Columns["stopIdColumn"].Index].Value + ",");
+            value = value.Substring(0, value.Length - 1);
+            Process.Start(value);
         }
     }
 }
