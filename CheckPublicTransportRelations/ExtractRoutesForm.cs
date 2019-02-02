@@ -34,16 +34,38 @@ namespace CheckPublicTransportRelations
         ///          <see cref="T:CheckPublicTransportRelations.ExtractRoutesForm" /> class.</summary>
         ///
         /// <param name="busStops">The bus stops.</param>
+        /// <param name="locations">The locations</param>
+        /// <param name="selectedLocation">The selected location</param>
         ///
         /// <inheritdoc/>
         // ===========================================================================================================
-        public ExtractRoutesForm(List<BusStop> busStops)
+        public ExtractRoutesForm(List<BusStop> busStops, Locations locations, Location selectedLocation)
         {
             this.InitializeComponent();
             this.OverpassBusStops = busStops;
             this.extractRoutesBackgroundWorker.WorkerReportsProgress = true;
             this.extractRoutesBackgroundWorker.WorkerSupportsCancellation = true;
+            this.Locations = locations;
+            this.SelectedLocation = selectedLocation;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the selected location.</summary>
+        ///
+        /// <value>The selected location.</value>
+        // ===========================================================================================================
+        private Location SelectedLocation { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the locations.</summary>
+        ///
+        /// <value>The locations.</value>
+        // ===========================================================================================================
+        private Locations Locations { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -140,11 +162,8 @@ namespace CheckPublicTransportRelations
             var worker = sender as BackgroundWorker;
 
             string subFolder = DateTime.Today.ToString("yyyyMMdd");
-            string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, subFolder);
+            string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, MainForm.ValidPathString(this.SelectedLocation.Description), subFolder);
             Directory.CreateDirectory(copyPath);
-            // need to clear existing .xml files in case user changes Location on same date as previous extract
-            var directory = new DirectoryInfo(copyPath);
-            directory.GetFiles(@"*.xml").ToList().ForEach(f => f.Delete());
 
             var openStreetMapStops = new HashSet<string>();
             foreach (BusStop stop in this.OverpassBusStops)
@@ -219,8 +238,8 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            Properties.Settings.Default.LastServiceExtract = DateTime.Today;
-            Properties.Settings.Default.Save();
+            this.SelectedLocation.LastServiceExtract = DateTime.Today;
+            this.Locations.Save();
         }
 
         // ===========================================================================================================

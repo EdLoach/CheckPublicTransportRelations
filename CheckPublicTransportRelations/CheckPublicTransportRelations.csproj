@@ -75,6 +75,7 @@
     <Compile Include="JourneyPatternSection.cs" />
     <Compile Include="JourneyStop.cs" />
     <Compile Include="Location.cs" />
+    <Compile Include="Locations.cs" />
     <Compile Include="LocationsForm.cs">
       <SubType>Form</SubType>
     </Compile>

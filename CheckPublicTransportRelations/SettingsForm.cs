@@ -9,7 +9,6 @@
 namespace CheckPublicTransportRelations
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Windows.Forms;
 
@@ -33,11 +32,13 @@ namespace CheckPublicTransportRelations
         /// <param name="locations"></param>
         /// <inheritdoc/>
         // ===========================================================================================================
-        public SettingsForm(Location selectedLocation, List<Location> locations)
+        public SettingsForm(Location selectedLocation, Locations locations)
         {
             this.InitializeComponent();
             this.SelectedLocation = selectedLocation;
             this.Locations = locations;
+            // set default return value
+            this.DialogResult = DialogResult.Cancel;
         }
 
         // ===========================================================================================================
@@ -47,7 +48,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The selected location.</value>
         // ===========================================================================================================
-        private Location SelectedLocation { get; set; }
+        public Location SelectedLocation { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
@@ -56,7 +57,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private List<Location> Locations { get; }
+        private Locations Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -89,9 +90,11 @@ namespace CheckPublicTransportRelations
             Settings.Default.TravelinePassword = this.passwordTextBox.Text;
             Settings.Default.LocalPath = this.pathTextBox.Text;
             Settings.Default.SelectedLocation = ((Location)this.locationsComboBox.SelectedItem).Description;
+            this.SelectedLocation = (Location)this.locationsComboBox.SelectedItem;
             Settings.Default.NaptanUrl = this.naptanTextBox.Text;
             Settings.Default.Save();
 
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
 

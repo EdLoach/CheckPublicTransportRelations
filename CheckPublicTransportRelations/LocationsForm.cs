@@ -28,7 +28,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <param name="locations">The locations.</param>
         // ===========================================================================================================
-        public LocationsForm(List<Location> locations)
+        public LocationsForm(Locations locations)
         {
             this.InitializeComponent();
             this.locationsDataGridView.AutoGenerateColumns = false;
@@ -42,7 +42,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private List<Location> Locations { get; }
+        private Locations Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
@@ -67,18 +67,7 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string fileName = Path.Combine(Application.LocalUserAppDataPath, "Locations.json");
-                string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    (List<Location>)this.locationsDataGridView.DataSource,
-                    Newtonsoft.Json.Formatting.Indented);
-                File.WriteAllText(fileName, outputText + Environment.NewLine);
-            }
-            catch (Exception exception)
-            {
-                Debug.WriteLine(exception);
-            }
+            ((Locations)this.locationsDataGridView.DataSource).Save();
             
             this.Close();
         }

@@ -2,16 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CheckPublicTransportRelations.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="LastOpenStreetMapBusStopRefresh" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="LastTravelineDownload" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastServiceExtract" Type="System.DateTime" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="LastOpenStreetMapDownload" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="OverpassServer" Type="System.String" Scope="User">

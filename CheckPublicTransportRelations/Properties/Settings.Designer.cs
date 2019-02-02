@@ -25,45 +25,12 @@ namespace CheckPublicTransportRelations.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastOpenStreetMapBusStopRefresh {
-            get {
-                return ((global::System.DateTime)(this["LastOpenStreetMapBusStopRefresh"]));
-            }
-            set {
-                this["LastOpenStreetMapBusStopRefresh"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         public global::System.DateTime LastTravelineDownload {
             get {
                 return ((global::System.DateTime)(this["LastTravelineDownload"]));
             }
             set {
                 this["LastTravelineDownload"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastServiceExtract {
-            get {
-                return ((global::System.DateTime)(this["LastServiceExtract"]));
-            }
-            set {
-                this["LastServiceExtract"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastOpenStreetMapDownload {
-            get {
-                return ((global::System.DateTime)(this["LastOpenStreetMapDownload"]));
-            }
-            set {
-                this["LastOpenStreetMapDownload"] = value;
             }
         }
         
