@@ -120,6 +120,7 @@
             this.tndsStopPointRefColumn = new System.Windows.Forms.DataGridViewLinkColumn();
             this.tndsActivityColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopNamesPanel = new System.Windows.Forms.Panel();
+            this.AddNodeButton = new System.Windows.Forms.Button();
             this.stopNameLabel = new System.Windows.Forms.Label();
             this.routeFromToTabPage = new System.Windows.Forms.TabPage();
             this.fromToDataGridView = new System.Windows.Forms.DataGridView();
@@ -164,11 +165,11 @@
             this.extractLocalRoutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.naptanStopsDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.sparseEditAreaRemoteControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
-            this.sparseEditAreaRemoteControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -905,12 +906,25 @@
             // stopNamesPanel
             // 
             this.stopNamesPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.stopNamesPanel.Controls.Add(this.AddNodeButton);
             this.stopNamesPanel.Controls.Add(this.stopNameLabel);
             this.stopNamesPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.stopNamesPanel.Location = new System.Drawing.Point(0, 532);
             this.stopNamesPanel.Name = "stopNamesPanel";
             this.stopNamesPanel.Size = new System.Drawing.Size(386, 33);
             this.stopNamesPanel.TabIndex = 4;
+            // 
+            // AddNodeButton
+            // 
+            this.AddNodeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AddNodeButton.Location = new System.Drawing.Point(355, 5);
+            this.AddNodeButton.Name = "AddNodeButton";
+            this.AddNodeButton.Size = new System.Drawing.Size(28, 23);
+            this.AddNodeButton.TabIndex = 1;
+            this.AddNodeButton.Text = "+";
+            this.AddNodeButton.UseVisualStyleBackColor = true;
+            this.AddNodeButton.Visible = false;
+            this.AddNodeButton.Click += new System.EventHandler(this.AddNodeButton_Click);
             // 
             // stopNameLabel
             // 
@@ -1364,6 +1378,18 @@
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
             this.toolStripMenuItem2.Size = new System.Drawing.Size(250, 6);
             // 
+            // sparseEditAreaRemoteControlToolStripMenuItem
+            // 
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Name = "sparseEditAreaRemoteControlToolStripMenuItem";
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Text = "Sparse Edit Area (Remote Control)";
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Click += new System.EventHandler(this.SparseEditAreaRemoteControlToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(250, 6);
+            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -1385,18 +1411,6 @@
             this.settingsToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(250, 6);
-            // 
-            // sparseEditAreaRemoteControlToolStripMenuItem
-            // 
-            this.sparseEditAreaRemoteControlToolStripMenuItem.Name = "sparseEditAreaRemoteControlToolStripMenuItem";
-            this.sparseEditAreaRemoteControlToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
-            this.sparseEditAreaRemoteControlToolStripMenuItem.Text = "Sparse Edit Area (Remote Control)";
-            this.sparseEditAreaRemoteControlToolStripMenuItem.Click += new System.EventHandler(this.SparseEditAreaRemoteControlToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1571,6 +1585,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem sparseEditAreaRemoteControlToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.Button AddNodeButton;
     }
 }
 

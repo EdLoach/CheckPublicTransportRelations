@@ -895,7 +895,10 @@ namespace CheckPublicTransportRelations
                     string line;
                     string columnHeadings = string.Empty;
                     var atcoCodeIndex = 0;
+                    var naptanCodeIndex = 1;
                     var commonNameIndex = 4;
+                    var longitudeIndex = 30;
+                    var latitudeIndex = 31;
                     var busStopTypeIndex = 32;
                     var statusIndex = 42;
                     while ((line = reader.ReadLine()) != null)
@@ -905,6 +908,9 @@ namespace CheckPublicTransportRelations
                             columnHeadings = line;
                             string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
                             atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
+                            naptanCodeIndex = Array.IndexOf(columnHeading, "NaptanCode");
+                            latitudeIndex = Array.IndexOf(columnHeading, "Latitude");
+                            longitudeIndex = Array.IndexOf(columnHeading, "Longitude");
                             commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
                             busStopTypeIndex = Array.IndexOf(columnHeading, "BusStopType");
                             statusIndex = Array.IndexOf(columnHeading, "Status");
@@ -935,7 +941,10 @@ namespace CheckPublicTransportRelations
                                                     {
                                                         NaptanName = returnValue,
                                                         NaptanBusStopType = naptanStop[busStopTypeIndex],
-                                                        NaptanStatus = naptanStop[statusIndex]
+                                                        NaptanStatus = naptanStop[statusIndex],
+                                                        Latitude = decimal.Parse(naptanStop[latitudeIndex]),
+                                                        Longitude = decimal.Parse(naptanStop[longitudeIndex]),
+                                                        NaptanCode = naptanStop[naptanCodeIndex]
                                                     };
                             this.NaptanStops.Add(newNaptanStop);
 
@@ -947,6 +956,9 @@ namespace CheckPublicTransportRelations
                                 stop.NaptanName = returnValue;
                                 stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
                                 stop.NaptanStatus = naptanStop[statusIndex];
+                                stop.Latitude = decimal.Parse(naptanStop[latitudeIndex]);
+                                stop.Longitude = decimal.Parse(naptanStop[longitudeIndex]);
+                                stop.NaptanCode = naptanStop[naptanCodeIndex];
                                 this.RouteBusStops.Add(stop);
                             }
                         }
@@ -2012,14 +2024,20 @@ namespace CheckPublicTransportRelations
                 }
             }
 
+            this.AddNodeButton.Visible = false;
             if (this.travelineStopsDataGridView.SelectedCells.Count > 0)
             {
                 if (this.OverpassBusStops != null)
                 {
-                    travelineStopName = this.NaptanStops.FirstOrDefault(
+                    BusStop naptanStop = this.NaptanStops.FirstOrDefault(
                         item => item.AtcoCode
                                 == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow
-                                           .DataBoundItem).StopPointRef)?.JourneyStopName;
+                                           .DataBoundItem).StopPointRef);
+                    if (naptanStop != null)
+                    {
+                        travelineStopName = naptanStop.JourneyStopName;
+                        this.AddNodeButton.Visible = true;
+                    }
                 }
             }
 
@@ -2142,6 +2160,77 @@ namespace CheckPublicTransportRelations
             string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Finterpreter"
                            + HttpUtility.UrlEncode("?data=" + overpassQuery);
             Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by AddNodeButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void AddNodeButton_Click(object sender, EventArgs e)
+        {
+            if (this.travelineStopsDataGridView.SelectedCells.Count <= 0)
+            {
+                return;
+            }
+
+            if (this.OverpassBusStops == null)
+            {
+                return;
+            }
+
+            BusStop naptanStop = this.NaptanStops.FirstOrDefault(
+                item => item.AtcoCode
+                        == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow
+                                   .DataBoundItem).StopPointRef);
+            if (naptanStop == null)
+            {
+                return;
+            }
+
+            decimal latitude = naptanStop.Latitude;
+            decimal longitude = naptanStop.Longitude;
+
+            var remoteCommand = new StringBuilder();
+            remoteCommand.Append("http://127.0.0.1:8111/add_node?lon=");
+            remoteCommand.Append(longitude);
+            remoteCommand.Append("&lat=");
+            remoteCommand.Append(latitude);
+            remoteCommand.Append("&addtags=");
+            remoteCommand.Append(HttpUtility.UrlEncode("highway=bus_stop"));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("public_transport=platform"));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("source=naptan"));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("naptan:verified=no"));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("name="));
+            remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanName));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("naptan:AtcoCode="));
+            remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.AtcoCode));
+            remoteCommand.Append(HttpUtility.UrlEncode("|"));
+            remoteCommand.Append(HttpUtility.UrlEncode("naptan:NaptanCode="));
+            remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanCode));
+            if (naptanStop.NaptanBusStopType != "MKD")
+            {
+                remoteCommand.Append(HttpUtility.UrlEncode("|"));
+                remoteCommand.Append(HttpUtility.UrlEncode("naptan:BusStopType="));
+                remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanBusStopType));
+            }
+
+            if (naptanStop.NaptanStatus != "act")
+            {
+                remoteCommand.Append(HttpUtility.UrlEncode("|"));
+                remoteCommand.Append(HttpUtility.UrlEncode("naptan:Status="));
+                remoteCommand.Append(HttpUtility.UrlEncode(naptanStop.NaptanStatus));
+            }
+
+            Process.Start(remoteCommand.ToString());
         }
     }
 }

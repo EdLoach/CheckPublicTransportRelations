@@ -36,7 +36,37 @@ namespace CheckPublicTransportRelations
             this.NaptanName = string.Empty;
             this.NaptanStatus = string.Empty;
             this.NaptanBusStopType = string.Empty;
+            this.Latitude = -1.0M;
+            this.Longitude = -1.0M;
+            this.NaptanCode = string.Empty;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the naptan code.</summary>
+        ///
+        /// <value>The naptan code.</value>
+        // ===========================================================================================================
+        public string NaptanCode { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the longitude.</summary>
+        ///
+        /// <value>The longitude.</value>
+        // ===========================================================================================================
+        public decimal Longitude { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the latitude.</summary>
+        ///
+        /// <value>The latitude.</value>
+        // ===========================================================================================================
+        public decimal Latitude { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
