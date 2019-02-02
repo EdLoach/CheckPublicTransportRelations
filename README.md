@@ -1,5 +1,5 @@
 # CheckPublicTransportRelations
-Tool to help me compare OSM PTv2 bus route data to TNDS opendata to see what needs updating
+Tool to help me compare OSM PTv2 bus route data to TNDS opendata to see what needs updating. Written in C# using VS2017 and .Net Framework 4.6.1
 
 When first run you will need to populate Options, Settings with appropriate values. The Overpass ones shouldn't need changing, but you will need to set the bounding box (which defaults to one that contains the Tendring district of Essex) the local folder you want to use as the main working folder, and your credentials for downloading the Traveline National Dataset (TNDS) - if you've not got credentials you can register at https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/ (data is OGLv3 licenced).
 
