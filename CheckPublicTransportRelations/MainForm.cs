@@ -21,6 +21,7 @@ namespace CheckPublicTransportRelations
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using System.Web;
     using System.Windows.Forms;
     using System.Xml.Linq;
 
@@ -1441,6 +1442,10 @@ namespace CheckPublicTransportRelations
             this.ExtractOpenStreetMapRoutes();
             this.ExtractNaptanStops();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
+            this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
+                                                    ? this.RouteBusStops
+                                                    : this.RouteBusStops.Where(item => item.NamesMatch == false)
+                                                        .ToList();
             this.CompareResults();
             this.Enabled = true;
         }
@@ -1527,10 +1532,16 @@ namespace CheckPublicTransportRelations
         {
             this.Enabled = false;
             string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
-            string areaFileName = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description), "LocalStops.csv");
-            if (!File.Exists(areaFileName))
+            foreach (Location location in this.Locations)
             {
-                File.Delete(areaFileName);
+                string areaFileName = Path.Combine(
+                    Settings.Default.LocalPath,
+                    ValidPathString(location.Description),
+                    "LocalStops.csv");
+                if (File.Exists(areaFileName))
+                {
+                    File.Delete(areaFileName);
+                }
             }
 
             using (var client = new WebClient())
@@ -2111,6 +2122,25 @@ namespace CheckPublicTransportRelations
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information,
                 MessageBoxDefaultButton.Button1);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by sparseEditAreaRemoteControlToolStripMenuItem for click
+        ///          events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void SparseEditAreaRemoteControlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string overpassQuery = this.SelectedLocation.TransportQuery
+                .Replace("{{bbox}}", this.SelectedLocation.BoundingBox).Replace("[out:json]", "[out:xml]")
+                .Replace("out;", "out meta;");
+            string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Finterpreter"
+                           + HttpUtility.UrlEncode("?data=" + overpassQuery);
+            Process.Start(value);
         }
     }
 }

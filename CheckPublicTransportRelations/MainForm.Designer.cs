@@ -158,15 +158,17 @@
             this.mainFormMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshBusStopsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getOpenstreetmapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.downloadTravelineNationalDataSetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.extractLocalRoutesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.getOpenstreetmapDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.naptanStopsDownloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.sparseEditAreaRemoteControlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -1310,6 +1312,8 @@
             this.extractLocalRoutesToolStripMenuItem,
             this.naptanStopsDownloadToolStripMenuItem,
             this.toolStripMenuItem2,
+            this.sparseEditAreaRemoteControlToolStripMenuItem,
+            this.toolStripMenuItem3,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
@@ -1318,42 +1322,52 @@
             // refreshBusStopsToolStripMenuItem
             // 
             this.refreshBusStopsToolStripMenuItem.Name = "refreshBusStopsToolStripMenuItem";
-            this.refreshBusStopsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.refreshBusStopsToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.refreshBusStopsToolStripMenuItem.Text = "Refresh Bus Stops in Area";
             this.refreshBusStopsToolStripMenuItem.Click += new System.EventHandler(this.RefreshBusStopsToolStripMenuItem_Click);
+            // 
+            // getOpenstreetmapDataToolStripMenuItem
+            // 
+            this.getOpenstreetmapDataToolStripMenuItem.Name = "getOpenstreetmapDataToolStripMenuItem";
+            this.getOpenstreetmapDataToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.getOpenstreetmapDataToolStripMenuItem.Text = "Get OSM Data...";
+            this.getOpenstreetmapDataToolStripMenuItem.Click += new System.EventHandler(this.GetOpenStreetMapDataToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(250, 6);
             // 
             // downloadTravelineNationalDataSetToolStripMenuItem
             // 
             this.downloadTravelineNationalDataSetToolStripMenuItem.Name = "downloadTravelineNationalDataSetToolStripMenuItem";
-            this.downloadTravelineNationalDataSetToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.downloadTravelineNationalDataSetToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.downloadTravelineNationalDataSetToolStripMenuItem.Text = "Download TNDS...";
             this.downloadTravelineNationalDataSetToolStripMenuItem.Click += new System.EventHandler(this.DownloadTravelineNationalDataSetToolStripMenuItem_Click);
             // 
             // extractLocalRoutesToolStripMenuItem
             // 
             this.extractLocalRoutesToolStripMenuItem.Name = "extractLocalRoutesToolStripMenuItem";
-            this.extractLocalRoutesToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.extractLocalRoutesToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.extractLocalRoutesToolStripMenuItem.Text = "Extract Local Routes...";
             this.extractLocalRoutesToolStripMenuItem.Click += new System.EventHandler(this.ExtractLocalRoutesToolStripMenuItem_Click);
-            // 
-            // getOpenstreetmapDataToolStripMenuItem
-            // 
-            this.getOpenstreetmapDataToolStripMenuItem.Name = "getOpenstreetmapDataToolStripMenuItem";
-            this.getOpenstreetmapDataToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
-            this.getOpenstreetmapDataToolStripMenuItem.Text = "Get OSM Data...";
-            this.getOpenstreetmapDataToolStripMenuItem.Click += new System.EventHandler(this.GetOpenStreetMapDataToolStripMenuItem_Click);
             // 
             // naptanStopsDownloadToolStripMenuItem
             // 
             this.naptanStopsDownloadToolStripMenuItem.Name = "naptanStopsDownloadToolStripMenuItem";
-            this.naptanStopsDownloadToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.naptanStopsDownloadToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.naptanStopsDownloadToolStripMenuItem.Text = "Naptan Stops Download";
             this.naptanStopsDownloadToolStripMenuItem.Click += new System.EventHandler(this.NaptanStopsDownloadToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(250, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.ExitToolStripMenuItem_Click);
             // 
@@ -1372,15 +1386,17 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem1
+            // toolStripMenuItem3
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(204, 6);
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(250, 6);
             // 
-            // toolStripMenuItem2
+            // sparseEditAreaRemoteControlToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(204, 6);
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Name = "sparseEditAreaRemoteControlToolStripMenuItem";
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Size = new System.Drawing.Size(253, 22);
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Text = "Sparse Edit Area (Remote Control)";
+            this.sparseEditAreaRemoteControlToolStripMenuItem.Click += new System.EventHandler(this.SparseEditAreaRemoteControlToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -1553,6 +1569,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem sparseEditAreaRemoteControlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
     }
 }
 
