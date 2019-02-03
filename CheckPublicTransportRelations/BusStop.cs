@@ -30,12 +30,12 @@ namespace CheckPublicTransportRelations
         /// <param name="stopStatus">       The stop status.</param>
         /// <param name="busStopType">      The type of the bus stop.</param>
         /// <param name="notName">          The name of the not.</param>
-        /// <param name="physicallyPresent">The physically present.</param>
+        /// <param name="surveyed">The physically present.</param>
         /// <param name="highway">          The highway.</param>
         /// <param name="naptanVerified">   The naptan verified.</param>
         // ===========================================================================================================
         // ReSharper disable once StyleCop.SA1650
-        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string notName, string physicallyPresent, string highway, string naptanVerified)
+        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string notName, string surveyed, string highway, string naptanVerified)
         {
             this.Type = elementType;
             this.Id = elementId;
@@ -51,7 +51,7 @@ namespace CheckPublicTransportRelations
             this.Longitude = -1.0M;
             this.NaptanNaptanCode = string.Empty;
             this.NotName = notName;
-            this.PhysicallyPresent = physicallyPresent;
+            this.Surveyed = surveyed;
             this.Highway = highway;
             this.NaptanVerified = naptanVerified;
         }
@@ -68,11 +68,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
         ///
-        /// <summary>Gets the physically present tag value.</summary>
+        /// <summary>Gets whether any tags indicating a physical survey are present on the OSM node.</summary>
         ///
-        /// <value>The physically present value.</value>
+        /// <value>yes or blank.</value>
         // ===========================================================================================================
-        public string PhysicallyPresent { get; }
+        public string Surveyed { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
@@ -251,7 +251,7 @@ namespace CheckPublicTransportRelations
         public bool TypesMatch => this.NaptanBusStopType == "MKD" || 
                                   this.BusStopType == this.NaptanBusStopType || 
                                   (string.IsNullOrEmpty(this.BusStopType) && string.IsNullOrEmpty(this.NaptanBusStopType)) || 
-                                  (this.NaptanBusStopType == "CUS" && this.NaptanVerified != "no" && this.PhysicallyPresent == "yes");
+                                  (this.NaptanBusStopType == "CUS" && this.NaptanVerified != "no" && this.Surveyed == "yes");
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>

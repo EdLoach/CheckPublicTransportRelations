@@ -1465,12 +1465,13 @@
             // 
             // stopPresentColumn
             // 
-            this.stopPresentColumn.DataPropertyName = "PhysicallyPresent";
+            this.stopPresentColumn.DataPropertyName = "Surveyed";
             dataGridViewCellStyle32.BackColor = System.Drawing.Color.AntiqueWhite;
             this.stopPresentColumn.DefaultCellStyle = dataGridViewCellStyle32;
-            this.stopPresentColumn.HeaderText = "physically_present";
+            this.stopPresentColumn.HeaderText = "surveyed";
             this.stopPresentColumn.Name = "stopPresentColumn";
             this.stopPresentColumn.ReadOnly = true;
+            this.stopPresentColumn.Width = 70;
             // 
             // stopVerifiedColumn
             // 

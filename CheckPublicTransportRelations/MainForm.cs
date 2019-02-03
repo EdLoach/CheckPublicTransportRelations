@@ -295,22 +295,62 @@ namespace CheckPublicTransportRelations
             dynamic stops = JToken.Parse(overpassBusStopsJson);
             foreach (dynamic element in stops.elements)
             {
-                string type = element.type;
-                long id = element.id;
-                string atcoCode = element.tags["naptan:AtcoCode"];
-                string stopName = element.tags["name"];
-                string naptanCode = element.tags["naptan:NaptanCode"];
-                string stopStatus = element.tags["naptan:Status"];
-                string busStopType = element.tags["naptan:BusStopType"];
-                string notName = element.tags["not:name"];
-                string physicallyPresent = element.tags["physically_present"];
-                string highway = element.tags["highway"];
-                string naptanVerified = element.tags["naptan:verified"];
-                var busStop = new BusStop(type, id, atcoCode, stopName, naptanCode, stopStatus, busStopType, notName, physicallyPresent, highway, naptanVerified);
+                BusStop busStop = BusStop(element);
                 overpassBusStops.Add(busStop);
             }
 
             return overpassBusStops;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Bus stop.</summary>
+        ///
+        /// <param name="element">The element.</param>
+        ///
+        /// <returns>A BusStop.</returns>
+        // ===========================================================================================================
+        private static BusStop BusStop(dynamic element)
+        {
+            string type = element.type;
+            long id = element.id;
+            string atcoCode = element.tags["naptan:AtcoCode"];
+            string stopName = element.tags["name"];
+            string naptanCode = element.tags["naptan:NaptanCode"];
+            string stopStatus = element.tags["naptan:Status"];
+            string busStopType = element.tags["naptan:BusStopType"];
+            string notName = element.tags["not:name"];
+            string highway = element.tags["highway"];
+
+            // layby tag ignored in this list as may be visible on imagery and not indicative of a survey
+            string physicallyPresent = element.tags["physically_present"];
+            string flagTagValue = element.tags["flag"];
+            string shelterTagValue = element.tags["shelter"];
+            string kerbTagValue = element.tags["kerb"];
+            string timetableCaseTagValue = element.tags["timetable_case"];
+            string surveyedValue = !string.IsNullOrEmpty(physicallyPresent) || !string.IsNullOrEmpty(flagTagValue)
+                                                                            || !string.IsNullOrEmpty(shelterTagValue)
+                                                                            || !string.IsNullOrEmpty(kerbTagValue)
+                                                                            || !string.IsNullOrEmpty(
+                                                                                timetableCaseTagValue)
+                    ? "yes"
+                    : string.Empty;
+            
+            string naptanVerified = element.tags["naptan:verified"];
+            var busStop = new BusStop(
+                type,
+                id,
+                atcoCode,
+                stopName,
+                naptanCode,
+                stopStatus,
+                busStopType,
+                notName,
+                surveyedValue,
+                highway,
+                naptanVerified);
+            return busStop;
         }
 
         // ===========================================================================================================
@@ -1012,33 +1052,19 @@ namespace CheckPublicTransportRelations
                     if (element.tags != null && element.tags["naptan:AtcoCode"] != null)
                     {
                         string atcoCode = element.tags["naptan:AtcoCode"];
-                        string stopName = element.tags["name"];
-                        string naptanCode = element.tags["naptan:NaptanCode"];
-                        string stopStatus = element.tags["naptan:Status"];
-                        string busStopType = element.tags["naptan:BusStopType"];
-                        string notName = element.tags["not:name"];
-                        string physicallyPresent = element.tags["physically_present"];
-                        string highway = element.tags["highway"];
-                        string naptanVerified = element.tags["naptan:verified"];
+                        BusStop busStop = BusStop(element);
                         if (atcoCode.Length > 0)
                         {
                             stopsDictionary.Add(nodeId, atcoCode);
                         }
 
-                        routeBusStops.Add(new BusStop("node", nodeId, atcoCode, stopName, naptanCode, stopStatus, busStopType, notName, physicallyPresent, highway, naptanVerified));
+                        routeBusStops.Add(busStop);
                     }
                     else if (element.tags != null && element.tags["public_transport"] == "platform")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
-                        string stopName = element.tags["name"];
-                        string naptanCode = element.tags["naptan:NaptanCode"];
-                        string stopStatus = element.tags["naptan:Status"];
-                        string busStopType = element.tags["naptan:BusStopType"];
-                        string notName = element.tags["not:name"];
-                        string physicallyPresent = element.tags["physically_present"];
-                        string highway = element.tags["highway"];
-                        string naptanVerified = element.tags["naptan:verified"];
-                        routeBusStops.Add(new BusStop("node", nodeId, string.Empty, stopName, naptanCode, stopStatus, busStopType, notName, physicallyPresent, highway, naptanVerified));
+                        BusStop busStop = BusStop(element);
+                        routeBusStops.Add(busStop);
                     }
                 }
 
@@ -1599,18 +1625,7 @@ namespace CheckPublicTransportRelations
                 dynamic stops = JToken.Parse(File.ReadAllText(fileName));
                 foreach (dynamic element in stops.elements)
                 {
-                    string type = element.type;
-                    long id = element.id;
-                    string atcoCode = element.tags["naptan:AtcoCode"];
-                    string stopName = element.tags["name"];
-                    string naptanCode = element.tags["naptan:NaptanCode"];
-                    string stopStatus = element.tags["naptan:Status"];
-                    string busStopType = element.tags["naptan:BusStopType"];
-                    string notName = element.tags["not:name"];
-                    string physicallyPresent = element.tags["physically_present"];
-                    string highway = element.tags["highway"];
-                    string naptanVerified = element.tags["naptan:verified"];
-                    var busStop = new BusStop(type, id, atcoCode, stopName, naptanCode, stopStatus, busStopType, notName, physicallyPresent, highway, naptanVerified);
+                    BusStop busStop = BusStop(element);
                     overpassBusStops.Add(busStop);
                 }
             }
