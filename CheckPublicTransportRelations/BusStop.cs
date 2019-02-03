@@ -22,33 +22,114 @@ namespace CheckPublicTransportRelations
         ///
         /// <summary>Initializes a new instance of the <see cref="BusStop"/> class.</summary>
         ///
-        /// <param name="elementType">    Type of the element.</param>
-        /// <param name="elementId">      Identifier for the element.</param>
-        /// <param name="elementAtcoCode">The element atco code.</param>
-        /// <param name="stopName">       The stop name.</param>
+        /// <param name="elementType">      Type of the element.</param>
+        /// <param name="elementId">        Identifier for the element.</param>
+        /// <param name="elementAtcoCode">  The element atco code.</param>
+        /// <param name="stopName">         The stop name.</param>
+        /// <param name="naptanCode">       The naptan code.</param>
+        /// <param name="stopStatus">       The stop status.</param>
+        /// <param name="busStopType">      The type of the bus stop.</param>
+        /// <param name="notName">          The name of the not.</param>
+        /// <param name="physicallyPresent">The physically present.</param>
+        /// <param name="highway">          The highway.</param>
+        /// <param name="naptanVerified">   The naptan verified.</param>
         // ===========================================================================================================
-        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName)
+        // ReSharper disable once StyleCop.SA1650
+        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string notName, string physicallyPresent, string highway, string naptanVerified)
         {
             this.Type = elementType;
             this.Id = elementId;
             this.AtcoCode = elementAtcoCode;
             this.StopName = stopName;
+            this.NaptanCode = naptanCode;
+            this.BusStopType = busStopType;
+            this.Status = stopStatus;
             this.NaptanName = string.Empty;
             this.NaptanStatus = string.Empty;
             this.NaptanBusStopType = string.Empty;
             this.Latitude = -1.0M;
             this.Longitude = -1.0M;
-            this.NaptanCode = string.Empty;
+            this.NaptanNaptanCode = string.Empty;
+            this.NotName = notName;
+            this.PhysicallyPresent = physicallyPresent;
+            this.Highway = highway;
+            this.NaptanVerified = naptanVerified;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets the not name tag value.</summary>
+        ///
+        /// <value>The not name value.</value>
+        // ===========================================================================================================
+        public string NotName { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets the physically present tag value.</summary>
+        ///
+        /// <value>The physically present value.</value>
+        // ===========================================================================================================
+        public string PhysicallyPresent { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets highway tag value.</summary>
+        ///
+        /// <value>The highway value.</value>
+        // ===========================================================================================================
+        public string Highway { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets the naptan verified tag value.</summary>
+        ///
+        /// <value>The naptan verified value.</value>
+        // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
+        public string NaptanVerified { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets the naptan code.</summary>
+        ///
+        /// <value>The naptan code.</value>
+        // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
+        public string NaptanCode { get; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the status.</summary>
+        ///
+        /// <value>The status.</value>
+        // ===========================================================================================================
+        public string Status { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the type of the bus stop.</summary>
+        ///
+        /// <value>The type of the bus stop.</value>
+        // ===========================================================================================================
+        public string BusStopType { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the naptan code.</summary>
+        /// <summary>Gets or sets the naptan code from naptan.</summary>
         ///
-        /// <value>The naptan code.</value>
+        /// <value>The naptan code from naptan.</value>
         // ===========================================================================================================
-        public string NaptanCode { get; set; }
+        // ReSharper disable once StyleCop.SA1650
+        public string NaptanNaptanCode { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
@@ -71,9 +152,9 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the type of the naptan bus stop.</summary>
+        /// <summary>Gets or sets the naptan type of the bus stop.</summary>
         ///
-        /// <value>The type of the naptan bus stop.</value>
+        /// <value>The naptan type of the bus stop.</value>
         // ===========================================================================================================
         // ReSharper disable once StyleCop.SA1650
         public string NaptanBusStopType { get; set; }
@@ -91,9 +172,9 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the name of the naptan.</summary>
+        /// <summary>Gets or sets the name from naptan.</summary>
         ///
-        /// <value>The name of the naptan.</value>
+        /// <value>The name from naptan.</value>
         // ===========================================================================================================
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
         public string NaptanName { get; set; }
@@ -141,7 +222,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if names match, false if not.</value>
         // ===========================================================================================================
-        public bool NamesMatch => this.StopName.Contains(this.NaptanName
+        public bool NamesMatch => (this.StopName.Contains(this.NaptanName
                                                             .Replace(" Rdbt", " Roundabout")
                                                             .Replace(" Rd", " Road")
                                                             .Replace(" Ln"," Lane")
@@ -149,7 +230,28 @@ namespace CheckPublicTransportRelations
                                                             .Replace(" Cotts", " Cottages")
                                                             .Replace(" Ave", " Avenue")
                                                             .Replace(" Avenuenue", " Avenue")) 
-                                  && this.NaptanName.Length > 0;
+                                  && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets a value indicating whether the statuses match.</summary>
+        ///
+        /// <value>True if statuses match, false if not.</value>
+        // ===========================================================================================================
+        public bool StatusesMatch => this.NaptanStatus == "act" || this.Status == this.NaptanStatus;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
+        ///
+        /// <summary>Gets a value indicating whether the types match.</summary>
+        ///
+        /// <value>True if types match, false if not.</value>
+        // ===========================================================================================================
+        public bool TypesMatch => this.NaptanBusStopType == "MKD" || 
+                                  this.BusStopType == this.NaptanBusStopType || 
+                                  (string.IsNullOrEmpty(this.BusStopType) && string.IsNullOrEmpty(this.NaptanBusStopType)) || 
+                                  (this.NaptanBusStopType == "CUS" && this.NaptanVerified != "no" && this.PhysicallyPresent == "yes");
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 25 January 2019 (1.0.0.0)</createdBy>
