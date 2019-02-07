@@ -53,11 +53,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets the locations.</summary>
+        /// <summary>Gets or sets the locations.</summary>
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private Locations Locations { get; }
+        private Locations Locations { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -165,7 +165,9 @@ namespace CheckPublicTransportRelations
             this.Enabled = false;
             var settingsForm = new LocationsForm(this.Locations);
             settingsForm.ShowDialog(this);
-            MainForm.LoadLocations();
+            this.Locations = MainForm.LoadLocations();
+            this.locationsComboBox.DataSource = this.Locations;
+
             string selectedLocationName = Settings.Default.SelectedLocation;
             Location selectedLocation = null;
             foreach (Location location in this.Locations)
@@ -183,6 +185,17 @@ namespace CheckPublicTransportRelations
             if (selectedLocation != null)
             {
                 Settings.Default.SelectedLocation = selectedLocation.Description;
+            }
+
+            foreach (object item in this.locationsComboBox.Items)
+            {
+                if ((Location)item != this.SelectedLocation)
+                {
+                    continue;
+                }
+
+                this.locationsComboBox.SelectedItem = item;
+                break;
             }
 
             Settings.Default.Save();
