@@ -1074,6 +1074,11 @@ namespace CheckPublicTransportRelations
                 }
 
                 long id = element.id;
+                if (element.tags == null)
+                {
+                    continue;
+                }
+
                 string relationType = element.tags["type"];
 
                 if (relationType != "route")

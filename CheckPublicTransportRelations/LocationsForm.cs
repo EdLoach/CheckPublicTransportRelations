@@ -42,7 +42,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private Locations Locations { get; }
+        public Locations Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 10 January 2019 (1.0.0.0)</createdBy>
