@@ -113,6 +113,15 @@ namespace CheckPublicTransportRelations
         private Locations Locations { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the orphan routes.</summary>
+        ///
+        /// <value>The orphan routes.</value>
+        // ===========================================================================================================
+        private List<OpenStreetMapRouteVariant> OrphanRoutes { get; set; }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the open street map routes.</summary>
@@ -185,52 +194,82 @@ namespace CheckPublicTransportRelations
                 new Location
                     {
                         Description = @"Tendring (Essex) - Boundary Relation",
+                        Type = Enums.LocationType.Area,
                         BoundingBox = string.Empty,
+                        AreaQuery = @"official_name=""Tendring District""",
+                        BusStopTimeOut = 25,
+                        TransportTimeOut = 45,
+                        OrphanRoutesTimeOut = 45,
                         BusStopQuery =
-                            @"[out:json][timeout:25];area[official_name=""Tendring District""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                        OrphansQuery =
+                            @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
                     });
             returnValue.Add(
                 new Location
                     {
                         Description = @"Colchester (Essex) - Boundary Relation",
+                        Type = Enums.LocationType.Area,
                         BoundingBox = string.Empty,
+                        AreaQuery = @"official_name=""Borough of Colchester""",
+                        BusStopTimeOut = 25,
+                        TransportTimeOut = 45,
+                        OrphanRoutesTimeOut = 45,
                         BusStopQuery =
-                            @"[out:json][timeout:25];area[official_name=""Borough of Colchester""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:45];area[official_name=""Borough of Colchester""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                        OrphansQuery =
+                            @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
                     });
             returnValue.Add(
                 new Location
                     {
                         Description = @"Tendring/Colchester",
+                        Type = Enums.LocationType.Custom, 
                         BoundingBox = string.Empty,
-                        BusStopQuery =
-                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                        AreaQuery = string.Empty,
+                        BusStopTimeOut = 35,
+                        TransportTimeOut = 45,
+                        OrphanRoutesTimeOut = 45,
+                    BusStopQuery =
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:45];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);<<;)->.c;relation.c[""route""!=""bus""];(._;>>;);out;"
-                    });
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);<<;)->.c;relation.c[""route""!=""bus""];(._;>>;);out;",
+                        OrphansQuery =
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];);<<;)->.c; relation.c[""route""=""bus""];(._;>>;);out meta;"
+                });
             returnValue.Add(
                 new Location
                     {
                         Description = @"Maldon (Essex) - Boundary Relation",
+                        Type = Enums.LocationType.Area,
                         BoundingBox = string.Empty,
+                        AreaQuery = @"council_name=""Maldon District Council""",
+                        BusStopTimeOut = 25,
+                        TransportTimeOut = 45,
+                        OrphanRoutesTimeOut = 45,
                         BusStopQuery =
-                            @"[out:json][timeout:25];area[council_name=""Maldon District Council""]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:45];area[council_name=""Maldon District Council""]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;"
-                    });
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                        OrphansQuery =
+                            @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
+        });
             returnValue.Add(
                 new Location
                     {
                         Description = @"Tendring/Colchester/Maldon",
                         BoundingBox = string.Empty,
                         BusStopQuery =
-                            @"[out:json][timeout:35];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:45];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);<<;)->.d;relation.d[""route""!=""bus""];(._;>>;);out;"
-                    });
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);<<;)->.d;relation.d[""route""!=""bus""];(._;>>;);out;",
+                        OrphansQuery =
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];(relation(area.c)[""route""=""bus""];);<<;)->.d; relation.d[""route""=""bus""];(._;>>;);out meta;"
+                });
 
             Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
             Settings.Default.Save();
@@ -386,6 +425,43 @@ namespace CheckPublicTransportRelations
             }
 
             string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder, "OsmData.json");
+            File.WriteAllText(fileName, overpassTransportDataXml);
+            return true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets orphans asynchronous.</summary>
+        ///
+        /// <param name="overPassQuery">    The over pass query.</param>
+        /// <param name="locationSubfolder">The location subfolder.</param>
+        ///
+        /// <returns>The orphans asynchronous.</returns>
+        // ===========================================================================================================
+        private static async Task<bool> GetOrphansAsync(string overPassQuery, string locationSubfolder)
+        {
+            HttpResponseMessage response = await Client.GetAsync(overPassQuery);
+            if (!response.IsSuccessStatusCode)
+            {
+                return false;
+            }
+
+            string overpassTransportDataXml = await response.Content.ReadAsStringAsync();
+            dynamic entities = JToken.Parse(overpassTransportDataXml);
+            if (entities.elements == null || entities.elements.Count <= 0)
+            {
+                string remark = entities.remark;
+                MessageBox.Show(
+                    remark,
+                    @"Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error,
+                    MessageBoxDefaultButton.Button1);
+                return false;
+            }
+
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder, "OsmOrphans.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
         }
@@ -1015,6 +1091,103 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Extracts the open street map orphan routes.</summary>
+        // ===========================================================================================================
+        private void ExtractOpenStreetMapOrphans()
+        {
+            // To determine orphan routes we check which routes are in the Orphans query that aren't a member of a route_master relation
+            // I couldn't work out an overpass query to do this without comparing results.
+            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmOrphans.json");
+            if (!File.Exists(fileName))
+            {
+                return;
+            }
+
+            var routesDictionary = new Dictionary<long, long>();
+            var routesReferenceDictionary = new Dictionary<long, string>();
+            var routesOperatorDictionary = new Dictionary<long, string>();
+            var routesFromDictionary = new Dictionary<long, string>();
+            var routesToDictionary = new Dictionary<long, string>();
+            var routesNameDictionary = new Dictionary<long, string>();
+
+            string openStreetMapData = File.ReadAllText(fileName);
+            dynamic entities = JToken.Parse(openStreetMapData);
+            foreach (dynamic element in entities.elements)
+            {
+                string type = element.type;
+
+                if (type != "relation")
+                {
+                    continue;
+                }
+
+                long id = element.id;
+                if (element.tags == null)
+                {
+                    continue;
+                }
+
+                string relationType = element.tags["type"];
+
+                if (relationType != "route")
+                {
+                    continue;
+                }
+
+                routesDictionary.Add(id, id);
+                if (element.tags != null && element.tags["ref"] != null)
+                {
+                    string routeRef = element.tags["ref"];
+                    routesReferenceDictionary.Add(id, routeRef);
+                }
+                else
+                {
+                    routesReferenceDictionary.Add(id, string.Empty);
+                }
+
+                string routeOperator = element.tags["operator"] ?? string.Empty;
+                routesOperatorDictionary.Add(id, routeOperator);
+                string relationFrom = element.tags["from"] ?? string.Empty;
+                routesFromDictionary.Add(id, relationFrom);
+                string relationTo = element.tags["to"] ?? string.Empty;
+                routesToDictionary.Add(id, relationTo);
+                string relationName = element.tags["name"] ?? string.Empty;
+                routesNameDictionary.Add(id, relationName);
+            }
+
+            foreach (var service in this.OpenStreetMapRoutes)
+            {
+                foreach (var routeVariant in service.RouteVariants)
+                {
+                    if (routesDictionary.ContainsKey(routeVariant.Id))
+                    {
+                        routesDictionary.Remove(routeVariant.Id);
+                    }
+                }
+            }
+
+            this.OrphanRoutes = new List<OpenStreetMapRouteVariant>();
+            foreach (long routeId in routesDictionary.Keys)
+            {
+                long relationId = routeId;
+                string reference = routesReferenceDictionary[relationId];
+                string routeOperator = routesOperatorDictionary[relationId];
+                var openStreetMapRouteVariant = new OpenStreetMapRouteVariant
+                                                    {
+                                                        Reference = reference,
+                                                        Operator = routeOperator,
+                                                        Id = relationId,
+                                                        RelationFrom = routesFromDictionary[relationId],
+                                                        RelationTo = routesToDictionary[relationId],
+                                                        Name = routesNameDictionary[relationId]
+                                                    };
+                this.OrphanRoutes.Add(openStreetMapRouteVariant);
+            }
+        }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Extracts the open street map routes.</summary>
@@ -1165,6 +1338,7 @@ namespace CheckPublicTransportRelations
             }
 
             this.RouteBusStops = routeBusStops;
+            this.ExtractOpenStreetMapOrphans();
         }
 
         // ===========================================================================================================
@@ -1491,7 +1665,13 @@ namespace CheckPublicTransportRelations
             string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
                                                                    + this.SelectedLocation.TransportQuery.Replace(
                                                                        "{{bbox}}",
-                                                                       this.SelectedLocation.BoundingBox);
+                                                                       this.SelectedLocation.BoundingBox)
+                                                                           .Replace(
+                                                                               "{{area}}",
+                                                                               this.SelectedLocation.AreaQuery)
+                                                                           .Replace(
+                                                                               "{{timeout}}",
+                                                                               this.SelectedLocation.TransportTimeOut.ToString());
 
             if (!await GetDataAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description)))
             {
@@ -1542,6 +1722,7 @@ namespace CheckPublicTransportRelations
             this.openStreetMapStopsDataGridView.AutoGenerateColumns = false;
             this.travelineStopsDataGridView.AutoGenerateColumns = false;
             this.stopsDataGridView.AutoGenerateColumns = false;
+            this.orphansDataGridView.AutoGenerateColumns = false;
             this.RefreshForm();
         }
 
@@ -1564,6 +1745,7 @@ namespace CheckPublicTransportRelations
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
             this.ExtractOpenStreetMapRoutes();
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
+            this.orphansDataGridView.DataSource = this.OrphanRoutes;
             this.CompareResults();
             this.ExtractNaptanStops();
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
@@ -1652,7 +1834,13 @@ namespace CheckPublicTransportRelations
             string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
                                                                    + this.SelectedLocation.BusStopQuery.Replace(
                                                                        "{{bbox}}",
-                                                                       this.SelectedLocation.BoundingBox);
+                                                                       this.SelectedLocation.BoundingBox)
+                                                                       .Replace(
+                                                                           "{{area}}",
+                                                                           this.SelectedLocation.AreaQuery)
+                                                                       .Replace(
+                                                                           "{{timeout}}",
+                                                                           this.SelectedLocation.BusStopTimeOut.ToString());
             try
             {
                 this.OverpassBusStops = await GetBusStopsAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description));
@@ -2201,7 +2389,14 @@ namespace CheckPublicTransportRelations
         private void SparseEditAreaRemoteControlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string overpassQuery = this.SelectedLocation.TransportQuery
-                .Replace("{{bbox}}", this.SelectedLocation.BoundingBox).Replace("[out:json]", "[out:xml]")
+                .Replace("{{bbox}}", this.SelectedLocation.BoundingBox)
+                .Replace("[out:json]", "[out:xml]")
+                .Replace(
+                    "{{area}}",
+                    this.SelectedLocation.AreaQuery)
+                .Replace(
+                    "{{timeout}}",
+                    this.SelectedLocation.TransportTimeOut.ToString())
                 .Replace("out;", "out meta;");
             string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Finterpreter"
                            + HttpUtility.UrlEncode("?data=" + overpassQuery);
@@ -2304,6 +2499,60 @@ namespace CheckPublicTransportRelations
                 "http://127.0.0.1:8111/load_object?new_layer=false&objects=",
                 (current, row) => current + "n" + row.Cells[index].Value + ",");
             value = value.Substring(0, value.Length - 1);
+            Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by CheckForOrphanRoutesToolStripMenuItem for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private async void CheckForOrphanRoutesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
+                                                                   + this.SelectedLocation.OrphansQuery.Replace(
+                                                                           "{{bbox}}",
+                                                                           this.SelectedLocation.BoundingBox)
+                                                                       .Replace(
+                                                                           "{{area}}",
+                                                                           this.SelectedLocation.AreaQuery)
+                                                                       .Replace(
+                                                                           "{{timeout}}",
+                                                                           this.SelectedLocation.OrphanRoutesTimeOut.ToString());
+
+            if (!await GetOrphansAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description)))
+            {
+                this.Enabled = true;
+                return;
+            }
+
+            this.ExtractOpenStreetMapOrphans();
+            this.orphansDataGridView.DataSource = this.OrphanRoutes;
+            this.Enabled = true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Orphans data grid view cell content click.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void OrphansDataGridViewCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (this.orphansDataGridView.Columns["idOrphanColumn"] == null
+                || e.ColumnIndex != this.orphansDataGridView.Columns["idOrphanColumn"].Index || e.RowIndex == -1)
+            {
+                return;
+            }
+
+            string value = "http://127.0.0.1:8111/load_object?new_layer=false&relation_members=true&referrers=true&objects=r"
+                           + this.orphansDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
         }
     }

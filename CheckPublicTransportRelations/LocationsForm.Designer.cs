@@ -35,6 +35,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.locationsDataGridView = new System.Windows.Forms.DataGridView();
+            this.editLocationButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.locationDescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.locationBoundingBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.locationBusStopsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -109,8 +110,11 @@
             // 
             // locationsDataGridView
             // 
+            this.locationsDataGridView.AllowUserToAddRows = false;
+            this.locationsDataGridView.AllowUserToDeleteRows = false;
             this.locationsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.locationsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.editLocationButtonColumn,
             this.locationDescriptionColumn,
             this.locationBoundingBoxColumn,
             this.locationBusStopsColumn,
@@ -119,16 +123,27 @@
             this.locationsDataGridView.Location = new System.Drawing.Point(0, 0);
             this.locationsDataGridView.MultiSelect = false;
             this.locationsDataGridView.Name = "locationsDataGridView";
+            this.locationsDataGridView.RowHeadersVisible = false;
             this.locationsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.locationsDataGridView.Size = new System.Drawing.Size(834, 412);
             this.locationsDataGridView.TabIndex = 1;
+            this.locationsDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LocationsDataGridView_CellContentClick);
             this.locationsDataGridView.SelectionChanged += new System.EventHandler(this.LocationsDataGridView_SelectionChanged);
+            // 
+            // editLocationButtonColumn
+            // 
+            this.editLocationButtonColumn.HeaderText = "Edit";
+            this.editLocationButtonColumn.Name = "editLocationButtonColumn";
+            this.editLocationButtonColumn.Text = "...";
+            this.editLocationButtonColumn.UseColumnTextForButtonValue = true;
+            this.editLocationButtonColumn.Width = 40;
             // 
             // locationDescriptionColumn
             // 
             this.locationDescriptionColumn.DataPropertyName = "Description";
             this.locationDescriptionColumn.HeaderText = "Description";
             this.locationDescriptionColumn.Name = "locationDescriptionColumn";
+            this.locationDescriptionColumn.ReadOnly = true;
             this.locationDescriptionColumn.Width = 150;
             // 
             // locationBoundingBoxColumn
@@ -136,6 +151,7 @@
             this.locationBoundingBoxColumn.DataPropertyName = "BoundingBox";
             this.locationBoundingBoxColumn.HeaderText = "BBox";
             this.locationBoundingBoxColumn.Name = "locationBoundingBoxColumn";
+            this.locationBoundingBoxColumn.ReadOnly = true;
             this.locationBoundingBoxColumn.Width = 200;
             // 
             // locationBusStopsColumn
@@ -143,6 +159,7 @@
             this.locationBusStopsColumn.DataPropertyName = "BusStopQuery";
             this.locationBusStopsColumn.HeaderText = "Stops";
             this.locationBusStopsColumn.Name = "locationBusStopsColumn";
+            this.locationBusStopsColumn.ReadOnly = true;
             this.locationBusStopsColumn.Width = 200;
             // 
             // locationDataColumn
@@ -150,6 +167,7 @@
             this.locationDataColumn.DataPropertyName = "TransportQuery";
             this.locationDataColumn.HeaderText = "Data";
             this.locationDataColumn.Name = "locationDataColumn";
+            this.locationDataColumn.ReadOnly = true;
             this.locationDataColumn.Width = 200;
             // 
             // LocationsForm
@@ -181,11 +199,12 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.DataGridView locationsDataGridView;
+        private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.Button deleteButton;
+        private System.Windows.Forms.DataGridViewButtonColumn editLocationButtonColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn locationDescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn locationBoundingBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn locationBusStopsColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn locationDataColumn;
-        private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.Button deleteButton;
     }
 }
