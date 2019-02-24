@@ -938,6 +938,15 @@ namespace CheckPublicTransportRelations
             this.ExtractTravelineRoutes();
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
             this.RefreshStatus();
+            string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+            string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
+            if (File.Exists(areaFileName))
+            {
+                File.Delete(areaFileName);
+            }
+
+            this.ExtractNaptanStops();
+            this.RefreshStopsGrid();
             this.CompareResults();
             this.Enabled = true;
         }
@@ -1848,6 +1857,13 @@ namespace CheckPublicTransportRelations
                 this.SelectedLocation.LastOpenStreetMapBusStopRefresh = DateTime.Today;
                 this.Locations.Save();
                 this.RefreshStatus();
+                string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+                string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
+                if (File.Exists(areaFileName))
+                {
+                    File.Delete(areaFileName);
+                }
+
                 this.ExtractNaptanStops();
                 this.RefreshStopsGrid();
             }
