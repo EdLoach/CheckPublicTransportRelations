@@ -90,6 +90,12 @@
     <Compile Include="LocationsForm.Designer.cs">
       <DependentUpon>LocationsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NaptanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NaptanForm.Designer.cs">
+      <DependentUpon>NaptanForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="OpenStreetMapRouteMaster.cs" />
     <Compile Include="OpenStreetMapRouteVariant.cs" />
     <Compile Include="OpenStreetMapStop.cs" />
@@ -124,6 +130,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LocationsForm.resx">
       <DependentUpon>LocationsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NaptanForm.resx">
+      <DependentUpon>NaptanForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TravelineDownloadForm.resx">
       <DependentUpon>TravelineDownloadForm.cs</DependentUpon>

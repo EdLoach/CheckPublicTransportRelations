@@ -2224,15 +2224,26 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void StopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.stopsDataGridView.Columns["stopIdColumn"] == null
-                || e.ColumnIndex != this.stopsDataGridView.Columns["stopIdColumn"].Index || e.RowIndex == -1)
+            var senderGrid = (DataGridView)sender;
+            if (this.stopsDataGridView.Columns["stopIdColumn"] != null
+                && e.ColumnIndex == this.stopsDataGridView.Columns["stopIdColumn"].Index && e.RowIndex != -1)
+            {
+                string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
+                               + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                Process.Start(value);
+            }
+            
+            if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                || senderGrid.Columns[e.ColumnIndex].Name != this.naptanInfoStopButtonColumn.Name || e.RowIndex < 0)
             {
                 return;
             }
-
-            string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
-                           + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            Process.Start(value);
+            
+            this.Enabled = false;
+            var selectedRow = (BusStop)senderGrid.Rows[e.RowIndex].DataBoundItem;
+            var editForm = new NaptanForm(selectedRow);
+            editForm.ShowDialog();
+            this.Enabled = true;
         }
 
         // ===========================================================================================================
@@ -2554,6 +2565,32 @@ namespace CheckPublicTransportRelations
             string value = "http://127.0.0.1:8111/load_object?new_layer=false&relation_members=true&referrers=true&objects=r"
                            + this.orphansDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void TravelineStopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                || senderGrid.Columns[e.ColumnIndex].Name != this.naptanInfoButtonColumn.Name || e.RowIndex < 0)
+            {
+                return;
+            }
+
+            this.Enabled = false;
+            var selectedRow = (JourneyStop)senderGrid.Rows[e.RowIndex].DataBoundItem;
+            var editForm = new NaptanForm(selectedRow);
+            editForm.ShowDialog();
+            this.Enabled = true;
         }
     }
 }
