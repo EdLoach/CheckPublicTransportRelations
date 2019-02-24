@@ -24,14 +24,75 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public Location()
         {
+            this.Type = Enums.LocationType.BoundingBox;
             this.Description = @"New Location";
             this.BoundingBox = @"51.767,0.93,51.96,1.294";
-            this.BusStopQuery = @"[out:json][timeout:25];(node[""naptan: AtcoCode""][!""railway""]({{bbox}}););out;>;out skel qt;";
-            this.TransportQuery = @"[out:json][timeout:25];((node[""naptan:AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+            this.AreaQuery = string.Empty;
+            this.BusStopTimeOut = 25;
+            this.TransportTimeOut = 45;
+            this.OrphanRoutesTimeOut = 45;
+            this.BusStopQuery = @"[out:json][timeout:{{timeout}}];(node[""naptan: AtcoCode""][!""railway""]({{bbox}}););out;>;out skel qt;";
+            this.TransportQuery = @"[out:json][timeout:{{timeout}}];((node[""naptan:AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+            this.OrphansQuery =
+                @"[out:json][timeout:35];((relation({{bbox}})[""route""=""bus""];);<<;)->.b;relation.b[""route""=""bus""];(._;>>;);out;";
             this.LastOpenStreetMapBusStopRefresh = DateTime.MinValue;
             this.LastServiceExtract = DateTime.MinValue;
             this.LastOpenStreetMapDownload = DateTime.MinValue;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the area query.</summary>
+        ///
+        /// <value>The area query.</value>
+        // ===========================================================================================================
+        public string AreaQuery { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the orphans query.</summary>
+        ///
+        /// <value>The orphans query.</value>
+        // ===========================================================================================================
+        public string OrphansQuery { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the transport time out.</summary>
+        ///
+        /// <value>The transport time out.</value>
+        // ===========================================================================================================
+        public int TransportTimeOut { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the bus stop time out.</summary>
+        ///
+        /// <value>The bus stop time out.</value>
+        // ===========================================================================================================
+        public int BusStopTimeOut { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the orphan routes time out.</summary>
+        ///
+        /// <value>The orphan routes time out.</value>
+        // ===========================================================================================================
+        public int OrphanRoutesTimeOut { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the type.</summary>
+        ///
+        /// <value>The type.</value>
+        // ===========================================================================================================
+        public Enums.LocationType Type { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>

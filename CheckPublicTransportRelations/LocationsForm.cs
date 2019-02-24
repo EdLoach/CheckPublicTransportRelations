@@ -9,9 +9,6 @@
 namespace CheckPublicTransportRelations
 {
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.IO;
     using System.Windows.Forms;
 
     // ===========================================================================================================
@@ -97,8 +94,14 @@ namespace CheckPublicTransportRelations
         private void AddButton_Click(object sender, EventArgs e)
         {
             this.locationsDataGridView.DataSource = null;
-            this.Locations.Add(new Location());
-            this.locationsDataGridView.DataSource = this.Locations;
+            var addForm = new LocationForm();
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                this.Locations.Add(addForm.SelectedLocation);
+                this.locationsDataGridView.DataSource = null;
+                this.locationsDataGridView.DataSource = this.Locations;
+            }
+
             this.deleteButton.Enabled = this.locationsDataGridView.SelectedRows.Count == 1 && this.locationsDataGridView.Rows.Count > 1;
         }
 
@@ -129,6 +132,36 @@ namespace CheckPublicTransportRelations
             this.locationsDataGridView.DataSource = null;
             this.locationsDataGridView.DataSource = this.Locations;
             this.deleteButton.Enabled = this.locationsDataGridView.SelectedRows.Count == 1 && this.locationsDataGridView.Rows.Count > 1;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 10 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by LocationsDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void LocationsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                senderGrid.Columns[e.ColumnIndex].Name == this.editLocationButtonColumn.Name &&
+                e.RowIndex >= 0)
+            {
+                var selectedRow = (Location)senderGrid.Rows[e.RowIndex].DataBoundItem;
+                var editForm = new LocationForm(selectedRow);
+                if (editForm.ShowDialog() == DialogResult.OK)
+                {
+                    this.Locations.Remove(selectedRow);
+                    this.Locations.Add(editForm.SelectedLocation);
+                    this.locationsDataGridView.DataSource = null;
+                    this.locationsDataGridView.DataSource = this.Locations;
+
+                    this.deleteButton.Enabled = this.locationsDataGridView.SelectedRows.Count == 1 && this.locationsDataGridView.Rows.Count > 1;
+                }
+            }
         }
     }
 }
