@@ -354,20 +354,20 @@ namespace CheckPublicTransportRelations
         {
             string type = element.type;
             long id = element.id;
-            string atcoCode = element.tags["naptan:AtcoCode"];
-            string stopName = element.tags["name"];
-            string naptanCode = element.tags["naptan:NaptanCode"];
-            string stopStatus = element.tags["naptan:Status"];
-            string busStopType = element.tags["naptan:BusStopType"];
-            string notName = element.tags["not:name"];
-            string highway = element.tags["highway"];
+            string atcoCode = element.tags["naptan:AtcoCode"] ?? string.Empty;
+            string stopName = element.tags["name"] ?? string.Empty;
+            string naptanCode = element.tags["naptan:NaptanCode"] ?? string.Empty;
+            string stopStatus = element.tags["naptan:Status"] ?? string.Empty;
+            string busStopType = element.tags["naptan:BusStopType"] ?? string.Empty;
+            string notName = element.tags["not:name"] ?? string.Empty;
+            string highway = element.tags["highway"] ?? string.Empty;
 
             // layby tag ignored in this list as may be visible on imagery and not indicative of a survey
-            string physicallyPresent = element.tags["physically_present"];
-            string flagTagValue = element.tags["flag"];
-            string shelterTagValue = element.tags["shelter"];
-            string kerbTagValue = element.tags["kerb"];
-            string timetableCaseTagValue = element.tags["timetable_case"];
+            string physicallyPresent = element.tags["physically_present"] ?? string.Empty;
+            string flagTagValue = element.tags["flag"] ?? string.Empty;
+            string shelterTagValue = element.tags["shelter"] ?? string.Empty;
+            string kerbTagValue = element.tags["kerb"] ?? string.Empty;
+            string timetableCaseTagValue = element.tags["timetable_case"] ?? string.Empty;
             string surveyedValue = !string.IsNullOrEmpty(physicallyPresent) || !string.IsNullOrEmpty(flagTagValue)
                                                                             || !string.IsNullOrEmpty(shelterTagValue)
                                                                             || !string.IsNullOrEmpty(kerbTagValue)
@@ -376,7 +376,7 @@ namespace CheckPublicTransportRelations
                     ? "yes"
                     : string.Empty;
             
-            string naptanVerified = element.tags["naptan:verified"];
+            string naptanVerified = element.tags["naptan:verified"] ?? string.Empty;
             var busStop = new BusStop(
                 type,
                 id,
@@ -1243,6 +1243,12 @@ namespace CheckPublicTransportRelations
                         routeBusStops.Add(busStop);
                     }
                     else if (element.tags != null && element.tags["public_transport"] == "platform")
+                    {
+                        stopsDictionary.Add(nodeId, string.Empty);
+                        BusStop busStop = BusStop(element);
+                        routeBusStops.Add(busStop);
+                    }
+                    else if (element.tags != null && element.tags["highway"] == "bus_stop")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
                         BusStop busStop = BusStop(element);
