@@ -354,20 +354,20 @@ namespace CheckPublicTransportRelations
         {
             string type = element.type;
             long id = element.id;
-            string atcoCode = element.tags["naptan:AtcoCode"];
-            string stopName = element.tags["name"];
-            string naptanCode = element.tags["naptan:NaptanCode"];
-            string stopStatus = element.tags["naptan:Status"];
-            string busStopType = element.tags["naptan:BusStopType"];
-            string notName = element.tags["not:name"];
-            string highway = element.tags["highway"];
+            string atcoCode = element.tags["naptan:AtcoCode"] ?? string.Empty;
+            string stopName = element.tags["name"] ?? string.Empty;
+            string naptanCode = element.tags["naptan:NaptanCode"] ?? string.Empty;
+            string stopStatus = element.tags["naptan:Status"] ?? string.Empty;
+            string busStopType = element.tags["naptan:BusStopType"] ?? string.Empty;
+            string notName = element.tags["not:name"] ?? string.Empty;
+            string highway = element.tags["highway"] ?? string.Empty;
 
             // layby tag ignored in this list as may be visible on imagery and not indicative of a survey
-            string physicallyPresent = element.tags["physically_present"];
-            string flagTagValue = element.tags["flag"];
-            string shelterTagValue = element.tags["shelter"];
-            string kerbTagValue = element.tags["kerb"];
-            string timetableCaseTagValue = element.tags["timetable_case"];
+            string physicallyPresent = element.tags["physically_present"] ?? string.Empty;
+            string flagTagValue = element.tags["flag"] ?? string.Empty;
+            string shelterTagValue = element.tags["shelter"] ?? string.Empty;
+            string kerbTagValue = element.tags["kerb"] ?? string.Empty;
+            string timetableCaseTagValue = element.tags["timetable_case"] ?? string.Empty;
             string surveyedValue = !string.IsNullOrEmpty(physicallyPresent) || !string.IsNullOrEmpty(flagTagValue)
                                                                             || !string.IsNullOrEmpty(shelterTagValue)
                                                                             || !string.IsNullOrEmpty(kerbTagValue)
@@ -376,7 +376,7 @@ namespace CheckPublicTransportRelations
                     ? "yes"
                     : string.Empty;
             
-            string naptanVerified = element.tags["naptan:verified"];
+            string naptanVerified = element.tags["naptan:verified"] ?? string.Empty;
             var busStop = new BusStop(
                 type,
                 id,
@@ -938,6 +938,15 @@ namespace CheckPublicTransportRelations
             this.ExtractTravelineRoutes();
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
             this.RefreshStatus();
+            string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+            string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
+            if (File.Exists(areaFileName))
+            {
+                File.Delete(areaFileName);
+            }
+
+            this.ExtractNaptanStops();
+            this.RefreshStopsGrid();
             this.CompareResults();
             this.Enabled = true;
         }
@@ -1234,6 +1243,12 @@ namespace CheckPublicTransportRelations
                         routeBusStops.Add(busStop);
                     }
                     else if (element.tags != null && element.tags["public_transport"] == "platform")
+                    {
+                        stopsDictionary.Add(nodeId, string.Empty);
+                        BusStop busStop = BusStop(element);
+                        routeBusStops.Add(busStop);
+                    }
+                    else if (element.tags != null && element.tags["highway"] == "bus_stop")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
                         BusStop busStop = BusStop(element);
@@ -1848,6 +1863,13 @@ namespace CheckPublicTransportRelations
                 this.SelectedLocation.LastOpenStreetMapBusStopRefresh = DateTime.Today;
                 this.Locations.Save();
                 this.RefreshStatus();
+                string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+                string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
+                if (File.Exists(areaFileName))
+                {
+                    File.Delete(areaFileName);
+                }
+
                 this.ExtractNaptanStops();
                 this.RefreshStopsGrid();
             }
@@ -2224,15 +2246,26 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void StopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (this.stopsDataGridView.Columns["stopIdColumn"] == null
-                || e.ColumnIndex != this.stopsDataGridView.Columns["stopIdColumn"].Index || e.RowIndex == -1)
+            var senderGrid = (DataGridView)sender;
+            if (this.stopsDataGridView.Columns["stopIdColumn"] != null
+                && e.ColumnIndex == this.stopsDataGridView.Columns["stopIdColumn"].Index && e.RowIndex != -1)
+            {
+                string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
+                               + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                Process.Start(value);
+            }
+            
+            if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                || senderGrid.Columns[e.ColumnIndex].Name != this.naptanInfoStopButtonColumn.Name || e.RowIndex < 0)
             {
                 return;
             }
-
-            string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
-                           + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
-            Process.Start(value);
+            
+            this.Enabled = false;
+            var selectedRow = (BusStop)senderGrid.Rows[e.RowIndex].DataBoundItem;
+            var editForm = new NaptanForm(selectedRow);
+            editForm.ShowDialog();
+            this.Enabled = true;
         }
 
         // ===========================================================================================================
@@ -2554,6 +2587,32 @@ namespace CheckPublicTransportRelations
             string value = "http://127.0.0.1:8111/load_object?new_layer=false&relation_members=true&referrers=true&objects=r"
                            + this.orphansDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 24 February 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        private void TravelineStopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                || senderGrid.Columns[e.ColumnIndex].Name != this.naptanInfoButtonColumn.Name || e.RowIndex < 0)
+            {
+                return;
+            }
+
+            this.Enabled = false;
+            var selectedRow = (JourneyStop)senderGrid.Rows[e.RowIndex].DataBoundItem;
+            var editForm = new NaptanForm(selectedRow);
+            editForm.ShowDialog();
+            this.Enabled = true;
         }
     }
 }

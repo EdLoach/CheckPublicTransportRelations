@@ -40,7 +40,7 @@ namespace CheckPublicTransportRelations
             this.Type = elementType;
             this.Id = elementId;
             this.AtcoCode = elementAtcoCode;
-            this.StopName = stopName;
+            this.StopName = stopName ?? string.Empty;
             this.NaptanCode = naptanCode;
             this.BusStopType = busStopType;
             this.Status = stopStatus;

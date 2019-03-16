@@ -164,6 +164,12 @@ namespace CheckPublicTransportRelations
             string subFolder = DateTime.Today.ToString("yyyyMMdd");
             string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, MainForm.ValidPathString(this.SelectedLocation.Description), subFolder);
             Directory.CreateDirectory(copyPath);
+            var directoryInfo = new DirectoryInfo(copyPath);
+            FileInfo[] files = directoryInfo.GetFiles("*.xml");
+            foreach (FileInfo file in files)
+            {
+                File.Delete(file.FullName);
+            }
 
             var openStreetMapStops = new HashSet<string>();
             foreach (BusStop stop in this.OverpassBusStops)
@@ -175,8 +181,8 @@ namespace CheckPublicTransportRelations
             }
 
             // get files in local path
-            var directoryInfo = new DirectoryInfo(Properties.Settings.Default.LocalPath);
-            FileInfo[] files = directoryInfo.GetFiles("*.zip");
+            directoryInfo = new DirectoryInfo(Properties.Settings.Default.LocalPath);
+            files = directoryInfo.GetFiles("*.zip");
             this.fileProgressBar.Minimum = 0;
             int filesCount = files.Length;
             var counter = 0;
