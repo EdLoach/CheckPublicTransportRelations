@@ -1281,11 +1281,21 @@ namespace CheckPublicTransportRelations
                     if (memberRole.Contains("platform"))
                     {
                         long routeId = member.@ref;
-                        var journeyStop = new JourneyStop
-                                              {
-                                                  StopPointRef = stopsDictionary[routeId], Activity = memberRole
-                                              };
-                        routeStops.Add(journeyStop);
+                        if (stopsDictionary.ContainsKey(routeId))
+                        {
+                            var journeyStop = new JourneyStop
+                                                  {
+                                                      StopPointRef = stopsDictionary[routeId], Activity = memberRole
+                                                  };
+                            routeStops.Add(journeyStop);
+                        }
+                        else
+                        {
+                            routeStops.Add(new JourneyStop
+                                               {
+                                                   Activity = memberRole
+                                               });
+                        }
                     }
                 }
 
