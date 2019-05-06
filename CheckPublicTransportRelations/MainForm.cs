@@ -2624,5 +2624,45 @@ namespace CheckPublicTransportRelations
             editForm.ShowDialog();
             this.Enabled = true;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 6 May 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by SelectAllButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void SelectAllButton_Click(object sender, EventArgs e)
+        {
+            if (this.travelineStopsDataGridView.RowCount <= 0)
+            {
+                return;
+            }
+
+            var value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=";
+            foreach (DataGridViewRow stopRow in this.travelineStopsDataGridView.Rows)
+            {
+                BusStop naptanStop = this.RouteBusStops.FirstOrDefault(
+                    item => item.AtcoCode
+                            == ((JourneyStop)stopRow
+                                       .DataBoundItem).StopPointRef);
+                if (naptanStop == null)
+                {
+                    continue;
+                }
+
+                value += "n" + naptanStop.Id + ",";
+                this.addNodeButton.Visible = true;
+            }
+
+            if (!value.EndsWith(","))
+            {
+                return;
+            }
+
+            value = value.Substring(0, value.Length - 1);
+            Process.Start(value);
+        }
     }
 }
