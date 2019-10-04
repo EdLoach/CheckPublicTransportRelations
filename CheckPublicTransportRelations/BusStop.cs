@@ -231,6 +231,7 @@ namespace CheckPublicTransportRelations
                                                             .Replace(" Gdns", " Gardens")
                                                             .Replace(" Cotts", " Cottages")
                                                             .Replace(" Ave", " Avenue")
+                                                            .Replace(" Prom", " Promenade")
                                                             .Replace(" Avenuenue", " Avenue")
                                                             .Replace("(", string.Empty)
                                                             .Replace(")", string.Empty)) 
