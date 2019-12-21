@@ -10,6 +10,7 @@ namespace CheckPublicTransportRelations
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Forms;
 
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
@@ -37,7 +38,10 @@ namespace CheckPublicTransportRelations
             this.ServiceReference = string.Empty;
             this.ServiceOperator = string.Empty;
             this.ServiceStops = new List<JourneyStop>();
+            this.RelationEndNodes = 0;
         }
+
+        public bool Gaps => this.RelationEndNodes != 0 && this.RelationEndNodes != 2;
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
@@ -182,5 +186,7 @@ namespace CheckPublicTransportRelations
         /// <value>True if stops equal, false if not.</value>
         // ===========================================================================================================
         public bool StopsEqual => this.RelationStops.SequenceEqual(this.ServiceStops);
+
+        public int RelationEndNodes { get; set; }
     }
 }

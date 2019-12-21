@@ -104,5 +104,7 @@ namespace CheckPublicTransportRelations
         /// <value>The number of stops.</value>
         // ===========================================================================================================
         public int StopsCount => this.BusStops.Count;
+
+        public int EndNodes { get; set; }
     }
 }

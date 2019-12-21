@@ -53,6 +53,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private static bool Download(string file)
         {
+            if (file == "TNDSV2.5")
+            {
+                return true;
+            }
+
             try
             {
                 var sessionOptions = new SessionOptions
