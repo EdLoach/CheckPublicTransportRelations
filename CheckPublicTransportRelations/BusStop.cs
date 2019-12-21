@@ -222,14 +222,19 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if names match, false if not.</value>
         // ===========================================================================================================
-        public bool NamesMatch => (this.StopName.Contains(this.NaptanName
+        public bool NamesMatch => (this.StopName.Replace("(", string.Empty)
+                                       .Replace(")", string.Empty)
+                                       .Contains(this.NaptanName
                                                             .Replace(" Rdbt", " Roundabout")
                                                             .Replace(" Rd", " Road")
                                                             .Replace(" Ln"," Lane")
                                                             .Replace(" Gdns", " Gardens")
                                                             .Replace(" Cotts", " Cottages")
                                                             .Replace(" Ave", " Avenue")
-                                                            .Replace(" Avenuenue", " Avenue")) 
+                                                            .Replace(" Prom", " Promenade")
+                                                            .Replace(" Avenuenue", " Avenue")
+                                                            .Replace("(", string.Empty)
+                                                            .Replace(")", string.Empty)) 
                                   && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
 
         // ===========================================================================================================

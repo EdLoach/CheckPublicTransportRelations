@@ -780,7 +780,8 @@ namespace CheckPublicTransportRelations
                                                RelationStops = routeVariant.BusStops,
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
-                                               RelationTo = routeVariant.RelationTo
+                                               RelationTo = routeVariant.RelationTo,
+                                               RelationEndNodes = routeVariant.EndNodes
                                            };
                 foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
                 {
@@ -821,7 +822,8 @@ namespace CheckPublicTransportRelations
                                                RelationStops = routeVariant.BusStops,
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
-                                               RelationTo = routeVariant.RelationTo
+                                               RelationTo = routeVariant.RelationTo,
+                                               RelationEndNodes =  routeVariant.EndNodes
                                            };
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
@@ -1208,7 +1210,9 @@ namespace CheckPublicTransportRelations
             // we populate this.OpenStreetMapRoutes. 
             // This was false as relations weren't all routes before route masters, so split to two loops
             var routeBusStops = new List<BusStop>();
+            var wayEndNodes = new Dictionary<long, string>();
             var stopsDictionary = new Dictionary<long, string>();
+            var routeEndNodesDictionary = new Dictionary<long, int>();
             var routesStopsDictionary = new Dictionary<long, List<JourneyStop>>();
             var routesReferenceDictionary = new Dictionary<long, string>();
             var routesOperatorDictionary = new Dictionary<long, string>();
@@ -1256,58 +1260,121 @@ namespace CheckPublicTransportRelations
                     }
                 }
 
-                if (type != "relation")
+                if (type == "way")
                 {
-                    continue;
-                }
-
-                long id = element.id;
-                if (element.tags == null)
-                {
-                    continue;
-                }
-
-                string relationType = element.tags["type"];
-
-                if (relationType != "route")
-                {
-                    continue;
-                }
-
-                var routeStops = new List<JourneyStop>();
-                foreach (dynamic member in element.members)
-                {
-                    string memberRole = member.role ?? string.Empty;
-                    if (memberRole.Contains("platform"))
+                    long id = element.id;
+                    bool foundFirst = false;
+                    string firstAndLast = string.Empty;
+                    string lastNode = string.Empty;
+                    foreach (dynamic node in element.nodes)
                     {
-                        long routeId = member.@ref;
-                        var journeyStop = new JourneyStop
-                                              {
-                                                  StopPointRef = stopsDictionary[routeId], Activity = memberRole
-                                              };
-                        routeStops.Add(journeyStop);
+                        if (!foundFirst)
+                        {
+                            firstAndLast = node.ToString() + "+";
+                            foundFirst = true;
+                        }
+
+                        lastNode = node.ToString();
+                    }
+
+                    firstAndLast += lastNode;
+                    if (!wayEndNodes.ContainsKey(id))
+                    {
+                        wayEndNodes.Add(id, firstAndLast);
+                    }
+                    else
+                    {
+                        // error - way id should be unique to the extract
                     }
                 }
 
-                routesStopsDictionary.Add(id, routeStops);
-                if (element.tags != null && element.tags["ref"] != null)
+                if (type == "relation")
                 {
-                    string routeRef = element.tags["ref"];
-                    routesReferenceDictionary.Add(id, routeRef);
-                }
-                else
-                {
-                    routesReferenceDictionary.Add(id, string.Empty);
-                }
+                    long id = element.id;
+                    if (element.tags == null)
+                    {
+                        continue;
+                    }
 
-                string routeOperator = element.tags["operator"] ?? string.Empty;
-                routesOperatorDictionary.Add(id, routeOperator);
-                string relationFrom = element.tags["from"] ?? string.Empty;
-                routesFromDictionary.Add(id, relationFrom);
-                string relationTo = element.tags["to"] ?? string.Empty;
-                routesToDictionary.Add(id, relationTo);
-                string relationName = element.tags["name"] ?? string.Empty;
-                routesNameDictionary.Add(id, relationName);
+                    string relationType = element.tags["type"];
+
+                    if (relationType != "route")
+                    {
+                        continue;
+                    }
+
+                    var routeStops = new List<JourneyStop>();
+                    var routeEndNodes = new List<string>();
+                    foreach (dynamic member in element.members)
+                    {
+                        string memberRole = member.role ?? string.Empty;
+                        if (memberRole.Contains("platform"))
+                        {
+                            long routeId = member.@ref;
+                            if (stopsDictionary.ContainsKey(routeId))
+                            {
+                                var journeyStop = new JourneyStop
+                                                      {
+                                                          StopPointRef = stopsDictionary[routeId], Activity = memberRole
+                                                      };
+                                routeStops.Add(journeyStop);
+                            }
+                            else
+                            {
+                                routeStops.Add(new JourneyStop { Activity = memberRole });
+                            }
+                        }
+                        else if (member.type.ToString() == "way")
+                        {
+                            if (wayEndNodes.ContainsKey(long.Parse(member.@ref.ToString())))
+                            {
+                                string endNodes = wayEndNodes[long.Parse(member.@ref.ToString())].ToString();
+                                string[] endNodeArray = endNodes.Split('+');
+                                if (endNodeArray.Length > 1)
+                                {
+                                    if (routeEndNodes.Contains(endNodeArray[0]))
+                                    {
+                                        routeEndNodes.Remove(endNodeArray[0]);
+                                    }
+                                    else
+                                    {
+                                        routeEndNodes.Add(endNodeArray[0]);
+                                    }
+
+                                    if (routeEndNodes.Contains(endNodeArray[1]))
+                                    {
+                                        routeEndNodes.Remove(endNodeArray[1]);
+                                    }
+                                    else
+                                    {
+                                        routeEndNodes.Add(endNodeArray[1]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    routeEndNodesDictionary.Add(id, routeEndNodes.Count);
+                    routesStopsDictionary.Add(id, routeStops);
+                    if (element.tags != null && element.tags["ref"] != null)
+                    {
+                        string routeRef = element.tags["ref"];
+                        routesReferenceDictionary.Add(id, routeRef);
+                    }
+                    else
+                    {
+                        routesReferenceDictionary.Add(id, string.Empty);
+                    }
+
+                    string routeOperator = element.tags["operator"] ?? string.Empty;
+                    routesOperatorDictionary.Add(id, routeOperator);
+                    string relationFrom = element.tags["from"] ?? string.Empty;
+                    routesFromDictionary.Add(id, relationFrom);
+                    string relationTo = element.tags["to"] ?? string.Empty;
+                    routesToDictionary.Add(id, relationTo);
+                    string relationName = element.tags["name"] ?? string.Empty;
+                    routesNameDictionary.Add(id, relationName);
+                }
             }
 
             foreach (dynamic element in entities.elements)
@@ -1344,8 +1411,9 @@ namespace CheckPublicTransportRelations
                                                             Id = relationId,
                                                             RelationFrom = routesFromDictionary[relationId],
                                                             RelationTo = routesToDictionary[relationId],
-                                                            Name = routesNameDictionary[relationId]
-                                                        };
+                                                            Name = routesNameDictionary[relationId],
+                                                            EndNodes = routeEndNodesDictionary[relationId]
+                    };
                     routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
                 }
 
@@ -2172,7 +2240,8 @@ namespace CheckPublicTransportRelations
                                                                  item => item.OperatorsEqual == false
                                                                          || item.ReferencesEqual == false
                                                                          || item.StopsEqual == false
-                                                                         || item.NameFormatting == false).ToList();
+                                                                         || item.NameFormatting == false
+                                                                         || item.Gaps == true).ToList();
             this.wikiTextButton.Visible = !this.showMatchedRoutesCheckBox.Checked
                                           && this.comparedRoutesDataGridView.RowCount == 0
                                           && this.ComparisonResultsRoutes.Count > 0;
@@ -2613,6 +2682,46 @@ namespace CheckPublicTransportRelations
             var editForm = new NaptanForm(selectedRow);
             editForm.ShowDialog();
             this.Enabled = true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 6 May 2019 (1.5.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by SelectAllButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void SelectAllButton_Click(object sender, EventArgs e)
+        {
+            if (this.travelineStopsDataGridView.RowCount <= 0)
+            {
+                return;
+            }
+
+            var value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=";
+            foreach (DataGridViewRow stopRow in this.travelineStopsDataGridView.Rows)
+            {
+                BusStop naptanStop = this.RouteBusStops.FirstOrDefault(
+                    item => item.AtcoCode
+                            == ((JourneyStop)stopRow
+                                       .DataBoundItem).StopPointRef);
+                if (naptanStop == null)
+                {
+                    continue;
+                }
+
+                value += "n" + naptanStop.Id + ",";
+                this.addNodeButton.Visible = true;
+            }
+
+            if (!value.EndsWith(","))
+            {
+                return;
+            }
+
+            value = value.Substring(0, value.Length - 1);
+            Process.Start(value);
         }
     }
 }
