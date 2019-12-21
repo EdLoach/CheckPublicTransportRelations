@@ -119,7 +119,7 @@ namespace CheckPublicTransportRelations
         {
             this.SelectedLocation.BoundingBox = this.boundingBoxTextBox.Text;
             this.SelectedLocation.AreaQuery = this.areaQueryTextBox.Text;
-
+            this.SelectedLocation.Description = this.descriptionTextBox.Text;
             this.SelectedLocation.BusStopTimeOut = (int)this.stopsTimeoutNumericUpDown.Value;
             this.SelectedLocation.TransportTimeOut = (int)this.dataQueryNumericUpDown.Value;
             this.SelectedLocation.OrphanRoutesTimeOut = (int)this.orphanRoutesNumericUpDown.Value;
