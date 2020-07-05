@@ -12,9 +12,9 @@ namespace CheckPublicTransportRelations
     using System.ComponentModel;
     using System.Diagnostics;
     using System.IO;
-    using System.Net;
-    using System.Text;
     using System.Windows.Forms;
+
+    using CheckPublicTransportRelations.Properties;
 
     using WinSCP;
 
@@ -40,106 +40,6 @@ namespace CheckPublicTransportRelations
             this.InitializeComponent();
             this.downloadBackgroundWorker.WorkerReportsProgress = true;
             this.downloadBackgroundWorker.WorkerSupportsCancellation = true;
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 29 December 2018 (1.0.0.0)</createdBy>
-        ///
-        /// <summary>Downloads the given file.</summary>
-        ///
-        /// <param name="file">The file.</param>
-        ///
-        /// <returns>True if it succeeds, false if it fails.</returns>
-        // ===========================================================================================================
-        private static bool Download(string file)
-        {
-            if (file == "TNDSV2.5")
-            {
-                return true;
-            }
-
-            try
-            {
-                var sessionOptions = new SessionOptions
-                                                    {
-                                                        Protocol = Protocol.Ftp,
-                                                        HostName = Properties.Settings.Default.TravelineSite,
-                                                        UserName = Properties.Settings.Default.TravelineUsername,
-                                                        Password = Properties.Settings.Default.TravelinePassword
-                                                    };
-
-                using (var session = new Session())
-                {
-                    session.Open(sessionOptions);
-
-                    var transferOptions = new TransferOptions { TransferMode = TransferMode.Binary };
-
-                    TransferOperationResult transferResult = session.GetFiles(file, Path.Combine(Properties.Settings.Default.LocalPath, file), false, transferOptions);
-
-                    transferResult.Check();
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Error: {0}", e);
-                return false;
-            }
-
-            return true;
-        }
-
-        // ===========================================================================================================
-        /// <createdBy>Ed (EdLoach) - 29 December 2018 (1.0.0.0)</createdBy>
-        ///
-        /// <summary>Gets file list.</summary>
-        ///
-        /// <returns>An array of string.</returns>
-        // ===========================================================================================================
-        private static string[] GetFileList()
-        {
-            var result = new StringBuilder();
-            WebResponse response = null;
-            StreamReader reader = null;
-            try
-            {
-                var reqFtp = (FtpWebRequest)WebRequest.Create(
-                    new Uri("ftp://" + Properties.Settings.Default.TravelineSite + "/"));
-                reqFtp.UseBinary = true;
-                reqFtp.Credentials = new NetworkCredential(
-                    Properties.Settings.Default.TravelineUsername,
-                    Properties.Settings.Default.TravelinePassword);
-                reqFtp.Method = WebRequestMethods.Ftp.ListDirectory;
-                reqFtp.Proxy = null;
-                reqFtp.KeepAlive = false;
-                reqFtp.UsePassive = false;
-                response = reqFtp.GetResponse();
-                Stream stream = response.GetResponseStream();
-                if (stream == null)
-                {
-                    return result.ToString().Split('\n');
-                }
-
-                reader = new StreamReader(stream);
-                string line = reader.ReadLine();
-                while (line != null)
-                {
-                    result.Append(line);
-                    result.Append("\n");
-                    line = reader.ReadLine();
-                }
-
-                // to remove the trailing '\n'
-                result.Remove(result.ToString().LastIndexOf('\n'), 1);
-
-                return result.ToString().Split('\n');
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                reader?.Close();
-                response?.Close();
-                return null;
-            }
         }
 
         // ===========================================================================================================
@@ -173,35 +73,69 @@ namespace CheckPublicTransportRelations
         {
             var worker = sender as BackgroundWorker;
 
-            string[] files = GetFileList();
-            int filesCount = files.Length;
-            var counter = 0;
-            var allDownloaded = true;
-
-            foreach (string file in files)
+            try
             {
-                if (worker != null && worker.CancellationPending)
-                {
-                    e.Cancel = true;
-                    break;
-                }
+                var sessionOptions = new SessionOptions
+                                         {
+                                             Protocol = Protocol.Ftp,
+                                             HostName = Settings.Default.TravelineSite,
+                                             UserName = Settings.Default.TravelineUsername,
+                                             Password = Settings.Default.TravelinePassword
+                                         };
 
-                if (!Download(file))
+                using (var session = new Session())
                 {
-                    allDownloaded = false;
-                }
+                    session.Open(sessionOptions);
 
-                counter += 1;
-                worker?.ReportProgress(100 * counter / filesCount);
+                    var transferOptions = new TransferOptions { TransferMode = TransferMode.Binary };
+
+                    ComparisonDifferenceCollection result = session.CompareDirectories(
+                        SynchronizationMode.Local,
+                        Path.Combine(Settings.Default.LocalPath, "tdnsdata"),
+                        ".",
+                        true,
+                        false,
+                        SynchronizationCriteria.Time,
+                        transferOptions);
+
+                    int filesCount = result.Count;
+                    var counter = 0;
+                    var allDownloaded = true;
+                    foreach (ComparisonDifference change in result)
+                    {
+                        if (worker != null && worker.CancellationPending)
+                        {
+                            e.Cancel = true;
+                            allDownloaded = false;
+                            break;
+                        }
+
+                        counter += 1;
+
+                        if (change.Action == SynchronizationAction.DownloadNew
+                            // ReSharper disable once StringLiteralTypo
+                            && change.Remote.FileName == "./TNDSV2.5")
+                        {
+                            worker?.ReportProgress(100 * counter / filesCount);
+                            continue;
+                        }
+
+                        change.Resolve(session);
+                        worker?.ReportProgress(100 * counter / filesCount);
+                    }
+
+                    if (!allDownloaded || counter == 0)
+                    {
+                        return;
+                    }
+
+                    Settings.Default.Save();
+                }
             }
-
-            if (!allDownloaded)
+            catch (Exception ex)
             {
-                return;
+                Debug.WriteLine("Error: {0}", ex);
             }
-
-            Properties.Settings.Default.LastTravelineDownload = DateTime.Today;
-            Properties.Settings.Default.Save();
         }
 
         // ===========================================================================================================
@@ -238,6 +172,7 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
         // ===========================================================================================================
+        // ReSharper disable once StyleCop.SA1650
         private void TravelineDownloadForm_Load(object sender, EventArgs e)
         {
             if (this.downloadBackgroundWorker.IsBusy != true)
