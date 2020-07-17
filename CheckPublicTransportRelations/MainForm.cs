@@ -1882,29 +1882,43 @@ namespace CheckPublicTransportRelations
         private void NaptanStopsDownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
-            foreach (Location location in this.Locations)
+            
+            try
             {
-                string areaFileName = Path.Combine(
-                    Settings.Default.LocalPath,
-                    ValidPathString(location.Description),
-                    "LocalStops.csv");
-                if (File.Exists(areaFileName))
+                string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
+                string temporaryFileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "TempNaPTANcsv.zip");
+                using (var client = new WebClient())
                 {
-                    File.Delete(areaFileName);
+                    client.DownloadFile(Settings.Default.NaptanUrl, temporaryFileName);
                 }
-            }
 
-            using (var client = new WebClient())
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                File.Move(temporaryFileName, fileName);
+
+                foreach (Location location in this.Locations)
+                {
+                    string areaFileName = Path.Combine(
+                        Settings.Default.LocalPath,
+                        ValidPathString(location.Description),
+                        "LocalStops.csv");
+                    if (File.Exists(areaFileName))
+                    {
+                        File.Delete(areaFileName);
+                    }
+                }
+
+                this.RefreshStatus();
+                this.ExtractNaptanStops();
+                this.RefreshStopsGrid();
+            }
+            catch
             {
-                client.DownloadFile(Settings.Default.NaptanUrl, fileName);
+                // Download timeout
             }
-
-            Settings.Default.LastNaptanRefresh = DateTime.Today;
-            Settings.Default.Save();
-            this.RefreshStatus();
-            this.ExtractNaptanStops();
-            this.RefreshStopsGrid();
 
             this.Enabled = true;
         }
@@ -2005,8 +2019,15 @@ namespace CheckPublicTransportRelations
         private void RefreshStatus()
         {
             this.statusGroupBox.Text = @"Status - " + this.SelectedLocation.Description;
-            this.naptanDownloadedLabel.Text =
-                @"Naptan Downloaded: " + Settings.Default.LastNaptanRefresh.ToLongDateString();
+            string naptanFileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
+            if (File.Exists(naptanFileName))
+            {
+                var naptanInfo = new FileInfo(naptanFileName);
+                this.naptanDownloadedLabel.Text = @"Naptan Downloaded: " + naptanInfo.LastWriteTime.ToLongDateString()
+                                                                         + @" " + naptanInfo.LastWriteTime
+                                                                             .ToShortTimeString();
+            }
+
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
             if (this.SelectedLocation.LastOpenStreetMapBusStopRefresh > DateTime.MinValue)
             {

@@ -145,17 +145,6 @@ namespace CheckPublicTransportRelations.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastNaptanRefresh {
-            get {
-                return ((global::System.DateTime)(this["LastNaptanRefresh"]));
-            }
-            set {
-                this["LastNaptanRefresh"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://naptan.app.dft.gov.uk/DataRequest/Naptan.ashx?format=csv")]
         public string NaptanUrl {
             get {

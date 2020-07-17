@@ -226,6 +226,7 @@ namespace CheckPublicTransportRelations
                                        .Replace(")", string.Empty)
                                        .Contains(this.NaptanName
                                                             .Replace(" Rdbt", " Roundabout")
+                                                            .Replace(" Rbt", " Roundabout")
                                                             .Replace(" Rd", " Road")
                                                             .Replace(" Ln"," Lane")
                                                             .Replace(" Gdns", " Gardens")
