@@ -1910,15 +1910,16 @@ namespace CheckPublicTransportRelations
                         File.Delete(areaFileName);
                     }
                 }
-
-                this.RefreshStatus();
-                this.ExtractNaptanStops();
-                this.RefreshStopsGrid();
             }
             catch
             {
                 // Download timeout
             }
+
+            // Even if download fails, re-extract from previous zip if it exists
+            this.RefreshStatus();
+            this.ExtractNaptanStops();
+            this.RefreshStopsGrid();
 
             this.Enabled = true;
         }
