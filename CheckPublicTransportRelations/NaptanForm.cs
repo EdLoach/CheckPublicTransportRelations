@@ -218,7 +218,7 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void NaptanForm_Load(object sender, EventArgs e)
         {
-            string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
+            string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
             this.StopDetails = new Dictionary<string, string>();
             this.addStopButton.Enabled = false;
 
