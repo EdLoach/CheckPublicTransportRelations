@@ -1428,6 +1428,11 @@ namespace CheckPublicTransportRelations
                     new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator };
                 foreach (dynamic routeVariant in element.members)
                 {
+                    if (routeVariant.@type != "relation")
+                    {
+                        continue;
+                    }
+
                     long relationId = routeVariant.@ref;
                     reference = routesReferenceDictionary[relationId];
                     routeOperator = routesOperatorDictionary[relationId];
