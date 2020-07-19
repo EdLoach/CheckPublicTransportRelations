@@ -147,7 +147,7 @@ namespace CheckPublicTransportRelations
                         @"[out:json][timeout:{{timeout}}];(node[""naptan: AtcoCode""][!""railway""]({{bbox}}););out;>;out skel qt;";
                     this.stopsQueryTextBox.Enabled = false;
                     this.SelectedLocation.TransportQuery =
-                        @"[out:json][timeout:{{timeout}}];((node[""naptan: AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+                        @"[out:json][timeout:{{timeout}}];((node[""naptan: AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;";
                     this.dataQueryTextBox.Enabled = false;
                     this.SelectedLocation.OrphansQuery =
                         @"[out:json][timeout:{{timeout}}];((relation[""route""=""bus""]({{bbox}}););<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;";
@@ -163,7 +163,7 @@ namespace CheckPublicTransportRelations
                         @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;";
                     this.stopsQueryTextBox.Enabled = false;
                     this.SelectedLocation.TransportQuery =
-                        @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+                        @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;";
                     this.dataQueryTextBox.Enabled = false;
                     this.SelectedLocation.OrphansQuery =
                         @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;";

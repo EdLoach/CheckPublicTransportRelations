@@ -239,7 +239,7 @@ namespace CheckPublicTransportRelations
                                     string nameStarts = entry.Name.Substring(0, entry.Name.LastIndexOf("-", StringComparison.Ordinal));
                                     int nameEndsValue;
                                     int.TryParse(nameEnds, out nameEndsValue);
-                                    if (entry.Name.StartsWith("suf", StringComparison.OrdinalIgnoreCase)
+                                    if ((entry.Name.StartsWith("suf", StringComparison.OrdinalIgnoreCase) || entry.Name.StartsWith("bed", StringComparison.OrdinalIgnoreCase))
                                         && extractedFiles.ContainsKey(nameStarts))
                                     {
                                         if (extractedFiles[nameStarts].Item1 < nameEndsValue)
