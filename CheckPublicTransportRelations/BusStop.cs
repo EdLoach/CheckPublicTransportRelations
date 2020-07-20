@@ -224,9 +224,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public bool NamesMatch => (this.StopName.Replace("(", string.Empty)
                                        .Replace(")", string.Empty)
+                                       .Replace(" / ", " ")
                                        .Contains(this.NaptanName
                                                             .Replace(" Rdbt", " Roundabout")
                                                             .Replace(" Rbt", " Roundabout")
+                                                            .Replace(" RdGallows", " Road Gallows")
                                                             .Replace(" Rd", " Road")
                                                             .Replace(" Ln"," Lane")
                                                             .Replace(" Gdns", " Gardens")
@@ -235,7 +237,12 @@ namespace CheckPublicTransportRelations
                                                             .Replace(" Prom", " Promenade")
                                                             .Replace(" Avenuenue", " Avenue")
                                                             .Replace("(", string.Empty)
-                                                            .Replace(")", string.Empty)) 
+                                                            .Replace(")", string.Empty)
+                                                            .Replace(" / ", " ")
+                                                            .Replace("  ", " ")
+                                                            .Replace(" Cnr", " Corner")
+                                                            .Replace(" StnSt", " Station St")
+                                                            .Replace("Gale St Goresbrook Leisure C", "Gale Street Goresbrook Leisure Centre")) 
                                   && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
 
         // ===========================================================================================================
