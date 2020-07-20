@@ -791,7 +791,8 @@ namespace CheckPublicTransportRelations
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
                                                RelationTo = routeVariant.RelationTo,
-                                               RelationEndNodes = routeVariant.EndNodes
+                                               RelationEndNodes = routeVariant.EndNodes,
+                                               LondonBus = routeVariant.LondonBus
                                            };
                 foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
                 {
@@ -833,7 +834,8 @@ namespace CheckPublicTransportRelations
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
                                                RelationTo = routeVariant.RelationTo,
-                                               RelationEndNodes = routeVariant.EndNodes
+                                               RelationEndNodes = routeVariant.EndNodes,
+                                               LondonBus = routeVariant.LondonBus
                                            };
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
@@ -1244,6 +1246,7 @@ namespace CheckPublicTransportRelations
             var routesFromDictionary = new Dictionary<long, string>();
             var routesToDictionary = new Dictionary<long, string>();
             var routesNameDictionary = new Dictionary<long, string>();
+            var routesNetworkDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
             string fileName = Path.Combine(
                 Directory.GetParent(Application.LocalUserAppDataPath).FullName,
@@ -1402,6 +1405,8 @@ namespace CheckPublicTransportRelations
                     routesToDictionary.Add(id, relationTo);
                     string relationName = element.tags["name"] ?? string.Empty;
                     routesNameDictionary.Add(id, relationName);
+                    string networkName = element.tags["network"] ?? string.Empty;
+                    routesNetworkDictionary.Add(id, networkName);
                 }
             }
 
@@ -1424,8 +1429,11 @@ namespace CheckPublicTransportRelations
                     continue;
                 }
 
+                string network = element.tags["network"] ?? string.Empty;
+                bool londonBus = network == "London Buses";
+
                 var routeMaster =
-                    new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator };
+                    new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator, LondonBus = londonBus };
                 foreach (dynamic routeVariant in element.members)
                 {
                     if (routeVariant.@type != "relation")
@@ -1445,8 +1453,9 @@ namespace CheckPublicTransportRelations
                                                             RelationFrom = routesFromDictionary[relationId],
                                                             RelationTo = routesToDictionary[relationId],
                                                             Name = routesNameDictionary[relationId],
-                                                            EndNodes = routeEndNodesDictionary[relationId]
-                                                        };
+                                                            EndNodes = routeEndNodesDictionary[relationId],
+                                                            LondonBus = routesNetworkDictionary[relationId] == "London Buses"
+                    };
                     routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
                 }
 

@@ -8,6 +8,7 @@
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Forms;
@@ -39,7 +40,10 @@ namespace CheckPublicTransportRelations
             this.ServiceOperator = string.Empty;
             this.ServiceStops = new List<JourneyStop>();
             this.RelationEndNodes = 0;
+            this.LondonBus = false;
         }
+
+        public bool LondonBus { get; set; }
 
         public bool Gaps => this.RelationEndNodes != 0 && this.RelationEndNodes != 2;
 
@@ -50,7 +54,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if operators equal, false if not.</value>
         // ===========================================================================================================
-        public bool OperatorsEqual => this.RelationOperator == this.ServiceOperator;
+        public bool OperatorsEqual => this.RelationOperator.Equals(this.ServiceOperator, StringComparison.OrdinalIgnoreCase);
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
@@ -69,7 +73,8 @@ namespace CheckPublicTransportRelations
         /// <value>True if name formatting, false if not.</value>
         // ===========================================================================================================
         public bool NameFormatting =>
-            this.RelationName.Contains(this.RelationReference + ": " + this.RelationFrom + " => " + this.RelationTo);
+            (this.RelationName.Contains(this.RelationReference + ": " + this.RelationFrom + " => " + this.RelationTo) && !this.LondonBus) 
+            || (this.RelationName.Contains("London Buses route " + this.RelationReference + " → ") && this.RelationName.Length > ("London Buses route " + this.RelationReference + " → ").Length && this.LondonBus);
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>

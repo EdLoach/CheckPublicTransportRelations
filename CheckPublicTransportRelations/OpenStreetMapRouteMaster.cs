@@ -36,7 +36,10 @@ namespace CheckPublicTransportRelations
             this.Reference = string.Empty;
             this.Operator = string.Empty;
             this.RouteVariants = new List<OpenStreetMapRouteVariant>();
+            this.LondonBus = false;
         }
+
+        public bool LondonBus { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>

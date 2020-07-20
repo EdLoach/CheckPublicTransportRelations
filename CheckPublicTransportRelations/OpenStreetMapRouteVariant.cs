@@ -31,7 +31,10 @@ namespace CheckPublicTransportRelations
             this.BusStops = new List<JourneyStop>();
             this.RelationFrom = string.Empty;
             this.RelationTo = string.Empty;
+            this.LondonBus = false;
         }
+
+        public bool LondonBus { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
