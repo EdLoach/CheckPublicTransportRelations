@@ -205,10 +205,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -222,10 +222,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -239,10 +239,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);<<;)->.c;relation.c[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.c;relation.c[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];);<<;)->.c; relation.c[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -256,10 +256,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -268,10 +268,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);<<;)->.d;relation.d[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.d;relation.d[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];(relation(area.c)[""route""=""bus""];);<<;)->.d; relation.d[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
 
             Settings.Default.SelectedLocation = @"Tendring (Essex) - Boundary Relation";
             Settings.Default.Save();
