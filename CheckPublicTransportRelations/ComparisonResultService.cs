@@ -41,7 +41,16 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if operators match, false if not.</value>
         // ===========================================================================================================
-        public bool OperatorsMatch => this.RouteMasterOperator.Equals(this.TravelineOperator, StringComparison.OrdinalIgnoreCase);
+        public bool OperatorsMatch
+        {
+            get
+            {
+                string routeMasterOperator = this.RouteMasterOperator;
+                return routeMasterOperator != null && routeMasterOperator.Equals(
+                           this.TravelineOperator,
+                           StringComparison.OrdinalIgnoreCase);
+            }
+        }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>

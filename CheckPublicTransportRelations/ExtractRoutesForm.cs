@@ -234,26 +234,41 @@ namespace CheckPublicTransportRelations
                                 sharedStops.IntersectWith(routeStops);
                                 if (sharedStops.Count > 0)
                                 {
-                                    string nameEnds = entry.Name.Substring(entry.Name.LastIndexOf("-", StringComparison.Ordinal) + 1);
-                                    nameEnds = nameEnds.Substring(0, nameEnds.Length - 4);
-                                    string nameStarts = entry.Name.Substring(0, entry.Name.LastIndexOf("-", StringComparison.Ordinal));
-                                    int nameEndsValue;
-                                    int.TryParse(nameEnds, out nameEndsValue);
-                                    if ((entry.Name.StartsWith("suf", StringComparison.OrdinalIgnoreCase) || entry.Name.StartsWith("bed", StringComparison.OrdinalIgnoreCase))
-                                        && extractedFiles.ContainsKey(nameStarts))
+                                    if (entry.Name.LastIndexOf("-", StringComparison.Ordinal) > 0)
                                     {
-                                        if (extractedFiles[nameStarts].Item1 < nameEndsValue)
+                                        string nameEnds = entry.Name.Substring(
+                                            entry.Name.LastIndexOf("-", StringComparison.Ordinal) + 1);
+                                        nameEnds = nameEnds.Substring(0, nameEnds.Length - 4);
+                                        string nameStarts = entry.Name.Substring(
+                                            0,
+                                            entry.Name.LastIndexOf("-", StringComparison.Ordinal));
+                                        int nameEndsValue;
+                                        int.TryParse(nameEnds, out nameEndsValue);
+                                        if ((entry.Name.StartsWith("suf", StringComparison.OrdinalIgnoreCase)
+                                             || entry.Name.StartsWith("bed", StringComparison.OrdinalIgnoreCase))
+                                            && extractedFiles.ContainsKey(nameStarts))
                                         {
-                                            File.Delete(Path.Combine(copyPath, extractedFiles[nameStarts].Item2));
-                                            extractedFiles.Remove(nameStarts);
+                                            if (extractedFiles[nameStarts].Item1 < nameEndsValue)
+                                            {
+                                                File.Delete(Path.Combine(copyPath, extractedFiles[nameStarts].Item2));
+                                                extractedFiles.Remove(nameStarts);
+                                                entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
+                                                extractedFiles.Add(
+                                                    nameStarts,
+                                                    new Tuple<int, string>(nameEndsValue, entry.Name));
+                                            }
+                                        }
+                                        else
+                                        {
                                             entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
-                                            extractedFiles.Add(nameStarts, new Tuple<int, string>(nameEndsValue, entry.Name));
+                                            extractedFiles.Add(
+                                                nameStarts,
+                                                new Tuple<int, string>(nameEndsValue, entry.Name));
                                         }
                                     }
                                     else
                                     {
                                         entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
-                                        extractedFiles.Add(nameStarts, new Tuple<int, string>(nameEndsValue, entry.Name));
                                     }
                                 }
                             }
