@@ -92,6 +92,8 @@ namespace CheckPublicTransportRelations
                 .OrderBy(item => item.value).ToList();
 
             this.typeComboBox.SelectedValue = this.SelectedLocation.Type;
+            this.typeComboBox.SelectedIndexChanged += new System.EventHandler(this.TypeComboBox_SelectedIndexChanged);
+
             this.Text = this.IsNew ? "Add Location" : "Edit Location - " + this.SelectedLocation.Description;
             this.descriptionTextBox.Text = this.SelectedLocation.Description;
             this.descriptionTextBox.ReadOnly = !this.IsNew;
