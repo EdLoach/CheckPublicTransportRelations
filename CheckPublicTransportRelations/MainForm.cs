@@ -2986,5 +2986,21 @@ namespace CheckPublicTransportRelations
                 Debug.WriteLine(ex.Message);
             }
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by BusStopNameMappingsToolStripMenuItem for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void BusStopNameMappingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            var mappingsForm = new BusStopNameMappingsForm();
+            mappingsForm.ShowDialog(this);
+            this.Enabled = true;
+        }
     }
 }

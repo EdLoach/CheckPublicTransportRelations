@@ -8,6 +8,7 @@
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
 
     // ===========================================================================================================
@@ -182,6 +183,27 @@ namespace CheckPublicTransportRelations
         public string NaptanName { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets the naptan name cleaned.</summary>
+        ///
+        /// <value>The naptan name cleaned.</value>
+        // ===========================================================================================================
+        public string NaptanNameCleaned
+        {
+            get
+            {
+                string returnValue = this.NaptanName.TrimStart();
+                foreach (Tuple<string, string> mapping in NameMappings.Mappings)
+                {
+                    returnValue = returnValue.Replace(mapping.Item1, mapping.Item2);
+                }
+
+                return returnValue;
+            }
+        }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets the name of the stop.</summary>
@@ -228,28 +250,7 @@ namespace CheckPublicTransportRelations
         public bool NamesMatch => (this.StopName.Replace("(", string.Empty)
                                        .Replace(")", string.Empty)
                                        .Replace(" / ", " ")
-                                       .Contains(this.NaptanName
-                                                            .TrimStart()
-                                                            .Replace(" Rdbt", " Roundabout")
-                                                            .Replace(" Rbt", " Roundabout")
-                                                            .Replace(" RdGallows", " Road Gallows")
-                                                            .Replace(" Rd", " Road")
-                                                            .Replace(" Ln"," Lane")
-                                                            .Replace(" Gdns", " Gardens")
-                                                            .Replace(" Cotts", " Cottages")
-                                                            .Replace(" Ave", " Avenue")
-                                                            .Replace(" Ind Estate", " Industrial Estate")
-                                                            .Replace(" Prom", " Promenade")
-                                                            .Replace(" Avenuenue", " Avenue")
-                                                            .Replace("(", string.Empty)
-                                                            .Replace(")", string.Empty)
-                                                            .Replace(" / ", " ")
-                                                            .Replace("  ", " ")
-                                                            .Replace(" Cnr", " Corner")
-                                                            .Replace(" StnSt", " Station St")
-                                                            .Replace(" Stn", " Station")
-                                                            .Replace(" 6th Form Col", " Sixth Form College")
-                                                            .Replace("Gale St Goresbrook Leisure C", "Gale Street Goresbrook Leisure Centre")) 
+                                       .Contains(this.NaptanNameCleaned) 
                                   && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
 
         // ===========================================================================================================
