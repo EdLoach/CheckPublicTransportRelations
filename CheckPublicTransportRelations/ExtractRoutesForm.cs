@@ -54,20 +54,20 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the selected location.</summary>
+        /// <summary>Gets the selected location.</summary>
         ///
         /// <value>The selected location.</value>
         // ===========================================================================================================
-        private Location SelectedLocation { get; set; }
+        private Location SelectedLocation { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the locations.</summary>
+        /// <summary>Gets the locations.</summary>
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private Locations Locations { get; set; }
+        private Locations Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -164,7 +164,10 @@ namespace CheckPublicTransportRelations
             var worker = sender as BackgroundWorker;
 
             string subFolder = DateTime.Today.ToString("yyyyMMdd");
-            string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, MainForm.ValidPathString(this.SelectedLocation.Description), subFolder);
+            string copyPath = Path.Combine(
+                Settings.Default.LocalPath,
+                MainForm.ValidPathString(this.SelectedLocation.Description),
+                subFolder);
             Directory.CreateDirectory(copyPath);
             var directoryInfo = new DirectoryInfo(copyPath);
             FileInfo[] files = directoryInfo.GetFiles("*.xml");

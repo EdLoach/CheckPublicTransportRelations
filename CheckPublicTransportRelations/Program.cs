@@ -1,20 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
+﻿// ===========================================================================================================
+// <copyright file="Program.cs" company="N/A">
+// Copyright (c) 2020 EdLoach. All rights reserved.
+// </copyright>
+// <author>EdLoach</author>
+// <date>1 August 2020</date>
+// <summary>Implements the program class</summary>
+// ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System;
+    using System.Windows.Forms;
+
     using CheckPublicTransportRelations.Properties;
 
-    static class Program
+    // ===========================================================================================================
+    /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+    ///
+    /// <summary>The program startup class.</summary>
+    // ===========================================================================================================
+    internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>The main entry point for the application.</summary>
+        ///
+        /// <param name="args">Array of command-line argument strings.</param>
+        // ===========================================================================================================
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             if (Settings.Default.UpgradeRequired)
             {

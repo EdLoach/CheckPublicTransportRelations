@@ -11,7 +11,6 @@ namespace CheckPublicTransportRelations
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Windows.Forms;
 
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
@@ -43,8 +42,22 @@ namespace CheckPublicTransportRelations
             this.LondonBus = false;
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets a value indicating whether the route is part of the London bus network.</summary>
+        ///
+        /// <value>True if the route is for a London bus, false if not.</value>
+        // ===========================================================================================================
         public bool LondonBus { get; set; }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets a value indicating whether the gaps.</summary>
+        ///
+        /// <value>True if gaps, false if not.</value>
+        // ===========================================================================================================
         public bool Gaps => this.RelationEndNodes != 0 && this.RelationEndNodes != 2;
 
         // ===========================================================================================================
@@ -111,6 +124,7 @@ namespace CheckPublicTransportRelations
         /// <value>The name of the relation.</value>
         // ===========================================================================================================
         public string RelationName { get; set; }
+
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 1 January 2019 (1.0.0.0)</createdBy>
         ///
@@ -136,6 +150,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The identifier of the route relation.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public long RouteRelationId { get; set; }
 
         // ===========================================================================================================
@@ -145,6 +160,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The service file.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string ServiceFile { get; set; }
 
         // ===========================================================================================================
@@ -172,6 +188,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The identifier of the service route relation.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public long ServiceRouteRelationId { get; set; }
 
         // ===========================================================================================================
@@ -192,6 +209,13 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public bool StopsEqual => this.RelationStops.SequenceEqual(this.ServiceStops);
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the relation end nodes.</summary>
+        ///
+        /// <value>The relation end nodes.</value>
+        // ===========================================================================================================
         public int RelationEndNodes { get; set; }
     }
 }

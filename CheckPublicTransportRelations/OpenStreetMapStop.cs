@@ -13,6 +13,7 @@ namespace CheckPublicTransportRelations
     ///
     /// <summary>An open street map stop.</summary>
     // ===========================================================================================================
+    // ReSharper disable once UnusedMember.Global
     public class OpenStreetMapStop
     {
         // ===========================================================================================================
@@ -29,19 +30,21 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the atco code.</summary>
+        /// <summary>Gets the atco code.</summary>
         ///
         /// <value>The atco code.</value>
         // ===========================================================================================================
-        public string AtcoCode { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public string AtcoCode { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the identifier.</summary>
+        /// <summary>Gets the identifier.</summary>
         ///
         /// <value>The identifier.</value>
         // ===========================================================================================================
-        public long Id { get; set; }
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        public long Id { get; }
     }
 }

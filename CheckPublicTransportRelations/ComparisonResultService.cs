@@ -86,6 +86,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The identifier of the route master relation.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public long RouteMasterRelationId { get; set; }
 
         // ===========================================================================================================

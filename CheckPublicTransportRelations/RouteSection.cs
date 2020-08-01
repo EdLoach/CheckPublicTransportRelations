@@ -13,6 +13,7 @@ namespace CheckPublicTransportRelations
     ///
     /// <summary>A route section.</summary>
     // ===========================================================================================================
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class RouteSection
     {
         // ===========================================================================================================

@@ -82,17 +82,14 @@ namespace CheckPublicTransportRelations
             this.typeComboBox.DisplayMember = "Description";
             this.typeComboBox.ValueMember = "Value";
             this.typeComboBox.DataSource = Enum.GetValues(typeof(Enums.LocationType)).Cast<Enum>().Select(
-                value => new
-                             {
-                                 (Attribute.GetCustomAttribute(
-                                      value.GetType().GetField(value.ToString()),
-                                      typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
-                                 value
-                             })
-                .OrderBy(item => item.value).ToList();
+                value => new TypeDescription(
+                    (Attribute.GetCustomAttribute(
+                         value.GetType().GetField(value.ToString()),
+                         typeof(DescriptionAttribute)) as DescriptionAttribute)?.Description,
+                    value)).OrderBy(item => item.Value).ToList();
 
             this.typeComboBox.SelectedValue = this.SelectedLocation.Type;
-            this.typeComboBox.SelectedIndexChanged += new System.EventHandler(this.TypeComboBox_SelectedIndexChanged);
+            this.typeComboBox.SelectedIndexChanged += this.TypeComboBox_SelectedIndexChanged;
 
             this.Text = this.IsNew ? "Add Location" : "Edit Location - " + this.SelectedLocation.Description;
             this.descriptionTextBox.Text = this.SelectedLocation.Description;
@@ -184,6 +181,49 @@ namespace CheckPublicTransportRelations
                     this.boundingBoxTextBox.Enabled = true;
                     break;
             }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Description of the type.</summary>
+        // ===========================================================================================================
+        public class TypeDescription
+        {
+            // ===========================================================================================================
+            /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+            ///
+            /// <summary>Initializes a new instance of the <see cref="TypeDescription"/> class.</summary>
+            ///
+            /// <param name="description">The description.</param>
+            /// <param name="value">      The value.</param>
+            // ===========================================================================================================
+            public TypeDescription(string description, Enum value)
+            {
+                this.Description = description;
+                this.Value = value;
+            }
+
+            // ===========================================================================================================
+            /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+            ///
+            /// <summary>Gets the description.</summary>
+            ///
+            /// <value>The description.</value>
+            // ===========================================================================================================
+            // ReSharper disable once MemberCanBePrivate.Global
+            // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            public string Description { get; }
+
+            // ===========================================================================================================
+            /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+            ///
+            /// <summary>Gets the value.</summary>
+            ///
+            /// <value>The value.</value>
+            // ===========================================================================================================
+            // ReSharper disable once StyleCop.SA1300
+            public Enum Value { get; }
         }
     }
 }

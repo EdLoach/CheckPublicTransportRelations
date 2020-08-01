@@ -44,12 +44,32 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private static readonly HttpClient Client = new HttpClient();
 
-        private string[] arguments;
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>The arguments.</summary>
+        // ===========================================================================================================
+        private readonly string[] arguments;
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>The last write time.</summary>
+        // ===========================================================================================================
         private DateTime lastWriteTime;
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>True if running unattended.</summary>
+        // ===========================================================================================================
         private bool runningUnattended;
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>True to unattended exception.</summary>
+        // ===========================================================================================================
         private bool unattendedException;
 
         // ===========================================================================================================
@@ -67,14 +87,17 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 30 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the naptan stops.</summary>
         ///
         /// <value>The naptan stops.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         public List<BusStop> NaptanStops { get; set; }
+
+        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 28 January 2019 (1.0.0.0)</createdBy>
@@ -83,7 +106,6 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The Traveline stops.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         public List<string> TravelineStops { get; set; }
 
         // ===========================================================================================================
@@ -168,13 +190,14 @@ namespace CheckPublicTransportRelations
         private Location SelectedLocation { get; set; }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the traveline routes.</summary>
         ///
         /// <value>The traveline routes.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private List<RouteMaster> TravelineRoutes { get; set; }
 
         // ===========================================================================================================
@@ -487,13 +510,14 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Adds a traveline route variants.</summary>
         ///
         /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void AddTravelineRouteVariants(RouteMaster travelineRouteMaster)
         {
             foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
@@ -752,6 +776,8 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Compare route variants.</summary>
@@ -759,7 +785,6 @@ namespace CheckPublicTransportRelations
         /// <param name="routeMaster">         The route master.</param>
         /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void CompareRouteVariants(OpenStreetMapRouteMaster routeMaster, RouteMaster travelineRouteMaster)
         {
             var matchedRouteVariants = new HashSet<long>();
@@ -901,6 +926,8 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by DownloadTravelineNationalDataSetToolStripMenuItem for click
@@ -909,7 +936,6 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void DownloadTravelineNationalDataSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
@@ -1446,7 +1472,7 @@ namespace CheckPublicTransportRelations
                     new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator, LondonBus = londonBus };
                 foreach (dynamic routeVariant in element.members)
                 {
-                    if (routeVariant.@type != "relation")
+                    if (routeVariant.type != "relation")
                     {
                         continue;
                     }
@@ -1477,11 +1503,12 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Extracts the traveline routes.</summary>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void ExtractTravelineRoutes()
         {
             this.TravelineRoutes = new List<RouteMaster>();
@@ -2501,14 +2528,16 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 21 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content double click events.</summary>
+        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content double click
+        ///          events.</summary>
         ///
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Data grid view cell event information.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void TravelineStopsDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // moved to double-click, so still possible to click and ctrl-C to paste reference in JOSM search box
@@ -2837,6 +2866,14 @@ namespace CheckPublicTransportRelations
             Process.Start(value);
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by UnattendedDelayedStartTimer for tick events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
         private void UnattendedDelayedStartTimer_Tick(object sender, EventArgs e)
         {
             this.unattendedException = false;
@@ -2908,6 +2945,14 @@ namespace CheckPublicTransportRelations
             this.CloseButton_Click(sender, e);
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Sends an email.</summary>
+        ///
+        /// <param name="messageBody">The message body.</param>
+        /// <param name="isBodyHtml"> True if this  is body HTML.</param>
+        // ===========================================================================================================
         private void Email(string messageBody, bool isBodyHtml = false)
         {
             try

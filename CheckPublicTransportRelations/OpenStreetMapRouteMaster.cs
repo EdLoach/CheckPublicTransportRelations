@@ -14,13 +14,6 @@ namespace CheckPublicTransportRelations
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
     ///
-    /// <summary>A routes.</summary>
-
-    // ===========================================================================================================
-
-    // ===========================================================================================================
-    /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
-    ///
     /// <summary>An open street map route master.</summary>
     // ===========================================================================================================
     public class OpenStreetMapRouteMaster
@@ -39,6 +32,14 @@ namespace CheckPublicTransportRelations
             this.LondonBus = false;
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets a value indicating whether the london bus.</summary>
+        ///
+        /// <value>True if london bus, false if not.</value>
+        // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public bool LondonBus { get; set; }
 
         // ===========================================================================================================
@@ -71,11 +72,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the route variants.</summary>
+        /// <summary>Gets the route variants.</summary>
         ///
         /// <value>The route variants.</value>
         // ===========================================================================================================
-        public List<OpenStreetMapRouteVariant> RouteVariants { get; set; }
+        public List<OpenStreetMapRouteVariant> RouteVariants { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>

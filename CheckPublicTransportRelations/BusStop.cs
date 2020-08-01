@@ -81,6 +81,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The highway value.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Highway { get; }
 
         // ===========================================================================================================
@@ -101,25 +102,26 @@ namespace CheckPublicTransportRelations
         /// <value>The naptan code.</value>
         // ===========================================================================================================
         // ReSharper disable once StyleCop.SA1650
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string NaptanCode { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the status.</summary>
+        /// <summary>Gets the status.</summary>
         ///
         /// <value>The status.</value>
         // ===========================================================================================================
-        public string Status { get; set; }
+        public string Status { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the type of the bus stop.</summary>
+        /// <summary>Gets the type of the bus stop.</summary>
         ///
         /// <value>The type of the bus stop.</value>
         // ===========================================================================================================
-        public string BusStopType { get; set; }
+        public string BusStopType { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
@@ -182,11 +184,11 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the name of the stop.</summary>
+        /// <summary>Gets the name of the stop.</summary>
         ///
         /// <value>The name of the stop.</value>
         // ===========================================================================================================
-        public string StopName { get; set; }
+        public string StopName { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
@@ -213,6 +215,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The type.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Type { get; }
 
         // ===========================================================================================================

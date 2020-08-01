@@ -34,6 +34,13 @@ namespace CheckPublicTransportRelations
             this.LondonBus = false;
         }
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets a value indicating whether the london bus.</summary>
+        ///
+        /// <value>True if london bus, false if not.</value>
+        // ===========================================================================================================
         public bool LondonBus { get; set; }
 
         // ===========================================================================================================
@@ -106,8 +113,16 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The number of stops.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedMember.Global
         public int StopsCount => this.BusStops.Count;
 
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the end nodes.</summary>
+        ///
+        /// <value>The end nodes.</value>
+        // ===========================================================================================================
         public int EndNodes { get; set; }
     }
 }
