@@ -32,7 +32,7 @@ namespace CheckPublicTransportRelations
             this.TransportTimeOut = 45;
             this.OrphanRoutesTimeOut = 45;
             this.BusStopQuery = @"[out:json][timeout:{{timeout}}];(node[""naptan: AtcoCode""][!""railway""]({{bbox}}););out;>;out skel qt;";
-            this.TransportQuery = @"[out:json][timeout:{{timeout}}];((node[""naptan:AtcoCode""][!""railway""]({{bbox}}););<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;";
+            this.TransportQuery = @"[out:json][timeout:{{timeout}}];((node[""naptan:AtcoCode""][!""railway""]({{bbox}}););rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;";
             this.OrphansQuery =
                 @"[out:json][timeout:35];((relation({{bbox}})[""route""=""bus""];);<<;)->.b;relation.b[""route""=""bus""];(._;>>;);out;";
             this.LastOpenStreetMapBusStopRefresh = DateTime.MinValue;

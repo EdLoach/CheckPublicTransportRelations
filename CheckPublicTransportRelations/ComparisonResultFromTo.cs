@@ -53,6 +53,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The identifier of the relation.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public long RelationId { get; set; }
 
         // ===========================================================================================================
@@ -62,6 +63,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The relation service.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string RelationService { get; set; }
 
         // ===========================================================================================================

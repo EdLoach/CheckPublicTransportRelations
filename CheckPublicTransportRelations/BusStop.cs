@@ -8,6 +8,7 @@
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
 
     // ===========================================================================================================
@@ -81,6 +82,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The highway value.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Highway { get; }
 
         // ===========================================================================================================
@@ -101,25 +103,26 @@ namespace CheckPublicTransportRelations
         /// <value>The naptan code.</value>
         // ===========================================================================================================
         // ReSharper disable once StyleCop.SA1650
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string NaptanCode { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the status.</summary>
+        /// <summary>Gets the status.</summary>
         ///
         /// <value>The status.</value>
         // ===========================================================================================================
-        public string Status { get; set; }
+        public string Status { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the type of the bus stop.</summary>
+        /// <summary>Gets the type of the bus stop.</summary>
         ///
         /// <value>The type of the bus stop.</value>
         // ===========================================================================================================
-        public string BusStopType { get; set; }
+        public string BusStopType { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.1.0.0)</createdBy>
@@ -180,13 +183,34 @@ namespace CheckPublicTransportRelations
         public string NaptanName { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Gets the naptan name cleaned.</summary>
+        ///
+        /// <value>The naptan name cleaned.</value>
+        // ===========================================================================================================
+        public string NaptanNameCleaned
+        {
+            get
+            {
+                string returnValue = this.NaptanName.TrimStart();
+                foreach (Tuple<string, string> mapping in NameMappings.Mappings)
+                {
+                    returnValue = returnValue.Replace(mapping.Item1, mapping.Item2);
+                }
+
+                return returnValue;
+            }
+        }
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the name of the stop.</summary>
+        /// <summary>Gets the name of the stop.</summary>
         ///
         /// <value>The name of the stop.</value>
         // ===========================================================================================================
-        public string StopName { get; set; }
+        public string StopName { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
@@ -213,6 +237,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The type.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string Type { get; }
 
         // ===========================================================================================================
@@ -224,17 +249,8 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public bool NamesMatch => (this.StopName.Replace("(", string.Empty)
                                        .Replace(")", string.Empty)
-                                       .Contains(this.NaptanName
-                                                            .Replace(" Rdbt", " Roundabout")
-                                                            .Replace(" Rd", " Road")
-                                                            .Replace(" Ln"," Lane")
-                                                            .Replace(" Gdns", " Gardens")
-                                                            .Replace(" Cotts", " Cottages")
-                                                            .Replace(" Ave", " Avenue")
-                                                            .Replace(" Prom", " Promenade")
-                                                            .Replace(" Avenuenue", " Avenue")
-                                                            .Replace("(", string.Empty)
-                                                            .Replace(")", string.Empty)) 
+                                       .Replace(" / ", " ")
+                                       .Contains(this.NaptanNameCleaned) 
                                   && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
 
         // ===========================================================================================================

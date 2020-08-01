@@ -1,4 +1,12 @@
-﻿namespace CheckPublicTransportRelations
+﻿// ===========================================================================================================
+// <copyright file="Locations.cs" company="N/A">
+// Copyright (c) 2020 EdLoach. All rights reserved.
+// </copyright>
+// <author>EdLoach</author>
+// <date>1 August 2020</date>
+// <summary>Implements the locations class</summary>
+// ===========================================================================================================
+namespace CheckPublicTransportRelations
 {
     using System;
     using System.Collections.Generic;
@@ -6,8 +14,18 @@
     using System.IO;
     using System.Windows.Forms;
 
+    // ===========================================================================================================
+    /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+    ///
+    /// <summary>A list of locations.</summary>
+    // ===========================================================================================================
     public class Locations : List<Location>
     {
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Saves the list. </summary>
+        // ===========================================================================================================
         public void Save()
         {
             try

@@ -18,6 +18,8 @@ namespace CheckPublicTransportRelations
     using System.Windows.Forms;
     using System.Xml.Linq;
 
+    using CheckPublicTransportRelations.Properties;
+
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
     ///
@@ -52,20 +54,20 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the selected location.</summary>
+        /// <summary>Gets the selected location.</summary>
         ///
         /// <value>The selected location.</value>
         // ===========================================================================================================
-        private Location SelectedLocation { get; set; }
+        private Location SelectedLocation { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Gets or sets the locations.</summary>
+        /// <summary>Gets the locations.</summary>
         ///
         /// <value>The locations.</value>
         // ===========================================================================================================
-        private Locations Locations { get; set; }
+        private Locations Locations { get; }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -162,7 +164,10 @@ namespace CheckPublicTransportRelations
             var worker = sender as BackgroundWorker;
 
             string subFolder = DateTime.Today.ToString("yyyyMMdd");
-            string copyPath = Path.Combine(Properties.Settings.Default.LocalPath, MainForm.ValidPathString(this.SelectedLocation.Description), subFolder);
+            string copyPath = Path.Combine(
+                Settings.Default.LocalPath,
+                MainForm.ValidPathString(this.SelectedLocation.Description),
+                subFolder);
             Directory.CreateDirectory(copyPath);
             var directoryInfo = new DirectoryInfo(copyPath);
             FileInfo[] files = directoryInfo.GetFiles("*.xml");
@@ -181,7 +186,7 @@ namespace CheckPublicTransportRelations
             }
 
             // get files in local path
-            directoryInfo = new DirectoryInfo(Properties.Settings.Default.LocalPath);
+            directoryInfo = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
             files = directoryInfo.GetFiles("*.zip");
             this.fileProgressBar.Minimum = 0;
             int filesCount = files.Length;
@@ -203,6 +208,7 @@ namespace CheckPublicTransportRelations
                     worker?.ReportProgress(
                         100 * counter / filesCount,
                         new Tuple<int, int>(archiveCounter, archiveEntryCount));
+                    var extractedFiles = new Dictionary<string, Tuple<int, string>>();
                     foreach (ZipArchiveEntry entry in archive.Entries)
                     {
                         if (worker != null && worker.CancellationPending)
@@ -231,7 +237,40 @@ namespace CheckPublicTransportRelations
                                 sharedStops.IntersectWith(routeStops);
                                 if (sharedStops.Count > 0)
                                 {
-                                    entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
+                                    if (entry.Name.LastIndexOf("-", StringComparison.Ordinal) > 0)
+                                    {
+                                        string nameEnds = entry.Name.Substring(
+                                            entry.Name.LastIndexOf("-", StringComparison.Ordinal) + 1);
+                                        nameEnds = nameEnds.Substring(0, nameEnds.Length - 4);
+                                        string nameStarts = entry.Name.Substring(
+                                            0,
+                                            entry.Name.LastIndexOf("-", StringComparison.Ordinal));
+                                        int nameEndsValue;
+                                        int.TryParse(nameEnds, out nameEndsValue);
+                                        if (extractedFiles.ContainsKey(nameStarts))
+                                        {
+                                            if (extractedFiles[nameStarts].Item1 < nameEndsValue)
+                                            {
+                                                File.Delete(Path.Combine(copyPath, extractedFiles[nameStarts].Item2));
+                                                extractedFiles.Remove(nameStarts);
+                                                entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
+                                                extractedFiles.Add(
+                                                    nameStarts,
+                                                    new Tuple<int, string>(nameEndsValue, entry.Name));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
+                                            extractedFiles.Add(
+                                                nameStarts,
+                                                new Tuple<int, string>(nameEndsValue, entry.Name));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        entry.ExtractToFile(Path.Combine(copyPath, entry.Name));
+                                    }
                                 }
                             }
                         }

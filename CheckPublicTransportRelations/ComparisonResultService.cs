@@ -8,6 +8,8 @@
 // ===========================================================================================================
 namespace CheckPublicTransportRelations
 {
+    using System;
+
     // ===========================================================================================================
     /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
     ///
@@ -39,7 +41,16 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if operators match, false if not.</value>
         // ===========================================================================================================
-        public bool OperatorsMatch => this.RouteMasterOperator == this.TravelineOperator;
+        public bool OperatorsMatch
+        {
+            get
+            {
+                string routeMasterOperator = this.RouteMasterOperator;
+                return routeMasterOperator != null && routeMasterOperator.Equals(
+                           this.TravelineOperator,
+                           StringComparison.OrdinalIgnoreCase);
+            }
+        }
 
         // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 31 December 2018 (1.0.0.0)</createdBy>
@@ -75,6 +86,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The identifier of the route master relation.</value>
         // ===========================================================================================================
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public long RouteMasterRelationId { get; set; }
 
         // ===========================================================================================================

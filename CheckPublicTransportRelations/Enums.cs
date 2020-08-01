@@ -49,6 +49,7 @@ namespace CheckPublicTransportRelations
         ///
         /// <returns>The description.</returns>
         // ===========================================================================================================
+        // ReSharper disable once UnusedMember.Global
         public static string GetDescription(Enum value)
         {
             return value.GetType().GetMember(value.ToString()).FirstOrDefault()

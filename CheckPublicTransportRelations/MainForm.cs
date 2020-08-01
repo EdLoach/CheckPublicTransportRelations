@@ -18,6 +18,7 @@ namespace CheckPublicTransportRelations
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Mail;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
@@ -44,6 +45,34 @@ namespace CheckPublicTransportRelations
         private static readonly HttpClient Client = new HttpClient();
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>The arguments.</summary>
+        // ===========================================================================================================
+        private readonly string[] arguments;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>The last write time.</summary>
+        // ===========================================================================================================
+        private DateTime lastWriteTime;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>True if running unattended.</summary>
+        // ===========================================================================================================
+        private bool runningUnattended;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>True to unattended exception.</summary>
+        // ===========================================================================================================
+        private bool unattendedException;
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Initializes a new instance of the
@@ -51,10 +80,13 @@ namespace CheckPublicTransportRelations
         ///
         /// <inheritdoc/>
         // ===========================================================================================================
-        public MainForm()
+        public MainForm(string[] args)
         {
+            this.arguments = args;
             this.InitializeComponent();
         }
+
+        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 30 January 2019 (1.0.0.0)</createdBy>
@@ -63,8 +95,9 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The naptan stops.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         public List<BusStop> NaptanStops { get; set; }
+
+        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 28 January 2019 (1.0.0.0)</createdBy>
@@ -73,7 +106,6 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>The Traveline stops.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         public List<string> TravelineStops { get; set; }
 
         // ===========================================================================================================
@@ -158,13 +190,14 @@ namespace CheckPublicTransportRelations
         private Location SelectedLocation { get; set; }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the traveline routes.</summary>
         ///
         /// <value>The traveline routes.</value>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private List<RouteMaster> TravelineRoutes { get; set; }
 
         // ===========================================================================================================
@@ -177,7 +210,9 @@ namespace CheckPublicTransportRelations
         internal static Locations LoadLocations()
         {
             var returnValue = new Locations();
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, "Locations.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                "Locations.json");
             if (File.Exists(fileName))
             {
                 string locationsText = File.ReadAllText(fileName);
@@ -203,10 +238,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -220,24 +255,24 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-                    });
+                });
             returnValue.Add(
                 new Location
                     {
                         Description = @"Tendring/Colchester",
-                        Type = Enums.LocationType.Custom, 
+                        Type = Enums.LocationType.Custom,
                         BoundingBox = string.Empty,
                         AreaQuery = string.Empty,
                         BusStopTimeOut = 35,
                         TransportTimeOut = 45,
                         OrphanRoutesTimeOut = 45,
-                    BusStopQuery =
+                        BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);<<;)->.c;relation.c[""route""!=""bus""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.c;relation.c[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];);<<;)->.c; relation.c[""route""=""bus""];(._;>>;);out meta;"
                 });
@@ -254,10 +289,10 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;(node(area.a)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);<<;)->.b;relation.b[""route""!=""bus""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[{{area}}]->.a;((node(area.a)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.b;relation.b[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}]; area[{{area}}]->.a;((relation(area.a)[""route""=""bus""];);<<;)->.b; relation.b[""route""=""bus""];(._;>>;);out meta;"
-        });
+                });
             returnValue.Add(
                 new Location
                     {
@@ -266,7 +301,7 @@ namespace CheckPublicTransportRelations
                         BusStopQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;(node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);out;>;out skel qt;",
                         TransportQuery =
-                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);<<;)->.d;relation.d[""route""!=""bus""];(._;>>;);out;",
+                            @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((node(area.a)[""naptan:AtcoCode""][!""railway""];node(area.b)[""naptan:AtcoCode""][!""railway""];node(area.c)[""naptan:AtcoCode""][!""railway""];);rel(bn);rel(br);)->.d;relation.d[""route""!=""bus""][""type""!=""network""];(._;>>;);out;",
                         OrphansQuery =
                             @"[out:json][timeout:{{timeout}}];area[official_name=""Tendring District""]->.a;area[official_name=""Borough of Colchester""]->.b;area[council_name=""Maldon District Council""]->.c;((relation(area.a)[""route""=""bus""];relation(area.b)[""route""=""bus""];(relation(area.c)[""route""=""bus""];);<<;)->.d; relation.d[""route""=""bus""];(._;>>;);out meta;"
                 });
@@ -327,7 +362,9 @@ namespace CheckPublicTransportRelations
             }
 
             string overpassBusStopsJson = await response.Content.ReadAsStringAsync();
-            string filePath = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder);
+            string filePath = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                locationSubfolder);
             Directory.CreateDirectory(filePath);
             string fileName = Path.Combine(filePath, "OsmBusStops.json");
             File.WriteAllText(fileName, overpassBusStopsJson);
@@ -373,9 +410,9 @@ namespace CheckPublicTransportRelations
                                                                             || !string.IsNullOrEmpty(kerbTagValue)
                                                                             || !string.IsNullOrEmpty(
                                                                                 timetableCaseTagValue)
-                    ? "yes"
-                    : string.Empty;
-            
+                                       ? "yes"
+                                       : string.Empty;
+
             string naptanVerified = element.tags["naptan:verified"] ?? string.Empty;
             var busStop = new BusStop(
                 type,
@@ -424,7 +461,10 @@ namespace CheckPublicTransportRelations
                 return false;
             }
 
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder, "OsmData.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                locationSubfolder,
+                "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
         }
@@ -461,10 +501,15 @@ namespace CheckPublicTransportRelations
                 return false;
             }
 
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, locationSubfolder, "OsmOrphans.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                locationSubfolder,
+                "OsmOrphans.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
             return true;
         }
+
+        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 8 January 2019 (1.0.0.0)</createdBy>
@@ -473,7 +518,6 @@ namespace CheckPublicTransportRelations
         ///
         /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void AddTravelineRouteVariants(RouteMaster travelineRouteMaster)
         {
             foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
@@ -732,6 +776,8 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Compare route variants.</summary>
@@ -739,7 +785,6 @@ namespace CheckPublicTransportRelations
         /// <param name="routeMaster">         The route master.</param>
         /// <param name="travelineRouteMaster">The traveline route master.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void CompareRouteVariants(OpenStreetMapRouteMaster routeMaster, RouteMaster travelineRouteMaster)
         {
             var matchedRouteVariants = new HashSet<long>();
@@ -781,7 +826,8 @@ namespace CheckPublicTransportRelations
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
                                                RelationTo = routeVariant.RelationTo,
-                                               RelationEndNodes = routeVariant.EndNodes
+                                               RelationEndNodes = routeVariant.EndNodes,
+                                               LondonBus = routeVariant.LondonBus
                                            };
                 foreach (Route travelineRouteVariant in travelineRouteMaster.RouteVariants)
                 {
@@ -823,7 +869,8 @@ namespace CheckPublicTransportRelations
                                                RelationName = routeVariant.Name,
                                                RelationFrom = routeVariant.RelationFrom,
                                                RelationTo = routeVariant.RelationTo,
-                                               RelationEndNodes =  routeVariant.EndNodes
+                                               RelationEndNodes = routeVariant.EndNodes,
+                                               LondonBus = routeVariant.LondonBus
                                            };
 
                 this.ComparisonResultsRoutes.Add(comparisonResult);
@@ -879,6 +926,8 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Event handler. Called by DownloadTravelineNationalDataSetToolStripMenuItem for click
@@ -887,7 +936,6 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Event information.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void DownloadTravelineNationalDataSetToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
@@ -940,7 +988,9 @@ namespace CheckPublicTransportRelations
             this.ExtractTravelineRoutes();
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
             this.RefreshStatus();
-            string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+            string areaPath = Path.Combine(
+                Settings.Default.LocalPath,
+                ValidPathString(this.SelectedLocation.Description));
             string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
             if (File.Exists(areaFileName))
             {
@@ -964,8 +1014,10 @@ namespace CheckPublicTransportRelations
             Justification = "Reviewed. Suppression is OK here.")]
         private void ExtractNaptanStops()
         {
-            string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip"); 
-            string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+            string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
+            string areaPath = Path.Combine(
+                Settings.Default.LocalPath,
+                ValidPathString(this.SelectedLocation.Description));
             Directory.CreateDirectory(areaPath);
             string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
             if (File.Exists(fileName) && !File.Exists(areaFileName) && this.TravelineStops.Count > 0)
@@ -1056,13 +1108,9 @@ namespace CheckPublicTransportRelations
                         else
                         {
                             string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
-                            int length = naptanStop[commonNameIndex].IndexOf(
-                                "(",
-                                StringComparison.Ordinal);
+                            int length = naptanStop[commonNameIndex].IndexOf("(", StringComparison.Ordinal);
                             string returnValue = naptanStop[commonNameIndex].Contains("(")
-                                                     ? naptanStop[commonNameIndex].Substring(
-                                                         0,
-                                                         length - 1).Trim()
+                                                     ? naptanStop[commonNameIndex].Substring(0, length - 1).Trim()
                                                      : naptanStop[commonNameIndex];
                             if (returnValue.Contains(" - ") && !returnValue.Contains("Co - Op"))
                             {
@@ -1071,15 +1119,27 @@ namespace CheckPublicTransportRelations
                                     returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
                             }
 
-                            var newNaptanStop = new BusStop("node", -1, naptanStop[atcoCodeIndex], returnValue, naptanStop[naptanCodeIndex], naptanStop[statusIndex], naptanStop[busStopTypeIndex], string.Empty, string.Empty, string.Empty, string.Empty)
-                                                    {
-                                                        NaptanName = returnValue,
-                                                        NaptanBusStopType = naptanStop[busStopTypeIndex],
-                                                        NaptanStatus = naptanStop[statusIndex],
-                                                        Latitude = decimal.Parse(naptanStop[latitudeIndex]),
-                                                        Longitude = decimal.Parse(naptanStop[longitudeIndex]),
-                                                        NaptanNaptanCode = naptanStop[naptanCodeIndex]
-                                                    };
+                            var newNaptanStop =
+                                new BusStop(
+                                    "node",
+                                    -1,
+                                    naptanStop[atcoCodeIndex],
+                                    returnValue,
+                                    naptanStop[naptanCodeIndex],
+                                    naptanStop[statusIndex],
+                                    naptanStop[busStopTypeIndex],
+                                    string.Empty,
+                                    string.Empty,
+                                    string.Empty,
+                                    string.Empty)
+                                    {
+                                        NaptanName = returnValue,
+                                        NaptanBusStopType = naptanStop[busStopTypeIndex],
+                                        NaptanStatus = naptanStop[statusIndex],
+                                        Latitude = decimal.Parse(naptanStop[latitudeIndex]),
+                                        Longitude = decimal.Parse(naptanStop[longitudeIndex]),
+                                        NaptanNaptanCode = naptanStop[naptanCodeIndex]
+                                    };
                             this.NaptanStops.Add(newNaptanStop);
 
                             BusStop stop = this.RouteBusStops.FirstOrDefault(
@@ -1110,7 +1170,10 @@ namespace CheckPublicTransportRelations
         {
             // To determine orphan routes we check which routes are in the Orphans query that aren't a member of a route_master relation
             // I couldn't work out an overpass query to do this without comparing results.
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmOrphans.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                ValidPathString(this.SelectedLocation.Description),
+                "OsmOrphans.json");
             if (!File.Exists(fileName))
             {
                 return;
@@ -1219,8 +1282,12 @@ namespace CheckPublicTransportRelations
             var routesFromDictionary = new Dictionary<long, string>();
             var routesToDictionary = new Dictionary<long, string>();
             var routesNameDictionary = new Dictionary<long, string>();
+            var routesNetworkDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmData.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                ValidPathString(this.SelectedLocation.Description),
+                "OsmData.json");
             if (!File.Exists(fileName))
             {
                 return;
@@ -1374,6 +1441,8 @@ namespace CheckPublicTransportRelations
                     routesToDictionary.Add(id, relationTo);
                     string relationName = element.tags["name"] ?? string.Empty;
                     routesNameDictionary.Add(id, relationName);
+                    string networkName = element.tags["network"] ?? string.Empty;
+                    routesNetworkDictionary.Add(id, networkName);
                 }
             }
 
@@ -1396,10 +1465,18 @@ namespace CheckPublicTransportRelations
                     continue;
                 }
 
+                string network = element.tags["network"] ?? string.Empty;
+                bool londonBus = network == "London Buses";
+
                 var routeMaster =
-                    new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator };
+                    new OpenStreetMapRouteMaster { Id = id, Reference = reference, Operator = routeOperator, LondonBus = londonBus };
                 foreach (dynamic routeVariant in element.members)
                 {
+                    if (routeVariant.type != "relation")
+                    {
+                        continue;
+                    }
+
                     long relationId = routeVariant.@ref;
                     reference = routesReferenceDictionary[relationId];
                     routeOperator = routesOperatorDictionary[relationId];
@@ -1412,7 +1489,8 @@ namespace CheckPublicTransportRelations
                                                             RelationFrom = routesFromDictionary[relationId],
                                                             RelationTo = routesToDictionary[relationId],
                                                             Name = routesNameDictionary[relationId],
-                                                            EndNodes = routeEndNodesDictionary[relationId]
+                                                            EndNodes = routeEndNodesDictionary[relationId],
+                                                            LondonBus = routesNetworkDictionary[relationId] == "London Buses"
                     };
                     routeMaster.RouteVariants.Add(openStreetMapRouteVariant);
                 }
@@ -1425,11 +1503,12 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Extracts the traveline routes.</summary>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void ExtractTravelineRoutes()
         {
             this.TravelineRoutes = new List<RouteMaster>();
@@ -1440,7 +1519,11 @@ namespace CheckPublicTransportRelations
             }
 
             string subFolder = this.SelectedLocation.LastServiceExtract.ToString("yyyyMMdd");
-            if (!Directory.Exists(Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description), subFolder)))
+            if (!Directory.Exists(
+                    Path.Combine(
+                        Settings.Default.LocalPath,
+                        ValidPathString(this.SelectedLocation.Description),
+                        subFolder)))
             {
                 return;
             }
@@ -1745,16 +1828,12 @@ namespace CheckPublicTransportRelations
         private async void GetOpenStreetMapDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
-                                                                   + this.SelectedLocation.TransportQuery.Replace(
-                                                                       "{{bbox}}",
-                                                                       this.SelectedLocation.BoundingBox)
-                                                                           .Replace(
-                                                                               "{{area}}",
-                                                                               this.SelectedLocation.AreaQuery)
-                                                                           .Replace(
-                                                                               "{{timeout}}",
-                                                                               this.SelectedLocation.TransportTimeOut.ToString());
+            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix + this
+                                       .SelectedLocation.TransportQuery
+                                       .Replace("{{bbox}}", this.SelectedLocation.BoundingBox)
+                                       .Replace("{{area}}", this.SelectedLocation.AreaQuery).Replace(
+                                           "{{timeout}}",
+                                           this.SelectedLocation.TransportTimeOut.ToString());
 
             if (!await GetDataAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description)))
             {
@@ -1807,6 +1886,12 @@ namespace CheckPublicTransportRelations
             this.stopsDataGridView.AutoGenerateColumns = false;
             this.orphansDataGridView.AutoGenerateColumns = false;
             this.RefreshForm();
+            this.runningUnattended = false;
+            if (this.arguments.Contains("unattended"))
+            {
+                this.unattendedDelayedStartTimer.Enabled = true;
+                this.runningUnattended = true;
+            }
         }
 
         // ===========================================================================================================
@@ -1825,10 +1910,19 @@ namespace CheckPublicTransportRelations
             this.ReadBusStops();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
+            this.travelineDataGridView.SuspendLayout();
+            this.travelineDataGridView.DataSource = null;
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
+            this.travelineDataGridView.ResumeLayout();
             this.ExtractOpenStreetMapRoutes();
+            this.openStreetMapDataGridView.SuspendLayout();
+            this.openStreetMapDataGridView.DataSource = null;
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
+            this.openStreetMapDataGridView.ResumeLayout();
+            this.orphansDataGridView.SuspendLayout();
+            this.orphansDataGridView.DataSource = null;
             this.orphansDataGridView.DataSource = this.OrphanRoutes;
+            this.orphansDataGridView.ResumeLayout();
             this.CompareResults();
             this.ExtractNaptanStops();
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
@@ -1854,26 +1948,43 @@ namespace CheckPublicTransportRelations
         private void NaptanStopsDownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            string fileName = Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip");
-            foreach (Location location in this.Locations)
+            
+            try
             {
-                string areaFileName = Path.Combine(
-                    Settings.Default.LocalPath,
-                    ValidPathString(location.Description),
-                    "LocalStops.csv");
-                if (File.Exists(areaFileName))
+                string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
+                string temporaryFileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "TempNaPTANcsv.zip");
+                using (var client = new WebClient())
                 {
-                    File.Delete(areaFileName);
+                    client.DownloadFile(Settings.Default.NaptanUrl, temporaryFileName);
+                }
+
+                if (File.Exists(fileName))
+                {
+                    File.Delete(fileName);
+                }
+
+                File.Move(temporaryFileName, fileName);
+
+                foreach (Location location in this.Locations)
+                {
+                    string areaFileName = Path.Combine(
+                        Settings.Default.LocalPath,
+                        ValidPathString(location.Description),
+                        "LocalStops.csv");
+                    if (File.Exists(areaFileName))
+                    {
+                        File.Delete(areaFileName);
+                    }
                 }
             }
-
-            using (var client = new WebClient())
+            catch (Exception ex)
             {
-                client.DownloadFile(Settings.Default.NaptanUrl, fileName);
+                this.unattendedException = true;
+                this.Email(ex.Message + Environment.NewLine + ex.StackTrace);
+                // Download timeout
             }
 
-            Settings.Default.LastNaptanRefresh = DateTime.Today;
-            Settings.Default.Save();
+            // Even if download fails, re-extract from previous zip if it exists
             this.RefreshStatus();
             this.ExtractNaptanStops();
             this.RefreshStopsGrid();
@@ -1889,7 +2000,10 @@ namespace CheckPublicTransportRelations
         private void ReadBusStops()
         {
             var overpassBusStops = new List<BusStop>();
-            string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, ValidPathString(this.SelectedLocation.Description), "OsmBusStops.json");
+            string fileName = Path.Combine(
+                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                ValidPathString(this.SelectedLocation.Description),
+                "OsmBusStops.json");
             if (File.Exists(fileName))
             {
                 dynamic stops = JToken.Parse(File.ReadAllText(fileName));
@@ -1914,24 +2028,24 @@ namespace CheckPublicTransportRelations
         private async void RefreshBusStopsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
-                                                                   + this.SelectedLocation.BusStopQuery.Replace(
-                                                                       "{{bbox}}",
-                                                                       this.SelectedLocation.BoundingBox)
-                                                                       .Replace(
-                                                                           "{{area}}",
-                                                                           this.SelectedLocation.AreaQuery)
-                                                                       .Replace(
-                                                                           "{{timeout}}",
-                                                                           this.SelectedLocation.BusStopTimeOut.ToString());
+            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix + this
+                                       .SelectedLocation.BusStopQuery
+                                       .Replace("{{bbox}}", this.SelectedLocation.BoundingBox)
+                                       .Replace("{{area}}", this.SelectedLocation.AreaQuery).Replace(
+                                           "{{timeout}}",
+                                           this.SelectedLocation.BusStopTimeOut.ToString());
             try
             {
-                this.OverpassBusStops = await GetBusStopsAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description));
+                this.OverpassBusStops = await GetBusStopsAsync(
+                                            overPassQuery,
+                                            ValidPathString(this.SelectedLocation.Description));
                 this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
                 this.SelectedLocation.LastOpenStreetMapBusStopRefresh = DateTime.Today;
                 this.Locations.Save();
                 this.RefreshStatus();
-                string areaPath = Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description));
+                string areaPath = Path.Combine(
+                    Settings.Default.LocalPath,
+                    ValidPathString(this.SelectedLocation.Description));
                 string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
                 if (File.Exists(areaFileName))
                 {
@@ -1944,23 +2058,35 @@ namespace CheckPublicTransportRelations
             catch (HttpRequestException exception)
             {
                 Debug.WriteLine(exception);
-                MessageBox.Show(
-                    this,
-                    @"Internet connection issue",
-                    @"Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1);
+                this.unattendedException = true;
+                if (!this.runningUnattended)
+                {
+                    MessageBox.Show(
+                        this,
+                        @"Internet connection issue",
+                        @"Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(
-                    this,
-                    exception.Message,
-                    @"Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1);
+                this.unattendedException = true;
+                if (!this.runningUnattended)
+                {
+                    MessageBox.Show(
+                        this,
+                        exception.Message,
+                        @"Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
+                else
+                {
+                    this.Email(exception.Message + Environment.NewLine + exception.StackTrace);
+                }
             }
 
             this.Enabled = true;
@@ -1974,8 +2100,15 @@ namespace CheckPublicTransportRelations
         private void RefreshStatus()
         {
             this.statusGroupBox.Text = @"Status - " + this.SelectedLocation.Description;
-            this.naptanDownloadedLabel.Text =
-                @"Naptan Downloaded: " + Settings.Default.LastNaptanRefresh.ToLongDateString();
+            string naptanFileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
+            if (File.Exists(naptanFileName))
+            {
+                var naptanInfo = new FileInfo(naptanFileName);
+                this.naptanDownloadedLabel.Text = @"Naptan Downloaded: " + naptanInfo.LastWriteTime.ToLongDateString()
+                                                                         + @" " + naptanInfo.LastWriteTime
+                                                                             .ToShortTimeString();
+            }
+
             this.busStopsLabel.Text = @"Bus stops read: " + this.OverpassBusStops.Count;
             if (this.SelectedLocation.LastOpenStreetMapBusStopRefresh > DateTime.MinValue)
             {
@@ -1986,34 +2119,45 @@ namespace CheckPublicTransportRelations
 
             if (Directory.Exists(Settings.Default.LocalPath))
             {
-                int zipFiles = Directory.GetFiles(Settings.Default.LocalPath, "*.zip", SearchOption.TopDirectoryOnly)
-                    .Length;
-                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "NaPTANcsv.zip")))
+                int zipFiles = Directory.GetFiles(
+                    Path.Combine(Settings.Default.LocalPath, "tndsdata"),
+                    "*.zip",
+                    SearchOption.TopDirectoryOnly).Length;
+                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "tndsdata", "NaPTANcsv.zip")))
                 {
                     // don't count Naptan zip as TNDS zip
                     zipFiles -= 1;
                 }
 
+                var directory = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
+                FileInfo myFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+
                 this.travelineZipsLabel.Text = @"TNDS zips: " + zipFiles;
-                if (Settings.Default.LastTravelineDownload > DateTime.MinValue)
-                {
-                    this.travelineLastDownloadedLabel.Text = @"Last downloaded: "
-                                                             + Settings.Default.LastTravelineDownload
-                                                                 .ToLongDateString();
-                }
+                this.travelineLastDownloadedLabel.Text = @"Newest zip: " + myFile.LastWriteTime.ToLongDateString()
+                                                                         + @" " + myFile.LastWriteTime
+                                                                             .ToShortTimeString();
+                this.lastWriteTime = myFile.LastWriteTime;
             }
 
             string subFolder = this.SelectedLocation.LastServiceExtract.ToString("yyyyMMdd");
-            if (Directory.Exists(Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description), subFolder)))
+            if (Directory.Exists(
+                Path.Combine(
+                    Settings.Default.LocalPath,
+                    ValidPathString(this.SelectedLocation.Description),
+                    subFolder)))
             {
                 this.localServicesLabel.Text = @"Local services extracted: " + Directory.GetFiles(
-                                                   Path.Combine(Settings.Default.LocalPath, ValidPathString(this.SelectedLocation.Description), subFolder),
+                                                   Path.Combine(
+                                                       Settings.Default.LocalPath,
+                                                       ValidPathString(this.SelectedLocation.Description),
+                                                       subFolder),
                                                    "*.xml",
                                                    SearchOption.TopDirectoryOnly).Length;
                 if (this.SelectedLocation.LastServiceExtract > DateTime.MinValue)
                 {
                     this.localRoutesLastExtractedLabel.Text = @"Last extracted: "
-                                                              + this.SelectedLocation.LastServiceExtract.ToLongDateString();
+                                                              + this.SelectedLocation.LastServiceExtract
+                                                                  .ToLongDateString();
                 }
             }
 
@@ -2237,11 +2381,12 @@ namespace CheckPublicTransportRelations
             this.comparedRoutesDataGridView.DataSource = this.showMatchedRoutesCheckBox.Checked
                                                              ? this.ComparisonResultsRoutes
                                                              : this.ComparisonResultsRoutes.Where(
-                                                                 item => item.OperatorsEqual == false
-                                                                         || item.ReferencesEqual == false
-                                                                         || item.StopsEqual == false
-                                                                         || item.NameFormatting == false
-                                                                         || item.Gaps == true).ToList();
+                                                                     item => item.OperatorsEqual == false
+                                                                             || item.ReferencesEqual == false
+                                                                             || item.StopsEqual == false
+                                                                             || item.NameFormatting == false
+                                                                             || item.Gaps)
+                                                                 .ToList();
             this.wikiTextButton.Visible = !this.showMatchedRoutesCheckBox.Checked
                                           && this.comparedRoutesDataGridView.RowCount == 0
                                           && this.ComparisonResultsRoutes.Count > 0;
@@ -2301,8 +2446,10 @@ namespace CheckPublicTransportRelations
             this.stopsDataGridView.DataSource = this.showMatchedStopsCheckBox.Checked
                                                     ? this.RouteBusStops
                                                     : this.RouteBusStops.Where(
-                                                        item => item.NamesMatch == false || item.StatusesMatch == false
-                                                                                         || item.TypesMatch == false).ToList();
+                                                            item => item.NamesMatch == false
+                                                                    || item.StatusesMatch == false
+                                                                    || item.TypesMatch == false)
+                                                        .ToList();
         }
 
         // ===========================================================================================================
@@ -2323,13 +2470,13 @@ namespace CheckPublicTransportRelations
                                + this.stopsDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
                 Process.Start(value);
             }
-            
+
             if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
                 || senderGrid.Columns[e.ColumnIndex].Name != this.naptanInfoStopButtonColumn.Name || e.RowIndex < 0)
             {
                 return;
             }
-            
+
             this.Enabled = false;
             var selectedRow = (BusStop)senderGrid.Rows[e.RowIndex].DataBoundItem;
             var editForm = new NaptanForm(selectedRow);
@@ -2381,14 +2528,16 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 21 January 2019 (1.0.0.0)</createdBy>
         ///
-        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content double click events.</summary>
+        /// <summary>Event handler. Called by TravelineStopsDataGridView for cell content double click
+        ///          events.</summary>
         ///
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Data grid view cell event information.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
         private void TravelineStopsDataGridView_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             // moved to double-click, so still possible to click and ctrl-C to paste reference in JOSM search box
@@ -2491,15 +2640,10 @@ namespace CheckPublicTransportRelations
         private void SparseEditAreaRemoteControlToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string overpassQuery = this.SelectedLocation.TransportQuery
-                .Replace("{{bbox}}", this.SelectedLocation.BoundingBox)
-                .Replace("[out:json]", "[out:xml]")
-                .Replace(
-                    "{{area}}",
-                    this.SelectedLocation.AreaQuery)
-                .Replace(
+                .Replace("{{bbox}}", this.SelectedLocation.BoundingBox).Replace("[out:json]", "[out:xml]")
+                .Replace("{{area}}", this.SelectedLocation.AreaQuery).Replace(
                     "{{timeout}}",
-                    this.SelectedLocation.TransportTimeOut.ToString())
-                .Replace("out;", "out meta;");
+                    this.SelectedLocation.TransportTimeOut.ToString()).Replace("out;", "out meta;");
             string value = "http://127.0.0.1:8111/import?url=https%3A%2F%2Foverpass-api.de%2Fapi%2Finterpreter"
                            + HttpUtility.UrlEncode("?data=" + overpassQuery);
             Process.Start(value);
@@ -2527,8 +2671,8 @@ namespace CheckPublicTransportRelations
 
             BusStop naptanStop = this.NaptanStops.FirstOrDefault(
                 item => item.AtcoCode
-                        == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow
-                                   .DataBoundItem).StopPointRef);
+                        == ((JourneyStop)this.travelineStopsDataGridView.SelectedCells[0].OwningRow.DataBoundItem)
+                        .StopPointRef);
             if (naptanStop == null)
             {
                 return;
@@ -2615,16 +2759,12 @@ namespace CheckPublicTransportRelations
         private async void CheckForOrphanRoutesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix
-                                                                   + this.SelectedLocation.OrphansQuery.Replace(
-                                                                           "{{bbox}}",
-                                                                           this.SelectedLocation.BoundingBox)
-                                                                       .Replace(
-                                                                           "{{area}}",
-                                                                           this.SelectedLocation.AreaQuery)
-                                                                       .Replace(
-                                                                           "{{timeout}}",
-                                                                           this.SelectedLocation.OrphanRoutesTimeOut.ToString());
+            string overPassQuery = Settings.Default.OverpassServer + Settings.Default.OverpassQueryPrefix + this
+                                       .SelectedLocation.OrphansQuery
+                                       .Replace("{{bbox}}", this.SelectedLocation.BoundingBox)
+                                       .Replace("{{area}}", this.SelectedLocation.AreaQuery).Replace(
+                                           "{{timeout}}",
+                                           this.SelectedLocation.OrphanRoutesTimeOut.ToString());
 
             if (!await GetOrphansAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description)))
             {
@@ -2653,8 +2793,9 @@ namespace CheckPublicTransportRelations
                 return;
             }
 
-            string value = "http://127.0.0.1:8111/load_object?new_layer=false&relation_members=true&referrers=true&objects=r"
-                           + this.orphansDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+            string value =
+                "http://127.0.0.1:8111/load_object?new_layer=false&relation_members=true&referrers=true&objects=r"
+                + this.orphansDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
             Process.Start(value);
         }
 
@@ -2666,7 +2807,10 @@ namespace CheckPublicTransportRelations
         /// <param name="sender">Source of the event.</param>
         /// <param name="e">     Data grid view cell event information.</param>
         // ===========================================================================================================
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage(
+            "StyleCop.CSharp.DocumentationRules",
+            "SA1650:ElementDocumentationMustBeSpelledCorrectly",
+            Justification = "Reviewed. Suppression is OK here.")]
         private void TravelineStopsDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
@@ -2703,9 +2847,7 @@ namespace CheckPublicTransportRelations
             foreach (DataGridViewRow stopRow in this.travelineStopsDataGridView.Rows)
             {
                 BusStop naptanStop = this.RouteBusStops.FirstOrDefault(
-                    item => item.AtcoCode
-                            == ((JourneyStop)stopRow
-                                       .DataBoundItem).StopPointRef);
+                    item => item.AtcoCode == ((JourneyStop)stopRow.DataBoundItem).StopPointRef);
                 if (naptanStop == null)
                 {
                     continue;
@@ -2722,6 +2864,143 @@ namespace CheckPublicTransportRelations
 
             value = value.Substring(0, value.Length - 1);
             Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by UnattendedDelayedStartTimer for tick events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void UnattendedDelayedStartTimer_Tick(object sender, EventArgs e)
+        {
+            this.unattendedException = false;
+            DateTime startTime = DateTime.MinValue;
+            if (Directory.Exists(Settings.Default.LocalPath))
+            {
+                int zipFiles = Directory.GetFiles(
+                    Path.Combine(Settings.Default.LocalPath, "tndsdata"),
+                    "*.zip",
+                    SearchOption.TopDirectoryOnly).Length;
+                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "tndsdata", "NaPTANcsv.zip")))
+                {
+                    // don't count Naptan zip as TNDS zip
+                    zipFiles -= 1;
+                }
+
+                var directory = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
+                FileInfo myFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+
+                this.travelineZipsLabel.Text = @"TNDS zips: " + zipFiles;
+                this.travelineLastDownloadedLabel.Text = @"Newest zip: " + myFile.LastWriteTime.ToLongDateString()
+                                                                         + @" " + myFile.LastWriteTime
+                                                                             .ToShortTimeString();
+                startTime = myFile.LastWriteTime;
+            }
+
+            this.unattendedDelayedStartTimer.Enabled = false;
+            this.Locations = LoadLocations();
+            this.SetLocation();
+            this.RefreshBusStopsToolStripMenuItem_Click(sender, e);
+            if (!this.unattendedException)
+            {
+                this.GetOpenStreetMapDataToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                this.NaptanStopsDownloadToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                this.DownloadTravelineNationalDataSetToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                if (this.lastWriteTime > startTime)
+                {
+                    this.ExtractLocalRoutesToolStripMenuItem_Click(sender, e);
+                    List<ComparisonResultRoute> routes = this.ComparisonResultsRoutes.Where(
+                        item => item.OperatorsEqual == false || item.ReferencesEqual == false
+                                                             || item.StopsEqual == false || item.NameFormatting == false
+                                                             || item.Gaps).ToList();
+                    if (routes.Count > 0)
+                    {
+                        string body = "Routes Changed : " + routes.Count + Environment.NewLine;
+                        foreach (ComparisonResultRoute route in routes)
+                        {
+                            body += route.RelationOperator + " " + route.RelationReference + "/ "
+                                    + route.ServiceOperator + " " + route.ServiceReference + Environment.NewLine;
+                        }
+
+                        this.Email(body);
+                    }
+                }
+            }
+
+            this.CloseButton_Click(sender, e);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Sends an email.</summary>
+        ///
+        /// <param name="messageBody">The message body.</param>
+        /// <param name="isBodyHtml"> True if this  is body HTML.</param>
+        // ===========================================================================================================
+        private void Email(string messageBody, bool isBodyHtml = false)
+        {
+            try
+            {
+                var message = new MailMessage
+                                  {
+                                      From = new MailAddress(Settings.Default.EmailFrom),
+                                      Subject = "TNDS Routes Notification - " + this.SelectedLocation.Description,
+                                      IsBodyHtml = isBodyHtml,
+                                      Body = messageBody
+                                  };
+
+                message.To.Add(new MailAddress(Settings.Default.EmailTo));
+
+                var smtp = new SmtpClient
+                               {
+                                   Port = Settings.Default.SmtpPort,
+                                   Host = Settings.Default.SmtpHost,
+                                   EnableSsl = Settings.Default.SmtpEnableSsl,
+                                   UseDefaultCredentials = Settings.Default.SmtpUseDefaultCredentials,
+                                   Credentials = new NetworkCredential(
+                                       Settings.Default.SmtpUsername,
+                                       Settings.Default.SmtpPassword),
+                                   DeliveryMethod = SmtpDeliveryMethod.Network
+                               };
+
+                smtp.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by BusStopNameMappingsToolStripMenuItem for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void BusStopNameMappingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Enabled = false;
+            var mappingsForm = new BusStopNameMappingsForm();
+            mappingsForm.ShowDialog(this);
+            this.Enabled = true;
         }
     }
 }
