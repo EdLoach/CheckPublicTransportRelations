@@ -91,7 +91,7 @@ namespace CheckPublicTransportRelations
 
                     ComparisonDifferenceCollection result = session.CompareDirectories(
                         SynchronizationMode.Local,
-                        Path.Combine(Settings.Default.LocalPath, "tdnsdata"),
+                        Path.Combine(Settings.Default.LocalPath, "tndsdata"),
                         ".",
                         true,
                         false,

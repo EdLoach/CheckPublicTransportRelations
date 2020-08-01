@@ -28,43 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle25 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle26 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle33 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle34 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle78 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle79 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle80 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle81 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle82 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle83 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle84 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle85 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle86 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle87 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle88 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle89 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle90 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle91 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle92 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle93 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle94 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle95 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle97 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle96 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle98 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle99 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle100 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle101 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle102 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle103 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle104 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle105 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle106 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle107 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle108 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle109 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle111 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle110 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.closeButton = new System.Windows.Forms.Button();
@@ -198,6 +199,7 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unattendedDelayedStartTimer = new System.Windows.Forms.Timer(this.components);
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -309,8 +311,8 @@
             this.travelineDataGridView.Name = "travelineDataGridView";
             this.travelineDataGridView.ReadOnly = true;
             this.travelineDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightCyan;
-            this.travelineDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle75.BackColor = System.Drawing.Color.LightCyan;
+            this.travelineDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle75;
             this.travelineDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.travelineDataGridView.Size = new System.Drawing.Size(984, 559);
             this.travelineDataGridView.TabIndex = 0;
@@ -373,8 +375,8 @@
             this.openStreetMapDataGridView.Name = "openStreetMapDataGridView";
             this.openStreetMapDataGridView.ReadOnly = true;
             this.openStreetMapDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.openStreetMapDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle77.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.openStreetMapDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle77;
             this.openStreetMapDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.openStreetMapDataGridView.Size = new System.Drawing.Size(984, 559);
             this.openStreetMapDataGridView.TabIndex = 0;
@@ -407,8 +409,8 @@
             // 
             this.osmIdColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.osmIdColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle2.Format = "N0";
-            this.osmIdColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle76.Format = "N0";
+            this.osmIdColumn.DefaultCellStyle = dataGridViewCellStyle76;
             this.osmIdColumn.HeaderText = "Relation Id";
             this.osmIdColumn.Name = "osmIdColumn";
             this.osmIdColumn.ReadOnly = true;
@@ -453,8 +455,8 @@
             // servicesOsmOperatorColumn
             // 
             this.servicesOsmOperatorColumn.DataPropertyName = "RouteMasterOperator";
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.servicesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle78.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.servicesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle78;
             this.servicesOsmOperatorColumn.HeaderText = "OSM Operator";
             this.servicesOsmOperatorColumn.Name = "servicesOsmOperatorColumn";
             this.servicesOsmOperatorColumn.ReadOnly = true;
@@ -463,8 +465,8 @@
             // servicesTndsOperatorColumn
             // 
             this.servicesTndsOperatorColumn.DataPropertyName = "TravelineOperator";
-            dataGridViewCellStyle5.BackColor = System.Drawing.Color.LightCyan;
-            this.servicesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle79.BackColor = System.Drawing.Color.LightCyan;
+            this.servicesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle79;
             this.servicesTndsOperatorColumn.HeaderText = "TNDS Operator";
             this.servicesTndsOperatorColumn.Name = "servicesTndsOperatorColumn";
             this.servicesTndsOperatorColumn.ReadOnly = true;
@@ -481,8 +483,8 @@
             // servicesOsmServiceColumn
             // 
             this.servicesOsmServiceColumn.DataPropertyName = "RouteMasterReference";
-            dataGridViewCellStyle6.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.servicesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle80.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.servicesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle80;
             this.servicesOsmServiceColumn.HeaderText = "OSM Service";
             this.servicesOsmServiceColumn.Name = "servicesOsmServiceColumn";
             this.servicesOsmServiceColumn.ReadOnly = true;
@@ -491,8 +493,8 @@
             // servicesTndsServiceColumn
             // 
             this.servicesTndsServiceColumn.DataPropertyName = "TravelineReference";
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.LightCyan;
-            this.servicesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle81.BackColor = System.Drawing.Color.LightCyan;
+            this.servicesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle81;
             this.servicesTndsServiceColumn.HeaderText = "TNDS Service";
             this.servicesTndsServiceColumn.Name = "servicesTndsServiceColumn";
             this.servicesTndsServiceColumn.ReadOnly = true;
@@ -509,8 +511,8 @@
             // servicesOsmRoutesColumn
             // 
             this.servicesOsmRoutesColumn.DataPropertyName = "RouteMasterRouteVariants";
-            dataGridViewCellStyle8.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.servicesOsmRoutesColumn.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle82.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.servicesOsmRoutesColumn.DefaultCellStyle = dataGridViewCellStyle82;
             this.servicesOsmRoutesColumn.HeaderText = "OSM Routes";
             this.servicesOsmRoutesColumn.Name = "servicesOsmRoutesColumn";
             this.servicesOsmRoutesColumn.ReadOnly = true;
@@ -521,8 +523,8 @@
             // servicesTndsRoutesColumn
             // 
             this.servicesTndsRoutesColumn.DataPropertyName = "TravelineRouteVariants";
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.LightCyan;
-            this.servicesTndsRoutesColumn.DefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle83.BackColor = System.Drawing.Color.LightCyan;
+            this.servicesTndsRoutesColumn.DefaultCellStyle = dataGridViewCellStyle83;
             this.servicesTndsRoutesColumn.HeaderText = "TNDS Routes";
             this.servicesTndsRoutesColumn.Name = "servicesTndsRoutesColumn";
             this.servicesTndsRoutesColumn.ReadOnly = true;
@@ -539,9 +541,9 @@
             // servicesOsmIdColumn
             // 
             this.servicesOsmIdColumn.DataPropertyName = "RouteMasterRelationId";
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle10.Format = "N0";
-            this.servicesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle84.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle84.Format = "N0";
+            this.servicesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle84;
             this.servicesOsmIdColumn.HeaderText = "OSM Id";
             this.servicesOsmIdColumn.Name = "servicesOsmIdColumn";
             this.servicesOsmIdColumn.ReadOnly = true;
@@ -551,8 +553,8 @@
             // 
             this.servicesTndsFileColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.servicesTndsFileColumn.DataPropertyName = "TravelineFile";
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightCyan;
-            this.servicesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle85.BackColor = System.Drawing.Color.LightCyan;
+            this.servicesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle85;
             this.servicesTndsFileColumn.HeaderText = "TNDS File";
             this.servicesTndsFileColumn.Name = "servicesTndsFileColumn";
             this.servicesTndsFileColumn.ReadOnly = true;
@@ -642,8 +644,8 @@
             // routesOsmOperatorColumn
             // 
             this.routesOsmOperatorColumn.DataPropertyName = "RelationOperator";
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.routesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle86.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.routesOsmOperatorColumn.DefaultCellStyle = dataGridViewCellStyle86;
             this.routesOsmOperatorColumn.HeaderText = "OSM Operator";
             this.routesOsmOperatorColumn.Name = "routesOsmOperatorColumn";
             this.routesOsmOperatorColumn.ReadOnly = true;
@@ -651,8 +653,8 @@
             // routesTndsOperatorColumn
             // 
             this.routesTndsOperatorColumn.DataPropertyName = "ServiceOperator";
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle87.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsOperatorColumn.DefaultCellStyle = dataGridViewCellStyle87;
             this.routesTndsOperatorColumn.HeaderText = "TNDS Operator";
             this.routesTndsOperatorColumn.Name = "routesTndsOperatorColumn";
             this.routesTndsOperatorColumn.ReadOnly = true;
@@ -668,8 +670,8 @@
             // routesOsmServiceColumn
             // 
             this.routesOsmServiceColumn.DataPropertyName = "RelationReference";
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.routesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle88.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.routesOsmServiceColumn.DefaultCellStyle = dataGridViewCellStyle88;
             this.routesOsmServiceColumn.HeaderText = "OSM Service";
             this.routesOsmServiceColumn.Name = "routesOsmServiceColumn";
             this.routesOsmServiceColumn.ReadOnly = true;
@@ -678,8 +680,8 @@
             // routesTndsServiceColumn
             // 
             this.routesTndsServiceColumn.DataPropertyName = "ServiceReference";
-            dataGridViewCellStyle15.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle89.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsServiceColumn.DefaultCellStyle = dataGridViewCellStyle89;
             this.routesTndsServiceColumn.HeaderText = "TNDS Service";
             this.routesTndsServiceColumn.Name = "routesTndsServiceColumn";
             this.routesTndsServiceColumn.ReadOnly = true;
@@ -704,10 +706,10 @@
             // routesOsmIdColumn
             // 
             this.routesOsmIdColumn.DataPropertyName = "RouteRelationId";
-            dataGridViewCellStyle16.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle16.Format = "N0";
-            dataGridViewCellStyle16.NullValue = null;
-            this.routesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle16;
+            dataGridViewCellStyle90.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle90.Format = "N0";
+            dataGridViewCellStyle90.NullValue = null;
+            this.routesOsmIdColumn.DefaultCellStyle = dataGridViewCellStyle90;
             this.routesOsmIdColumn.HeaderText = "OSM Id";
             this.routesOsmIdColumn.Name = "routesOsmIdColumn";
             this.routesOsmIdColumn.ReadOnly = true;
@@ -718,9 +720,9 @@
             // routesOsmRouteMasterIdColumn
             // 
             this.routesOsmRouteMasterIdColumn.DataPropertyName = "ServiceRouteRelationId";
-            dataGridViewCellStyle17.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle17.Format = "N0";
-            this.routesOsmRouteMasterIdColumn.DefaultCellStyle = dataGridViewCellStyle17;
+            dataGridViewCellStyle91.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle91.Format = "N0";
+            this.routesOsmRouteMasterIdColumn.DefaultCellStyle = dataGridViewCellStyle91;
             this.routesOsmRouteMasterIdColumn.HeaderText = "OSM RM Id";
             this.routesOsmRouteMasterIdColumn.Name = "routesOsmRouteMasterIdColumn";
             this.routesOsmRouteMasterIdColumn.ReadOnly = true;
@@ -731,8 +733,8 @@
             // routeRelationNameColumn
             // 
             this.routeRelationNameColumn.DataPropertyName = "RelationName";
-            dataGridViewCellStyle18.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.routeRelationNameColumn.DefaultCellStyle = dataGridViewCellStyle18;
+            dataGridViewCellStyle92.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.routeRelationNameColumn.DefaultCellStyle = dataGridViewCellStyle92;
             this.routeRelationNameColumn.HeaderText = "Name";
             this.routeRelationNameColumn.Name = "routeRelationNameColumn";
             this.routeRelationNameColumn.ReadOnly = true;
@@ -758,8 +760,8 @@
             // 
             this.routesTndsFileColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.routesTndsFileColumn.DataPropertyName = "ServiceFile";
-            dataGridViewCellStyle19.BackColor = System.Drawing.Color.LightCyan;
-            this.routesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle19;
+            dataGridViewCellStyle93.BackColor = System.Drawing.Color.LightCyan;
+            this.routesTndsFileColumn.DefaultCellStyle = dataGridViewCellStyle93;
             this.routesTndsFileColumn.HeaderText = "File";
             this.routesTndsFileColumn.Name = "routesTndsFileColumn";
             this.routesTndsFileColumn.ReadOnly = true;
@@ -871,8 +873,8 @@
             this.openStreetMapStopsDataGridView.Name = "openStreetMapStopsDataGridView";
             this.openStreetMapStopsDataGridView.ReadOnly = true;
             this.openStreetMapStopsDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle20.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.openStreetMapStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle20;
+            dataGridViewCellStyle94.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.openStreetMapStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle94;
             this.openStreetMapStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.openStreetMapStopsDataGridView.Size = new System.Drawing.Size(177, 513);
             this.openStreetMapStopsDataGridView.TabIndex = 0;
@@ -919,8 +921,8 @@
             this.travelineStopsDataGridView.Name = "travelineStopsDataGridView";
             this.travelineStopsDataGridView.ReadOnly = true;
             this.travelineStopsDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle21.BackColor = System.Drawing.Color.LightCyan;
-            this.travelineStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle21;
+            dataGridViewCellStyle95.BackColor = System.Drawing.Color.LightCyan;
+            this.travelineStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle95;
             this.travelineStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.travelineStopsDataGridView.Size = new System.Drawing.Size(193, 513);
             this.travelineStopsDataGridView.TabIndex = 1;
@@ -1027,8 +1029,8 @@
             this.fromToDataGridView.Name = "fromToDataGridView";
             this.fromToDataGridView.ReadOnly = true;
             this.fromToDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle23.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle23;
+            dataGridViewCellStyle97.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.fromToDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle97;
             this.fromToDataGridView.Size = new System.Drawing.Size(990, 532);
             this.fromToDataGridView.TabIndex = 0;
             this.fromToDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FromToDataGridView_CellContentClick);
@@ -1045,8 +1047,8 @@
             // fromToRelationColumn
             // 
             this.fromToRelationColumn.DataPropertyName = "RelationId";
-            dataGridViewCellStyle22.Format = "N0";
-            this.fromToRelationColumn.DefaultCellStyle = dataGridViewCellStyle22;
+            dataGridViewCellStyle96.Format = "N0";
+            this.fromToRelationColumn.DefaultCellStyle = dataGridViewCellStyle96;
             this.fromToRelationColumn.HeaderText = "Id";
             this.fromToRelationColumn.Name = "fromToRelationColumn";
             this.fromToRelationColumn.ReadOnly = true;
@@ -1172,8 +1174,8 @@
             // stopTypeColumn
             // 
             this.stopTypeColumn.DataPropertyName = "Type";
-            dataGridViewCellStyle24.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopTypeColumn.DefaultCellStyle = dataGridViewCellStyle24;
+            dataGridViewCellStyle98.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopTypeColumn.DefaultCellStyle = dataGridViewCellStyle98;
             this.stopTypeColumn.HeaderText = "Type";
             this.stopTypeColumn.Name = "stopTypeColumn";
             this.stopTypeColumn.ReadOnly = true;
@@ -1182,10 +1184,10 @@
             // stopIdColumn
             // 
             this.stopIdColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle25.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle25.BackColor = System.Drawing.Color.AntiqueWhite;
-            dataGridViewCellStyle25.Format = "N0";
-            this.stopIdColumn.DefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle99.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle99.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle99.Format = "N0";
+            this.stopIdColumn.DefaultCellStyle = dataGridViewCellStyle99;
             this.stopIdColumn.HeaderText = "Id";
             this.stopIdColumn.Name = "stopIdColumn";
             this.stopIdColumn.ReadOnly = true;
@@ -1195,8 +1197,8 @@
             // stopAtcoCodeColumn
             // 
             this.stopAtcoCodeColumn.DataPropertyName = "AtcoCode";
-            dataGridViewCellStyle26.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopAtcoCodeColumn.DefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle100.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopAtcoCodeColumn.DefaultCellStyle = dataGridViewCellStyle100;
             this.stopAtcoCodeColumn.HeaderText = "AtcoCode";
             this.stopAtcoCodeColumn.Name = "stopAtcoCodeColumn";
             this.stopAtcoCodeColumn.ReadOnly = true;
@@ -1204,8 +1206,8 @@
             // stopNameColumn
             // 
             this.stopNameColumn.DataPropertyName = "StopName";
-            dataGridViewCellStyle27.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopNameColumn.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle101.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopNameColumn.DefaultCellStyle = dataGridViewCellStyle101;
             this.stopNameColumn.HeaderText = "Name";
             this.stopNameColumn.Name = "stopNameColumn";
             this.stopNameColumn.ReadOnly = true;
@@ -1214,8 +1216,8 @@
             // stopNaptanNameColumn
             // 
             this.stopNaptanNameColumn.DataPropertyName = "NaptanName";
-            dataGridViewCellStyle28.BackColor = System.Drawing.Color.LightCyan;
-            this.stopNaptanNameColumn.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle102.BackColor = System.Drawing.Color.LightCyan;
+            this.stopNaptanNameColumn.DefaultCellStyle = dataGridViewCellStyle102;
             this.stopNaptanNameColumn.HeaderText = "Naptan Name";
             this.stopNaptanNameColumn.Name = "stopNaptanNameColumn";
             this.stopNaptanNameColumn.ReadOnly = true;
@@ -1232,8 +1234,8 @@
             // stopOverpassStatusColumn
             // 
             this.stopOverpassStatusColumn.DataPropertyName = "Status";
-            dataGridViewCellStyle29.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopOverpassStatusColumn.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle103.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopOverpassStatusColumn.DefaultCellStyle = dataGridViewCellStyle103;
             this.stopOverpassStatusColumn.HeaderText = "Status";
             this.stopOverpassStatusColumn.Name = "stopOverpassStatusColumn";
             this.stopOverpassStatusColumn.ReadOnly = true;
@@ -1242,8 +1244,8 @@
             // stopsStatusColumn
             // 
             this.stopsStatusColumn.DataPropertyName = "NaptanStatus";
-            dataGridViewCellStyle30.BackColor = System.Drawing.Color.LightCyan;
-            this.stopsStatusColumn.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle104.BackColor = System.Drawing.Color.LightCyan;
+            this.stopsStatusColumn.DefaultCellStyle = dataGridViewCellStyle104;
             this.stopsStatusColumn.HeaderText = "Status";
             this.stopsStatusColumn.Name = "stopsStatusColumn";
             this.stopsStatusColumn.ReadOnly = true;
@@ -1260,8 +1262,8 @@
             // stopHighwayColumn
             // 
             this.stopHighwayColumn.DataPropertyName = "Highway";
-            dataGridViewCellStyle31.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopHighwayColumn.DefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle105.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopHighwayColumn.DefaultCellStyle = dataGridViewCellStyle105;
             this.stopHighwayColumn.HeaderText = "highway";
             this.stopHighwayColumn.Name = "stopHighwayColumn";
             this.stopHighwayColumn.ReadOnly = true;
@@ -1270,8 +1272,8 @@
             // stopPresentColumn
             // 
             this.stopPresentColumn.DataPropertyName = "Surveyed";
-            dataGridViewCellStyle32.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopPresentColumn.DefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle106.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopPresentColumn.DefaultCellStyle = dataGridViewCellStyle106;
             this.stopPresentColumn.HeaderText = "surveyed";
             this.stopPresentColumn.Name = "stopPresentColumn";
             this.stopPresentColumn.ReadOnly = true;
@@ -1280,8 +1282,8 @@
             // stopVerifiedColumn
             // 
             this.stopVerifiedColumn.DataPropertyName = "NaptanVerified";
-            dataGridViewCellStyle33.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopVerifiedColumn.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle107.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopVerifiedColumn.DefaultCellStyle = dataGridViewCellStyle107;
             this.stopVerifiedColumn.HeaderText = "naptan:verified";
             this.stopVerifiedColumn.Name = "stopVerifiedColumn";
             this.stopVerifiedColumn.ReadOnly = true;
@@ -1290,8 +1292,8 @@
             // stopsOverpassTypeColumn
             // 
             this.stopsOverpassTypeColumn.DataPropertyName = "BusStopType";
-            dataGridViewCellStyle34.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.stopsOverpassTypeColumn.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle108.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopsOverpassTypeColumn.DefaultCellStyle = dataGridViewCellStyle108;
             this.stopsOverpassTypeColumn.HeaderText = "Type";
             this.stopsOverpassTypeColumn.Name = "stopsOverpassTypeColumn";
             this.stopsOverpassTypeColumn.ReadOnly = true;
@@ -1300,8 +1302,8 @@
             // stopsTypeColumn
             // 
             this.stopsTypeColumn.DataPropertyName = "NaptanBusStopType";
-            dataGridViewCellStyle35.BackColor = System.Drawing.Color.LightCyan;
-            this.stopsTypeColumn.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle109.BackColor = System.Drawing.Color.LightCyan;
+            this.stopsTypeColumn.DefaultCellStyle = dataGridViewCellStyle109;
             this.stopsTypeColumn.HeaderText = "Type";
             this.stopsTypeColumn.Name = "stopsTypeColumn";
             this.stopsTypeColumn.ReadOnly = true;
@@ -1389,8 +1391,8 @@
             this.orphansDataGridView.Name = "orphansDataGridView";
             this.orphansDataGridView.ReadOnly = true;
             this.orphansDataGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle37.BackColor = System.Drawing.Color.AntiqueWhite;
-            this.orphansDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle37;
+            dataGridViewCellStyle111.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.orphansDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle111;
             this.orphansDataGridView.Size = new System.Drawing.Size(990, 565);
             this.orphansDataGridView.TabIndex = 1;
             this.orphansDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OrphansDataGridViewCellContentClick);
@@ -1413,8 +1415,8 @@
             // idOrphanColumn
             // 
             this.idOrphanColumn.DataPropertyName = "Id";
-            dataGridViewCellStyle36.Format = "N0";
-            this.idOrphanColumn.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle110.Format = "N0";
+            this.idOrphanColumn.DefaultCellStyle = dataGridViewCellStyle110;
             this.idOrphanColumn.HeaderText = "Id";
             this.idOrphanColumn.Name = "idOrphanColumn";
             this.idOrphanColumn.ReadOnly = true;
@@ -1665,6 +1667,11 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
+            // unattendedDelayedStartTimer
+            // 
+            this.unattendedDelayedStartTimer.Interval = 5000;
+            this.unattendedDelayedStartTimer.Tick += new System.EventHandler(this.UnattendedDelayedStartTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1862,6 +1869,7 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn routeRelatioNameFormattingColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn routesGapsColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
+        private System.Windows.Forms.Timer unattendedDelayedStartTimer;
     }
 }
 

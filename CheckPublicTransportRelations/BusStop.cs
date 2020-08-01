@@ -226,6 +226,7 @@ namespace CheckPublicTransportRelations
                                        .Replace(")", string.Empty)
                                        .Replace(" / ", " ")
                                        .Contains(this.NaptanName
+                                                            .TrimStart()
                                                             .Replace(" Rdbt", " Roundabout")
                                                             .Replace(" Rbt", " Roundabout")
                                                             .Replace(" RdGallows", " Road Gallows")
@@ -243,6 +244,8 @@ namespace CheckPublicTransportRelations
                                                             .Replace("  ", " ")
                                                             .Replace(" Cnr", " Corner")
                                                             .Replace(" StnSt", " Station St")
+                                                            .Replace(" Stn", " Station")
+                                                            .Replace(" 6th Form Col", " Sixth Form College")
                                                             .Replace("Gale St Goresbrook Leisure C", "Gale Street Goresbrook Leisure Centre")) 
                                   && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
 

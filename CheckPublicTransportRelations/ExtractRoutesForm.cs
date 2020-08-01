@@ -183,7 +183,7 @@ namespace CheckPublicTransportRelations
             }
 
             // get files in local path
-            directoryInfo = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tdnsdata"));
+            directoryInfo = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
             files = directoryInfo.GetFiles("*.zip");
             this.fileProgressBar.Minimum = 0;
             int filesCount = files.Length;

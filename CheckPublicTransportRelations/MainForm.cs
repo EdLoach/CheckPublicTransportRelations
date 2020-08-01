@@ -18,6 +18,7 @@ namespace CheckPublicTransportRelations
     using System.Linq;
     using System.Net;
     using System.Net.Http;
+    using System.Net.Mail;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
@@ -43,6 +44,14 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private static readonly HttpClient Client = new HttpClient();
 
+        private string[] arguments;
+
+        private DateTime lastWriteTime;
+
+        private bool runningUnattended;
+
+        private bool unattendedException;
+
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
@@ -51,8 +60,9 @@ namespace CheckPublicTransportRelations
         ///
         /// <inheritdoc/>
         // ===========================================================================================================
-        public MainForm()
+        public MainForm(string[] args)
         {
+            this.arguments = args;
             this.InitializeComponent();
         }
 
@@ -1849,6 +1859,12 @@ namespace CheckPublicTransportRelations
             this.stopsDataGridView.AutoGenerateColumns = false;
             this.orphansDataGridView.AutoGenerateColumns = false;
             this.RefreshForm();
+            this.runningUnattended = false;
+            if (this.arguments.Contains("unattended"))
+            {
+                this.unattendedDelayedStartTimer.Enabled = true;
+                this.runningUnattended = true;
+            }
         }
 
         // ===========================================================================================================
@@ -1867,10 +1883,19 @@ namespace CheckPublicTransportRelations
             this.ReadBusStops();
             this.RefreshStatus();
             this.ExtractTravelineRoutes();
+            this.travelineDataGridView.SuspendLayout();
+            this.travelineDataGridView.DataSource = null;
             this.travelineDataGridView.DataSource = this.TravelineRoutes;
+            this.travelineDataGridView.ResumeLayout();
             this.ExtractOpenStreetMapRoutes();
+            this.openStreetMapDataGridView.SuspendLayout();
+            this.openStreetMapDataGridView.DataSource = null;
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
+            this.openStreetMapDataGridView.ResumeLayout();
+            this.orphansDataGridView.SuspendLayout();
+            this.orphansDataGridView.DataSource = null;
             this.orphansDataGridView.DataSource = this.OrphanRoutes;
+            this.orphansDataGridView.ResumeLayout();
             this.CompareResults();
             this.ExtractNaptanStops();
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
@@ -1925,8 +1950,10 @@ namespace CheckPublicTransportRelations
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                this.unattendedException = true;
+                this.Email(ex.Message + Environment.NewLine + ex.StackTrace);
                 // Download timeout
             }
 
@@ -2004,23 +2031,35 @@ namespace CheckPublicTransportRelations
             catch (HttpRequestException exception)
             {
                 Debug.WriteLine(exception);
-                MessageBox.Show(
-                    this,
-                    @"Internet connection issue",
-                    @"Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1);
+                this.unattendedException = true;
+                if (!this.runningUnattended)
+                {
+                    MessageBox.Show(
+                        this,
+                        @"Internet connection issue",
+                        @"Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
             }
             catch (Exception exception)
             {
-                MessageBox.Show(
-                    this,
-                    exception.Message,
-                    @"Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1);
+                this.unattendedException = true;
+                if (!this.runningUnattended)
+                {
+                    MessageBox.Show(
+                        this,
+                        exception.Message,
+                        @"Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
+                else
+                {
+                    this.Email(exception.Message + Environment.NewLine + exception.StackTrace);
+                }
             }
 
             this.Enabled = true;
@@ -2054,22 +2093,23 @@ namespace CheckPublicTransportRelations
             if (Directory.Exists(Settings.Default.LocalPath))
             {
                 int zipFiles = Directory.GetFiles(
-                    Path.Combine(Settings.Default.LocalPath, "tdnsdata"),
+                    Path.Combine(Settings.Default.LocalPath, "tndsdata"),
                     "*.zip",
                     SearchOption.TopDirectoryOnly).Length;
-                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "tdnsdata", "NaPTANcsv.zip")))
+                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "tndsdata", "NaPTANcsv.zip")))
                 {
                     // don't count Naptan zip as TNDS zip
                     zipFiles -= 1;
                 }
 
-                var directory = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tdnsdata"));
+                var directory = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
                 FileInfo myFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
 
                 this.travelineZipsLabel.Text = @"TNDS zips: " + zipFiles;
                 this.travelineLastDownloadedLabel.Text = @"Newest zip: " + myFile.LastWriteTime.ToLongDateString()
                                                                          + @" " + myFile.LastWriteTime
                                                                              .ToShortTimeString();
+                this.lastWriteTime = myFile.LastWriteTime;
             }
 
             string subFolder = this.SelectedLocation.LastServiceExtract.ToString("yyyyMMdd");
@@ -2795,6 +2835,111 @@ namespace CheckPublicTransportRelations
 
             value = value.Substring(0, value.Length - 1);
             Process.Start(value);
+        }
+
+        private void UnattendedDelayedStartTimer_Tick(object sender, EventArgs e)
+        {
+            this.unattendedException = false;
+            DateTime startTime = DateTime.MinValue;
+            if (Directory.Exists(Settings.Default.LocalPath))
+            {
+                int zipFiles = Directory.GetFiles(
+                    Path.Combine(Settings.Default.LocalPath, "tndsdata"),
+                    "*.zip",
+                    SearchOption.TopDirectoryOnly).Length;
+                if (File.Exists(Path.Combine(Settings.Default.LocalPath, "tndsdata", "NaPTANcsv.zip")))
+                {
+                    // don't count Naptan zip as TNDS zip
+                    zipFiles -= 1;
+                }
+
+                var directory = new DirectoryInfo(Path.Combine(Settings.Default.LocalPath, "tndsdata"));
+                FileInfo myFile = directory.GetFiles().OrderByDescending(f => f.LastWriteTime).First();
+
+                this.travelineZipsLabel.Text = @"TNDS zips: " + zipFiles;
+                this.travelineLastDownloadedLabel.Text = @"Newest zip: " + myFile.LastWriteTime.ToLongDateString()
+                                                                         + @" " + myFile.LastWriteTime
+                                                                             .ToShortTimeString();
+                startTime = myFile.LastWriteTime;
+            }
+
+            this.unattendedDelayedStartTimer.Enabled = false;
+            this.Locations = LoadLocations();
+            this.SetLocation();
+            this.RefreshBusStopsToolStripMenuItem_Click(sender, e);
+            if (!this.unattendedException)
+            {
+                this.GetOpenStreetMapDataToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                this.NaptanStopsDownloadToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                this.DownloadTravelineNationalDataSetToolStripMenuItem_Click(sender, e);
+            }
+
+            if (!this.unattendedException)
+            {
+                if (this.lastWriteTime > startTime)
+                {
+                    this.ExtractLocalRoutesToolStripMenuItem_Click(sender, e);
+                    List<ComparisonResultRoute> routes = this.ComparisonResultsRoutes.Where(
+                        item => item.OperatorsEqual == false || item.ReferencesEqual == false
+                                                             || item.StopsEqual == false || item.NameFormatting == false
+                                                             || item.Gaps).ToList();
+                    if (routes.Count > 0)
+                    {
+                        string body = "Routes Changed : " + routes.Count + Environment.NewLine;
+                        foreach (ComparisonResultRoute route in routes)
+                        {
+                            body += route.RelationOperator + " " + route.RelationReference + "/ "
+                                    + route.ServiceOperator + " " + route.ServiceReference + Environment.NewLine;
+                        }
+
+                        this.Email(body);
+                    }
+                }
+            }
+
+            this.CloseButton_Click(sender, e);
+        }
+
+        private void Email(string messageBody, bool isBodyHtml = false)
+        {
+            try
+            {
+                var message = new MailMessage
+                                  {
+                                      From = new MailAddress(Settings.Default.EmailFrom),
+                                      Subject = "TNDS Routes Notification - " + this.SelectedLocation.Description,
+                                      IsBodyHtml = isBodyHtml,
+                                      Body = messageBody
+                                  };
+
+                message.To.Add(new MailAddress(Settings.Default.EmailTo));
+
+                var smtp = new SmtpClient
+                               {
+                                   Port = Settings.Default.SmtpPort,
+                                   Host = Settings.Default.SmtpHost,
+                                   EnableSsl = Settings.Default.SmtpEnableSsl,
+                                   UseDefaultCredentials = Settings.Default.SmtpUseDefaultCredentials,
+                                   Credentials = new NetworkCredential(
+                                       Settings.Default.SmtpUsername,
+                                       Settings.Default.SmtpPassword),
+                                   DeliveryMethod = SmtpDeliveryMethod.Network
+                               };
+
+                smtp.Send(message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace CheckPublicTransportRelations
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
             if (Settings.Default.UpgradeRequired)
             {
@@ -25,7 +25,7 @@ namespace CheckPublicTransportRelations
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(args));
         }
     }
 }
