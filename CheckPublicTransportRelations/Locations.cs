@@ -12,7 +12,8 @@ namespace CheckPublicTransportRelations
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.IO;
-    using System.Windows.Forms;
+
+    using CheckPublicTransportRelations.Properties;
 
     // ===========================================================================================================
     /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
@@ -30,7 +31,7 @@ namespace CheckPublicTransportRelations
         {
             try
             {
-                string fileName = Path.Combine(Directory.GetParent(Application.LocalUserAppDataPath).FullName, "Locations.json");
+                string fileName = Path.Combine(Settings.Default.LocalPath, "Locations.json");
                 string outputText = Newtonsoft.Json.JsonConvert.SerializeObject(
                     this,
                     Newtonsoft.Json.Formatting.Indented);

@@ -13,7 +13,8 @@ namespace CheckPublicTransportRelations
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
-    using System.Windows.Forms;
+
+    using CheckPublicTransportRelations.Properties;
 
     // ===========================================================================================================
     /// <createdBy>EdLoach - 1 August 2020 (1.8.0.0)</createdBy>
@@ -28,7 +29,7 @@ namespace CheckPublicTransportRelations
         /// <summary>Filename of the file.</summary>
         // ===========================================================================================================
         private static readonly string FileName = Path.Combine(
-            Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+            Settings.Default.LocalPath, 
             "Mappings.json");
 
         // ===========================================================================================================

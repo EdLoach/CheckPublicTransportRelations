@@ -211,7 +211,7 @@ namespace CheckPublicTransportRelations
         {
             var returnValue = new Locations();
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 "Locations.json");
             if (File.Exists(fileName))
             {
@@ -363,7 +363,7 @@ namespace CheckPublicTransportRelations
 
             string overpassBusStopsJson = await response.Content.ReadAsStringAsync();
             string filePath = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 locationSubfolder);
             Directory.CreateDirectory(filePath);
             string fileName = Path.Combine(filePath, "OsmBusStops.json");
@@ -462,7 +462,7 @@ namespace CheckPublicTransportRelations
             }
 
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 locationSubfolder,
                 "OsmData.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
@@ -502,7 +502,7 @@ namespace CheckPublicTransportRelations
             }
 
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 locationSubfolder,
                 "OsmOrphans.json");
             File.WriteAllText(fileName, overpassTransportDataXml);
@@ -1171,7 +1171,7 @@ namespace CheckPublicTransportRelations
             // To determine orphan routes we check which routes are in the Orphans query that aren't a member of a route_master relation
             // I couldn't work out an overpass query to do this without comparing results.
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 ValidPathString(this.SelectedLocation.Description),
                 "OsmOrphans.json");
             if (!File.Exists(fileName))
@@ -1285,7 +1285,7 @@ namespace CheckPublicTransportRelations
             var routesNetworkDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath,
                 ValidPathString(this.SelectedLocation.Description),
                 "OsmData.json");
             if (!File.Exists(fileName))
@@ -2001,7 +2001,7 @@ namespace CheckPublicTransportRelations
         {
             var overpassBusStops = new List<BusStop>();
             string fileName = Path.Combine(
-                Directory.GetParent(Application.LocalUserAppDataPath).FullName,
+                Settings.Default.LocalPath, 
                 ValidPathString(this.SelectedLocation.Description),
                 "OsmBusStops.json");
             if (File.Exists(fileName))
