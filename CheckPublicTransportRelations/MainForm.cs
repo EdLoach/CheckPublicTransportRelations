@@ -2924,20 +2924,61 @@ namespace CheckPublicTransportRelations
                 if (this.lastWriteTime > startTime)
                 {
                     this.ExtractLocalRoutesToolStripMenuItem_Click(sender, e);
-                    List<ComparisonResultRoute> routes = this.ComparisonResultsRoutes.Where(
-                        item => item.OperatorsEqual == false || item.ReferencesEqual == false
-                                                             || item.StopsEqual == false || item.NameFormatting == false
-                                                             || item.Gaps).ToList();
-                    if (routes.Count > 0)
+                    List<ComparisonResultService> services = this.ComparisonResults.Where(
+                        item => item.OperatorsMatch == false || item.ReferencesMatch == false
+                                                             || item.RouteVariantsMatch == false).ToList();
+                    if (services.Count > 0)
                     {
-                        string body = "Routes Changed : " + routes.Count + Environment.NewLine;
-                        foreach (ComparisonResultRoute route in routes)
+                        var bodyText = new StringBuilder(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">" + Environment.NewLine);
+                        bodyText.AppendLine(@"<html lang=""en"" xmlns=""http://www.w3.org/1999/xhtml"" xmlns:v=""urn:schemas-microsoft-com:vml"" xmlns:o=""urn:schemas-microsoft-com:office:office"">");
+                        bodyText.AppendLine("<head>");
+                        bodyText.AppendLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">");
+                        bodyText.AppendLine(@"<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">");
+                        bodyText.AppendLine(@"<title>Bus service changes</title>");
+                        bodyText.AppendLine("</head>");
+                        bodyText.AppendLine(@"<body style=""margin:0;padding:0;min-width:100%;background-color:#ffffff;"">");
+                        // Hidden pre-header text
+                        bodyText.AppendLine(
+                            @"<div style=""display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"">Services with differences : " + services.Count + "</div>");
+                        // Visible text - header, then table of services
+                        bodyText.AppendLine("<h2>Services with differences : " + services.Count + "</h2>");
+                        bodyText.AppendLine(@"<table width=""100%"" border=""0"" cellpadding=""0"" cellspacing=""0"" style=""min-width: 100%;"" role=""presentation"">");
+                        bodyText.Append("<tr><th>");
+                        bodyText.Append("OSM Operator");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("TNDS Operator");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("OSM Reference");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("TNDS Reference");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("OSM Route Variants");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("TNDS Route Variants");
+                        bodyText.AppendLine("</th></tr>");
+
+                        foreach (ComparisonResultService service in services)
                         {
-                            body += route.RelationOperator + " " + route.RelationReference + "/ "
-                                    + route.ServiceOperator + " " + route.ServiceReference + Environment.NewLine;
+                            bodyText.Append("<tr><td>");
+                            bodyText.Append(service.RouteMasterOperator);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(service.TravelineOperator);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(service.RouteMasterReference);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(service.TravelineReference);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(service.RouteMasterRouteVariants);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(service.TravelineRouteVariants);
+                            bodyText.AppendLine("</td></tr>");
                         }
 
-                        this.Email(body);
+                        bodyText.AppendLine("</table>");
+                        bodyText.AppendLine("</body>");
+                        bodyText.AppendLine("</html>");
+
+                        this.Email(bodyText.ToString(), true);
                     }
                 }
             }
