@@ -66,6 +66,22 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle35 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle36 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle41 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle42 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle49 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle50 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle51 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle52 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle53 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.buttonPanel = new System.Windows.Forms.Panel();
             this.closeButton = new System.Windows.Forms.Button();
@@ -163,7 +179,7 @@
             this.stopsTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopTypeMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.naptanInfoStopButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.stopsPanel = new System.Windows.Forms.Panel();
             this.downloadUnmatchedStopsButton = new System.Windows.Forms.Button();
             this.showMatchedStopsCheckBox = new System.Windows.Forms.CheckBox();
             this.orphansTabPage = new System.Windows.Forms.TabPage();
@@ -174,6 +190,51 @@
             this.serviceFromOrphanColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.serviceToOrphanColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nameOrphanColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreasTabPage = new System.Windows.Forms.TabPage();
+            this.openStreetMapStopAreasSplitContainer = new System.Windows.Forms.SplitContainer();
+            this.openStreetMapStopAreasDataGridView = new System.Windows.Forms.DataGridView();
+            this.openStreetMapStopAreaRelationIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaRelationCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaRelationNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaRelationNameMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.openStreetMapStopAreaRelationStopNamesColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreasPanel = new System.Windows.Forms.Panel();
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox = new System.Windows.Forms.CheckBox();
+            this.openStreetMapStopAreasGroupBox = new System.Windows.Forms.GroupBox();
+            this.openStreetMapStopAreaStopsDataGridView = new System.Windows.Forms.DataGridView();
+            this.openStreetMapStopAreaStopIdColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaStopAtcoCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaStopNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.openStreetMapStopAreaStopsBottomPanel = new System.Windows.Forms.Panel();
+            this.stopStopAreasTabPage = new System.Windows.Forms.TabPage();
+            this.stopStopAreasDataGridView = new System.Windows.Forms.DataGridView();
+            this.stopStopAreasIdColumn = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.stopAreaViewNoteButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.stopAreaAtcoCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreasNaptanButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.stopAreaStopNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopStopAreasCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaOpenStreetMapNaptanButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.stopStopAreasNaptanCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaNaptanAreaButtonColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.stopStopAreasCodeMatchColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.stopStopAreasAreaNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.stopAreaNaptanNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaStopAreaNameMatchCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.stopAreaTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaNaptanTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.stopAreaTypeMatchCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.stopStopAreasPanel = new System.Windows.Forms.Panel();
+            this.allUnmatchedRadioButton = new System.Windows.Forms.RadioButton();
+            this.naptanAreaCodeBlankRadioButton = new System.Windows.Forms.RadioButton();
+            this.stopAreaCodesMatchRadioButton = new System.Windows.Forms.RadioButton();
+            this.stopAreasDownloadButton = new System.Windows.Forms.Button();
+            this.stopStopAreasShowMatchedCheckBox = new System.Windows.Forms.CheckBox();
+            this.atcoCodeDuplicatesTabPage = new System.Windows.Forms.TabPage();
+            this.atcoCodeDuplicatesDataGridView = new System.Windows.Forms.DataGridView();
+            this.atcoDuplicateNoteIdColumn = new System.Windows.Forms.DataGridViewLinkColumn();
+            this.atcoDuplicateCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusGroupBox = new System.Windows.Forms.GroupBox();
             this.naptanDownloadedLabel = new System.Windows.Forms.Label();
             this.openstreetMapLastDownloadedLabel = new System.Windows.Forms.Label();
@@ -199,8 +260,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.unattendedDelayedStartTimer = new System.Windows.Forms.Timer(this.components);
             this.busStopNameMappingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.unattendedDelayedStartTimer = new System.Windows.Forms.Timer(this.components);
+            this.areaCodesDifferRadioButton = new System.Windows.Forms.RadioButton();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -232,9 +294,23 @@
             this.fromToControlsPanel.SuspendLayout();
             this.stopsTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stopsDataGridView)).BeginInit();
-            this.panel1.SuspendLayout();
+            this.stopsPanel.SuspendLayout();
             this.orphansTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.orphansDataGridView)).BeginInit();
+            this.openStreetMapStopAreasTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreasSplitContainer)).BeginInit();
+            this.openStreetMapStopAreasSplitContainer.Panel1.SuspendLayout();
+            this.openStreetMapStopAreasSplitContainer.Panel2.SuspendLayout();
+            this.openStreetMapStopAreasSplitContainer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreasDataGridView)).BeginInit();
+            this.openStreetMapStopAreasPanel.SuspendLayout();
+            this.openStreetMapStopAreasGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreaStopsDataGridView)).BeginInit();
+            this.stopStopAreasTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stopStopAreasDataGridView)).BeginInit();
+            this.stopStopAreasPanel.SuspendLayout();
+            this.atcoCodeDuplicatesTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.atcoCodeDuplicatesDataGridView)).BeginInit();
             this.statusGroupBox.SuspendLayout();
             this.mainFormMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -279,6 +355,9 @@
             this.mainTabControl.Controls.Add(this.routeFromToTabPage);
             this.mainTabControl.Controls.Add(this.stopsTabPage);
             this.mainTabControl.Controls.Add(this.orphansTabPage);
+            this.mainTabControl.Controls.Add(this.openStreetMapStopAreasTabPage);
+            this.mainTabControl.Controls.Add(this.stopStopAreasTabPage);
+            this.mainTabControl.Controls.Add(this.atcoCodeDuplicatesTabPage);
             this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainTabControl.Location = new System.Drawing.Point(5, 74);
             this.mainTabControl.Name = "mainTabControl";
@@ -1131,7 +1210,7 @@
             // stopsTabPage
             // 
             this.stopsTabPage.Controls.Add(this.stopsDataGridView);
-            this.stopsTabPage.Controls.Add(this.panel1);
+            this.stopsTabPage.Controls.Add(this.stopsPanel);
             this.stopsTabPage.Location = new System.Drawing.Point(4, 22);
             this.stopsTabPage.Name = "stopsTabPage";
             this.stopsTabPage.Size = new System.Drawing.Size(990, 565);
@@ -1329,16 +1408,15 @@
             this.naptanInfoStopButtonColumn.UseColumnTextForButtonValue = true;
             this.naptanInfoStopButtonColumn.Width = 25;
             // 
-            // panel1
+            // stopsPanel
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.Controls.Add(this.downloadUnmatchedStopsButton);
-            this.panel1.Controls.Add(this.showMatchedStopsCheckBox);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 532);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(990, 33);
-            this.panel1.TabIndex = 3;
+            this.stopsPanel.Controls.Add(this.downloadUnmatchedStopsButton);
+            this.stopsPanel.Controls.Add(this.showMatchedStopsCheckBox);
+            this.stopsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.stopsPanel.Location = new System.Drawing.Point(0, 532);
+            this.stopsPanel.Name = "stopsPanel";
+            this.stopsPanel.Size = new System.Drawing.Size(990, 33);
+            this.stopsPanel.TabIndex = 3;
             // 
             // downloadUnmatchedStopsButton
             // 
@@ -1448,6 +1526,520 @@
             this.nameOrphanColumn.HeaderText = "Name";
             this.nameOrphanColumn.Name = "nameOrphanColumn";
             this.nameOrphanColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreasTabPage
+            // 
+            this.openStreetMapStopAreasTabPage.Controls.Add(this.openStreetMapStopAreasSplitContainer);
+            this.openStreetMapStopAreasTabPage.Location = new System.Drawing.Point(4, 22);
+            this.openStreetMapStopAreasTabPage.Name = "openStreetMapStopAreasTabPage";
+            this.openStreetMapStopAreasTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.openStreetMapStopAreasTabPage.Size = new System.Drawing.Size(990, 565);
+            this.openStreetMapStopAreasTabPage.TabIndex = 7;
+            this.openStreetMapStopAreasTabPage.Text = "OSM Stop Areas";
+            this.openStreetMapStopAreasTabPage.UseVisualStyleBackColor = true;
+            // 
+            // openStreetMapStopAreasSplitContainer
+            // 
+            this.openStreetMapStopAreasSplitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopAreasSplitContainer.Location = new System.Drawing.Point(3, 3);
+            this.openStreetMapStopAreasSplitContainer.Name = "openStreetMapStopAreasSplitContainer";
+            // 
+            // openStreetMapStopAreasSplitContainer.Panel1
+            // 
+            this.openStreetMapStopAreasSplitContainer.Panel1.Controls.Add(this.openStreetMapStopAreasDataGridView);
+            this.openStreetMapStopAreasSplitContainer.Panel1.Controls.Add(this.openStreetMapStopAreasPanel);
+            this.openStreetMapStopAreasSplitContainer.Panel1MinSize = 650;
+            // 
+            // openStreetMapStopAreasSplitContainer.Panel2
+            // 
+            this.openStreetMapStopAreasSplitContainer.Panel2.Controls.Add(this.openStreetMapStopAreasGroupBox);
+            this.openStreetMapStopAreasSplitContainer.Panel2.Controls.Add(this.openStreetMapStopAreaStopsBottomPanel);
+            this.openStreetMapStopAreasSplitContainer.Size = new System.Drawing.Size(984, 559);
+            this.openStreetMapStopAreasSplitContainer.SplitterDistance = 650;
+            this.openStreetMapStopAreasSplitContainer.TabIndex = 1;
+            // 
+            // openStreetMapStopAreasDataGridView
+            // 
+            this.openStreetMapStopAreasDataGridView.AllowUserToAddRows = false;
+            this.openStreetMapStopAreasDataGridView.AllowUserToDeleteRows = false;
+            this.openStreetMapStopAreasDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.openStreetMapStopAreasDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.openStreetMapStopAreaRelationIdColumn,
+            this.openStreetMapStopAreaRelationCodeColumn,
+            this.openStreetMapStopAreaRelationNameColumn,
+            this.openStreetMapStopAreaRelationNameMatchColumn,
+            this.openStreetMapStopAreaRelationStopNamesColumn});
+            this.openStreetMapStopAreasDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopAreasDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.openStreetMapStopAreasDataGridView.Name = "openStreetMapStopAreasDataGridView";
+            this.openStreetMapStopAreasDataGridView.ReadOnly = true;
+            this.openStreetMapStopAreasDataGridView.RowHeadersVisible = false;
+            this.openStreetMapStopAreasDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.openStreetMapStopAreasDataGridView.Size = new System.Drawing.Size(650, 526);
+            this.openStreetMapStopAreasDataGridView.TabIndex = 2;
+            this.openStreetMapStopAreasDataGridView.SelectionChanged += new System.EventHandler(this.OpenStreetMapStopAreasDataGridView_SelectionChanged);
+            // 
+            // openStreetMapStopAreaRelationIdColumn
+            // 
+            this.openStreetMapStopAreaRelationIdColumn.DataPropertyName = "Id";
+            dataGridViewCellStyle38.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.openStreetMapStopAreaRelationIdColumn.DefaultCellStyle = dataGridViewCellStyle38;
+            this.openStreetMapStopAreaRelationIdColumn.HeaderText = "OSM Id";
+            this.openStreetMapStopAreaRelationIdColumn.Name = "openStreetMapStopAreaRelationIdColumn";
+            this.openStreetMapStopAreaRelationIdColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreaRelationCodeColumn
+            // 
+            this.openStreetMapStopAreaRelationCodeColumn.DataPropertyName = "StopAreaCode";
+            dataGridViewCellStyle39.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.openStreetMapStopAreaRelationCodeColumn.DefaultCellStyle = dataGridViewCellStyle39;
+            this.openStreetMapStopAreaRelationCodeColumn.HeaderText = "StopAreaCode";
+            this.openStreetMapStopAreaRelationCodeColumn.Name = "openStreetMapStopAreaRelationCodeColumn";
+            this.openStreetMapStopAreaRelationCodeColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreaRelationNameColumn
+            // 
+            this.openStreetMapStopAreaRelationNameColumn.DataPropertyName = "StopAreaName";
+            dataGridViewCellStyle40.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle40.Format = "N0";
+            dataGridViewCellStyle40.NullValue = null;
+            this.openStreetMapStopAreaRelationNameColumn.DefaultCellStyle = dataGridViewCellStyle40;
+            this.openStreetMapStopAreaRelationNameColumn.HeaderText = "Name";
+            this.openStreetMapStopAreaRelationNameColumn.Name = "openStreetMapStopAreaRelationNameColumn";
+            this.openStreetMapStopAreaRelationNameColumn.ReadOnly = true;
+            this.openStreetMapStopAreaRelationNameColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.openStreetMapStopAreaRelationNameColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.openStreetMapStopAreaRelationNameColumn.Width = 150;
+            // 
+            // openStreetMapStopAreaRelationNameMatchColumn
+            // 
+            this.openStreetMapStopAreaRelationNameMatchColumn.DataPropertyName = "NameDifferences";
+            this.openStreetMapStopAreaRelationNameMatchColumn.HeaderText = "OK";
+            this.openStreetMapStopAreaRelationNameMatchColumn.Name = "openStreetMapStopAreaRelationNameMatchColumn";
+            this.openStreetMapStopAreaRelationNameMatchColumn.ReadOnly = true;
+            this.openStreetMapStopAreaRelationNameMatchColumn.Width = 40;
+            // 
+            // openStreetMapStopAreaRelationStopNamesColumn
+            // 
+            this.openStreetMapStopAreaRelationStopNamesColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.openStreetMapStopAreaRelationStopNamesColumn.DataPropertyName = "NameList";
+            dataGridViewCellStyle41.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle41.Format = "N0";
+            this.openStreetMapStopAreaRelationStopNamesColumn.DefaultCellStyle = dataGridViewCellStyle41;
+            this.openStreetMapStopAreaRelationStopNamesColumn.HeaderText = "Stop Names";
+            this.openStreetMapStopAreaRelationStopNamesColumn.Name = "openStreetMapStopAreaRelationStopNamesColumn";
+            this.openStreetMapStopAreaRelationStopNamesColumn.ReadOnly = true;
+            this.openStreetMapStopAreaRelationStopNamesColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.openStreetMapStopAreaRelationStopNamesColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // openStreetMapStopAreasPanel
+            // 
+            this.openStreetMapStopAreasPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.openStreetMapStopAreasPanel.Controls.Add(this.showOpenStreetMapMatchedNameStopAreasCheckBox);
+            this.openStreetMapStopAreasPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.openStreetMapStopAreasPanel.Location = new System.Drawing.Point(0, 526);
+            this.openStreetMapStopAreasPanel.Name = "openStreetMapStopAreasPanel";
+            this.openStreetMapStopAreasPanel.Size = new System.Drawing.Size(650, 33);
+            this.openStreetMapStopAreasPanel.TabIndex = 3;
+            // 
+            // showOpenStreetMapMatchedNameStopAreasCheckBox
+            // 
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.AutoSize = true;
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.Name = "showOpenStreetMapMatchedNameStopAreasCheckBox";
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.Size = new System.Drawing.Size(189, 17);
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.TabIndex = 0;
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.Text = "Show Areas With Matched Names";
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.UseVisualStyleBackColor = true;
+            this.showOpenStreetMapMatchedNameStopAreasCheckBox.CheckedChanged += new System.EventHandler(this.ShowOpenStreetMapMatchedNameStopAreasCheckBox_CheckedChanged);
+            // 
+            // openStreetMapStopAreasGroupBox
+            // 
+            this.openStreetMapStopAreasGroupBox.Controls.Add(this.openStreetMapStopAreaStopsDataGridView);
+            this.openStreetMapStopAreasGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopAreasGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.openStreetMapStopAreasGroupBox.Name = "openStreetMapStopAreasGroupBox";
+            this.openStreetMapStopAreasGroupBox.Size = new System.Drawing.Size(330, 526);
+            this.openStreetMapStopAreasGroupBox.TabIndex = 5;
+            this.openStreetMapStopAreasGroupBox.TabStop = false;
+            this.openStreetMapStopAreasGroupBox.Text = "OSM";
+            // 
+            // openStreetMapStopAreaStopsDataGridView
+            // 
+            this.openStreetMapStopAreaStopsDataGridView.AllowUserToAddRows = false;
+            this.openStreetMapStopAreaStopsDataGridView.AllowUserToDeleteRows = false;
+            this.openStreetMapStopAreaStopsDataGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
+            this.openStreetMapStopAreaStopsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.openStreetMapStopAreaStopsDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.openStreetMapStopAreaStopIdColumn,
+            this.openStreetMapStopAreaStopAtcoCodeColumn,
+            this.openStreetMapStopAreaStopNameColumn});
+            this.openStreetMapStopAreaStopsDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.openStreetMapStopAreaStopsDataGridView.Location = new System.Drawing.Point(3, 16);
+            this.openStreetMapStopAreaStopsDataGridView.MultiSelect = false;
+            this.openStreetMapStopAreaStopsDataGridView.Name = "openStreetMapStopAreaStopsDataGridView";
+            this.openStreetMapStopAreaStopsDataGridView.ReadOnly = true;
+            this.openStreetMapStopAreaStopsDataGridView.RowHeadersVisible = false;
+            dataGridViewCellStyle42.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.openStreetMapStopAreaStopsDataGridView.RowsDefaultCellStyle = dataGridViewCellStyle42;
+            this.openStreetMapStopAreaStopsDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.openStreetMapStopAreaStopsDataGridView.Size = new System.Drawing.Size(324, 507);
+            this.openStreetMapStopAreaStopsDataGridView.TabIndex = 0;
+            // 
+            // openStreetMapStopAreaStopIdColumn
+            // 
+            this.openStreetMapStopAreaStopIdColumn.DataPropertyName = "Item1";
+            this.openStreetMapStopAreaStopIdColumn.HeaderText = "Id";
+            this.openStreetMapStopAreaStopIdColumn.Name = "openStreetMapStopAreaStopIdColumn";
+            this.openStreetMapStopAreaStopIdColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreaStopAtcoCodeColumn
+            // 
+            this.openStreetMapStopAreaStopAtcoCodeColumn.DataPropertyName = "Item2";
+            this.openStreetMapStopAreaStopAtcoCodeColumn.HeaderText = "AtcoCode";
+            this.openStreetMapStopAreaStopAtcoCodeColumn.Name = "openStreetMapStopAreaStopAtcoCodeColumn";
+            this.openStreetMapStopAreaStopAtcoCodeColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreaStopNameColumn
+            // 
+            this.openStreetMapStopAreaStopNameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.openStreetMapStopAreaStopNameColumn.DataPropertyName = "Item3";
+            this.openStreetMapStopAreaStopNameColumn.HeaderText = "Name";
+            this.openStreetMapStopAreaStopNameColumn.Name = "openStreetMapStopAreaStopNameColumn";
+            this.openStreetMapStopAreaStopNameColumn.ReadOnly = true;
+            // 
+            // openStreetMapStopAreaStopsBottomPanel
+            // 
+            this.openStreetMapStopAreaStopsBottomPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.openStreetMapStopAreaStopsBottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.openStreetMapStopAreaStopsBottomPanel.Location = new System.Drawing.Point(0, 526);
+            this.openStreetMapStopAreaStopsBottomPanel.Name = "openStreetMapStopAreaStopsBottomPanel";
+            this.openStreetMapStopAreaStopsBottomPanel.Size = new System.Drawing.Size(330, 33);
+            this.openStreetMapStopAreaStopsBottomPanel.TabIndex = 4;
+            // 
+            // stopStopAreasTabPage
+            // 
+            this.stopStopAreasTabPage.Controls.Add(this.stopStopAreasDataGridView);
+            this.stopStopAreasTabPage.Controls.Add(this.stopStopAreasPanel);
+            this.stopStopAreasTabPage.Location = new System.Drawing.Point(4, 22);
+            this.stopStopAreasTabPage.Name = "stopStopAreasTabPage";
+            this.stopStopAreasTabPage.Size = new System.Drawing.Size(990, 565);
+            this.stopStopAreasTabPage.TabIndex = 8;
+            this.stopStopAreasTabPage.Text = "Stops\' Stop Areas";
+            this.stopStopAreasTabPage.UseVisualStyleBackColor = true;
+            // 
+            // stopStopAreasDataGridView
+            // 
+            this.stopStopAreasDataGridView.AllowUserToAddRows = false;
+            this.stopStopAreasDataGridView.AllowUserToDeleteRows = false;
+            this.stopStopAreasDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.stopStopAreasDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.stopStopAreasIdColumn,
+            this.stopAreaViewNoteButtonColumn,
+            this.stopAreaAtcoCodeColumn,
+            this.stopAreasNaptanButtonColumn,
+            this.stopAreaStopNameColumn,
+            this.stopStopAreasCodeColumn,
+            this.stopAreaOpenStreetMapNaptanButtonColumn,
+            this.stopStopAreasNaptanCodeColumn,
+            this.stopAreaNaptanAreaButtonColumn,
+            this.stopStopAreasCodeMatchColumn,
+            this.stopStopAreasAreaNameColumn,
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn,
+            this.stopAreaNaptanNameColumn,
+            this.stopAreaStopAreaNameMatchCheckBoxColumn,
+            this.stopAreaTypeColumn,
+            this.stopAreaNaptanTypeColumn,
+            this.stopAreaTypeMatchCheckBoxColumn});
+            this.stopStopAreasDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stopStopAreasDataGridView.Location = new System.Drawing.Point(0, 0);
+            this.stopStopAreasDataGridView.Name = "stopStopAreasDataGridView";
+            this.stopStopAreasDataGridView.ReadOnly = true;
+            this.stopStopAreasDataGridView.RowHeadersVisible = false;
+            this.stopStopAreasDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.stopStopAreasDataGridView.Size = new System.Drawing.Size(990, 532);
+            this.stopStopAreasDataGridView.TabIndex = 6;
+            this.stopStopAreasDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.StopStopAreasDataGridView_CellContentClick);
+            // 
+            // stopStopAreasIdColumn
+            // 
+            this.stopStopAreasIdColumn.DataPropertyName = "Id";
+            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle43.BackColor = System.Drawing.Color.AntiqueWhite;
+            dataGridViewCellStyle43.Format = "N0";
+            this.stopStopAreasIdColumn.DefaultCellStyle = dataGridViewCellStyle43;
+            this.stopStopAreasIdColumn.HeaderText = "Id";
+            this.stopStopAreasIdColumn.Name = "stopStopAreasIdColumn";
+            this.stopStopAreasIdColumn.ReadOnly = true;
+            this.stopStopAreasIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.stopStopAreasIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // stopAreaViewNoteButtonColumn
+            // 
+            this.stopAreaViewNoteButtonColumn.HeaderText = "O";
+            this.stopAreaViewNoteButtonColumn.Name = "stopAreaViewNoteButtonColumn";
+            this.stopAreaViewNoteButtonColumn.ReadOnly = true;
+            this.stopAreaViewNoteButtonColumn.Text = "?";
+            this.stopAreaViewNoteButtonColumn.UseColumnTextForButtonValue = true;
+            this.stopAreaViewNoteButtonColumn.Width = 25;
+            // 
+            // stopAreaAtcoCodeColumn
+            // 
+            this.stopAreaAtcoCodeColumn.DataPropertyName = "AtcoCode";
+            dataGridViewCellStyle44.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopAreaAtcoCodeColumn.DefaultCellStyle = dataGridViewCellStyle44;
+            this.stopAreaAtcoCodeColumn.HeaderText = "AtcoCode";
+            this.stopAreaAtcoCodeColumn.Name = "stopAreaAtcoCodeColumn";
+            this.stopAreaAtcoCodeColumn.ReadOnly = true;
+            // 
+            // stopAreasNaptanButtonColumn
+            // 
+            this.stopAreasNaptanButtonColumn.HeaderText = "N";
+            this.stopAreasNaptanButtonColumn.Name = "stopAreasNaptanButtonColumn";
+            this.stopAreasNaptanButtonColumn.ReadOnly = true;
+            this.stopAreasNaptanButtonColumn.Text = "?";
+            this.stopAreasNaptanButtonColumn.UseColumnTextForButtonValue = true;
+            this.stopAreasNaptanButtonColumn.Width = 25;
+            // 
+            // stopAreaStopNameColumn
+            // 
+            this.stopAreaStopNameColumn.DataPropertyName = "StopName";
+            dataGridViewCellStyle45.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopAreaStopNameColumn.DefaultCellStyle = dataGridViewCellStyle45;
+            this.stopAreaStopNameColumn.HeaderText = "Stop Name";
+            this.stopAreaStopNameColumn.Name = "stopAreaStopNameColumn";
+            this.stopAreaStopNameColumn.ReadOnly = true;
+            this.stopAreaStopNameColumn.Width = 150;
+            // 
+            // stopStopAreasCodeColumn
+            // 
+            this.stopStopAreasCodeColumn.DataPropertyName = "StopAreaCode";
+            dataGridViewCellStyle46.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopStopAreasCodeColumn.DefaultCellStyle = dataGridViewCellStyle46;
+            this.stopStopAreasCodeColumn.HeaderText = "Stop Area";
+            this.stopStopAreasCodeColumn.Name = "stopStopAreasCodeColumn";
+            this.stopStopAreasCodeColumn.ReadOnly = true;
+            // 
+            // stopAreaOpenStreetMapNaptanButtonColumn
+            // 
+            this.stopAreaOpenStreetMapNaptanButtonColumn.HeaderText = "N";
+            this.stopAreaOpenStreetMapNaptanButtonColumn.Name = "stopAreaOpenStreetMapNaptanButtonColumn";
+            this.stopAreaOpenStreetMapNaptanButtonColumn.ReadOnly = true;
+            this.stopAreaOpenStreetMapNaptanButtonColumn.Text = "?";
+            this.stopAreaOpenStreetMapNaptanButtonColumn.UseColumnTextForButtonValue = true;
+            this.stopAreaOpenStreetMapNaptanButtonColumn.Width = 25;
+            // 
+            // stopStopAreasNaptanCodeColumn
+            // 
+            this.stopStopAreasNaptanCodeColumn.DataPropertyName = "NaptanStopAreaCode";
+            dataGridViewCellStyle47.BackColor = System.Drawing.Color.LightCyan;
+            this.stopStopAreasNaptanCodeColumn.DefaultCellStyle = dataGridViewCellStyle47;
+            this.stopStopAreasNaptanCodeColumn.HeaderText = "Naptan Code";
+            this.stopStopAreasNaptanCodeColumn.Name = "stopStopAreasNaptanCodeColumn";
+            this.stopStopAreasNaptanCodeColumn.ReadOnly = true;
+            // 
+            // stopAreaNaptanAreaButtonColumn
+            // 
+            this.stopAreaNaptanAreaButtonColumn.HeaderText = "N";
+            this.stopAreaNaptanAreaButtonColumn.Name = "stopAreaNaptanAreaButtonColumn";
+            this.stopAreaNaptanAreaButtonColumn.ReadOnly = true;
+            this.stopAreaNaptanAreaButtonColumn.Text = "?";
+            this.stopAreaNaptanAreaButtonColumn.UseColumnTextForButtonValue = true;
+            this.stopAreaNaptanAreaButtonColumn.Width = 25;
+            // 
+            // stopStopAreasCodeMatchColumn
+            // 
+            this.stopStopAreasCodeMatchColumn.DataPropertyName = "AreaCodesMatch";
+            this.stopStopAreasCodeMatchColumn.HeaderText = "Match";
+            this.stopStopAreasCodeMatchColumn.Name = "stopStopAreasCodeMatchColumn";
+            this.stopStopAreasCodeMatchColumn.ReadOnly = true;
+            this.stopStopAreasCodeMatchColumn.Width = 50;
+            // 
+            // stopStopAreasAreaNameColumn
+            // 
+            this.stopStopAreasAreaNameColumn.DataPropertyName = "StopAreaName";
+            dataGridViewCellStyle48.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopStopAreasAreaNameColumn.DefaultCellStyle = dataGridViewCellStyle48;
+            this.stopStopAreasAreaNameColumn.HeaderText = "Area Name";
+            this.stopStopAreasAreaNameColumn.Name = "stopStopAreasAreaNameColumn";
+            this.stopStopAreasAreaNameColumn.ReadOnly = true;
+            this.stopStopAreasAreaNameColumn.Width = 150;
+            // 
+            // stopAreaOpenStreetMapNameMatchCheckBoxColumn
+            // 
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn.DataPropertyName = "OpenStreetMapNamesMatch";
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn.HeaderText = "Match";
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn.Name = "stopAreaOpenStreetMapNameMatchCheckBoxColumn";
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn.ReadOnly = true;
+            this.stopAreaOpenStreetMapNameMatchCheckBoxColumn.Width = 50;
+            // 
+            // stopAreaNaptanNameColumn
+            // 
+            this.stopAreaNaptanNameColumn.DataPropertyName = "NaptanStopAreaName";
+            dataGridViewCellStyle49.BackColor = System.Drawing.Color.LightCyan;
+            this.stopAreaNaptanNameColumn.DefaultCellStyle = dataGridViewCellStyle49;
+            this.stopAreaNaptanNameColumn.HeaderText = "Naptan Name";
+            this.stopAreaNaptanNameColumn.Name = "stopAreaNaptanNameColumn";
+            this.stopAreaNaptanNameColumn.ReadOnly = true;
+            this.stopAreaNaptanNameColumn.Width = 150;
+            // 
+            // stopAreaStopAreaNameMatchCheckBoxColumn
+            // 
+            this.stopAreaStopAreaNameMatchCheckBoxColumn.DataPropertyName = "AreaNamesMatch";
+            this.stopAreaStopAreaNameMatchCheckBoxColumn.HeaderText = "Match";
+            this.stopAreaStopAreaNameMatchCheckBoxColumn.Name = "stopAreaStopAreaNameMatchCheckBoxColumn";
+            this.stopAreaStopAreaNameMatchCheckBoxColumn.ReadOnly = true;
+            this.stopAreaStopAreaNameMatchCheckBoxColumn.Width = 50;
+            // 
+            // stopAreaTypeColumn
+            // 
+            this.stopAreaTypeColumn.DataPropertyName = "StopAreaType";
+            dataGridViewCellStyle50.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.stopAreaTypeColumn.DefaultCellStyle = dataGridViewCellStyle50;
+            this.stopAreaTypeColumn.HeaderText = "Area Type";
+            this.stopAreaTypeColumn.Name = "stopAreaTypeColumn";
+            this.stopAreaTypeColumn.ReadOnly = true;
+            this.stopAreaTypeColumn.Width = 60;
+            // 
+            // stopAreaNaptanTypeColumn
+            // 
+            this.stopAreaNaptanTypeColumn.DataPropertyName = "NaptanStopAreaType";
+            dataGridViewCellStyle51.BackColor = System.Drawing.Color.LightCyan;
+            this.stopAreaNaptanTypeColumn.DefaultCellStyle = dataGridViewCellStyle51;
+            this.stopAreaNaptanTypeColumn.HeaderText = "Naptan Type";
+            this.stopAreaNaptanTypeColumn.Name = "stopAreaNaptanTypeColumn";
+            this.stopAreaNaptanTypeColumn.ReadOnly = true;
+            this.stopAreaNaptanTypeColumn.Width = 60;
+            // 
+            // stopAreaTypeMatchCheckBoxColumn
+            // 
+            this.stopAreaTypeMatchCheckBoxColumn.DataPropertyName = "AreaTypesMatch";
+            this.stopAreaTypeMatchCheckBoxColumn.HeaderText = "Match";
+            this.stopAreaTypeMatchCheckBoxColumn.Name = "stopAreaTypeMatchCheckBoxColumn";
+            this.stopAreaTypeMatchCheckBoxColumn.ReadOnly = true;
+            this.stopAreaTypeMatchCheckBoxColumn.Width = 50;
+            // 
+            // stopStopAreasPanel
+            // 
+            this.stopStopAreasPanel.Controls.Add(this.areaCodesDifferRadioButton);
+            this.stopStopAreasPanel.Controls.Add(this.allUnmatchedRadioButton);
+            this.stopStopAreasPanel.Controls.Add(this.naptanAreaCodeBlankRadioButton);
+            this.stopStopAreasPanel.Controls.Add(this.stopAreaCodesMatchRadioButton);
+            this.stopStopAreasPanel.Controls.Add(this.stopAreasDownloadButton);
+            this.stopStopAreasPanel.Controls.Add(this.stopStopAreasShowMatchedCheckBox);
+            this.stopStopAreasPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.stopStopAreasPanel.Location = new System.Drawing.Point(0, 532);
+            this.stopStopAreasPanel.Name = "stopStopAreasPanel";
+            this.stopStopAreasPanel.Size = new System.Drawing.Size(990, 33);
+            this.stopStopAreasPanel.TabIndex = 5;
+            // 
+            // allUnmatchedRadioButton
+            // 
+            this.allUnmatchedRadioButton.AutoSize = true;
+            this.allUnmatchedRadioButton.Location = new System.Drawing.Point(611, 5);
+            this.allUnmatchedRadioButton.Name = "allUnmatchedRadioButton";
+            this.allUnmatchedRadioButton.Size = new System.Drawing.Size(92, 17);
+            this.allUnmatchedRadioButton.TabIndex = 4;
+            this.allUnmatchedRadioButton.TabStop = true;
+            this.allUnmatchedRadioButton.Text = "All unmatched";
+            this.allUnmatchedRadioButton.UseVisualStyleBackColor = true;
+            this.allUnmatchedRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
+            // 
+            // naptanAreaCodeBlankRadioButton
+            // 
+            this.naptanAreaCodeBlankRadioButton.AutoSize = true;
+            this.naptanAreaCodeBlankRadioButton.Location = new System.Drawing.Point(305, 5);
+            this.naptanAreaCodeBlankRadioButton.Name = "naptanAreaCodeBlankRadioButton";
+            this.naptanAreaCodeBlankRadioButton.Size = new System.Drawing.Size(169, 17);
+            this.naptanAreaCodeBlankRadioButton.TabIndex = 3;
+            this.naptanAreaCodeBlankRadioButton.TabStop = true;
+            this.naptanAreaCodeBlankRadioButton.Text = "NaPTAN StopAreaCode blank";
+            this.naptanAreaCodeBlankRadioButton.UseVisualStyleBackColor = true;
+            this.naptanAreaCodeBlankRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
+            // 
+            // stopAreaCodesMatchRadioButton
+            // 
+            this.stopAreaCodesMatchRadioButton.AutoSize = true;
+            this.stopAreaCodesMatchRadioButton.Checked = true;
+            this.stopAreaCodesMatchRadioButton.Location = new System.Drawing.Point(153, 6);
+            this.stopAreaCodesMatchRadioButton.Name = "stopAreaCodesMatchRadioButton";
+            this.stopAreaCodesMatchRadioButton.Size = new System.Drawing.Size(132, 17);
+            this.stopAreaCodesMatchRadioButton.TabIndex = 2;
+            this.stopAreaCodesMatchRadioButton.TabStop = true;
+            this.stopAreaCodesMatchRadioButton.Text = "StopAreaCodes Match";
+            this.stopAreaCodesMatchRadioButton.UseVisualStyleBackColor = true;
+            this.stopAreaCodesMatchRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
+            // 
+            // stopAreasDownloadButton
+            // 
+            this.stopAreasDownloadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopAreasDownloadButton.Location = new System.Drawing.Point(912, 2);
+            this.stopAreasDownloadButton.Name = "stopAreasDownloadButton";
+            this.stopAreasDownloadButton.Size = new System.Drawing.Size(75, 23);
+            this.stopAreasDownloadButton.TabIndex = 1;
+            this.stopAreasDownloadButton.Text = "Download";
+            this.stopAreasDownloadButton.UseVisualStyleBackColor = true;
+            this.stopAreasDownloadButton.Click += new System.EventHandler(this.StopAreasDownloadButton_Click);
+            // 
+            // stopStopAreasShowMatchedCheckBox
+            // 
+            this.stopStopAreasShowMatchedCheckBox.AutoSize = true;
+            this.stopStopAreasShowMatchedCheckBox.Location = new System.Drawing.Point(8, 6);
+            this.stopStopAreasShowMatchedCheckBox.Name = "stopStopAreasShowMatchedCheckBox";
+            this.stopStopAreasShowMatchedCheckBox.Size = new System.Drawing.Size(128, 17);
+            this.stopStopAreasShowMatchedCheckBox.TabIndex = 0;
+            this.stopStopAreasShowMatchedCheckBox.Text = "Show Matched Stops";
+            this.stopStopAreasShowMatchedCheckBox.UseVisualStyleBackColor = true;
+            this.stopStopAreasShowMatchedCheckBox.CheckedChanged += new System.EventHandler(this.StopStopAreasShowMatchedCheckBox_CheckedChanged);
+            // 
+            // atcoCodeDuplicatesTabPage
+            // 
+            this.atcoCodeDuplicatesTabPage.Controls.Add(this.atcoCodeDuplicatesDataGridView);
+            this.atcoCodeDuplicatesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.atcoCodeDuplicatesTabPage.Name = "atcoCodeDuplicatesTabPage";
+            this.atcoCodeDuplicatesTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.atcoCodeDuplicatesTabPage.Size = new System.Drawing.Size(990, 565);
+            this.atcoCodeDuplicatesTabPage.TabIndex = 9;
+            this.atcoCodeDuplicatesTabPage.Text = "AtcoCode Duplicates";
+            this.atcoCodeDuplicatesTabPage.UseVisualStyleBackColor = true;
+            // 
+            // atcoCodeDuplicatesDataGridView
+            // 
+            this.atcoCodeDuplicatesDataGridView.AllowUserToAddRows = false;
+            this.atcoCodeDuplicatesDataGridView.AllowUserToDeleteRows = false;
+            this.atcoCodeDuplicatesDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.atcoCodeDuplicatesDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.atcoDuplicateNoteIdColumn,
+            this.atcoDuplicateCodeColumn});
+            this.atcoCodeDuplicatesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.atcoCodeDuplicatesDataGridView.Location = new System.Drawing.Point(3, 3);
+            this.atcoCodeDuplicatesDataGridView.Name = "atcoCodeDuplicatesDataGridView";
+            this.atcoCodeDuplicatesDataGridView.ReadOnly = true;
+            this.atcoCodeDuplicatesDataGridView.RowHeadersVisible = false;
+            this.atcoCodeDuplicatesDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.atcoCodeDuplicatesDataGridView.Size = new System.Drawing.Size(984, 559);
+            this.atcoCodeDuplicatesDataGridView.TabIndex = 3;
+            this.atcoCodeDuplicatesDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.AtcoCodeDuplicatesDataGridView_CellContentClick);
+            // 
+            // atcoDuplicateNoteIdColumn
+            // 
+            this.atcoDuplicateNoteIdColumn.DataPropertyName = "NodeId";
+            dataGridViewCellStyle52.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.atcoDuplicateNoteIdColumn.DefaultCellStyle = dataGridViewCellStyle52;
+            this.atcoDuplicateNoteIdColumn.HeaderText = "OSM Id";
+            this.atcoDuplicateNoteIdColumn.Name = "atcoDuplicateNoteIdColumn";
+            this.atcoDuplicateNoteIdColumn.ReadOnly = true;
+            this.atcoDuplicateNoteIdColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.atcoDuplicateNoteIdColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            // 
+            // atcoDuplicateCodeColumn
+            // 
+            this.atcoDuplicateCodeColumn.DataPropertyName = "AtcoCode";
+            dataGridViewCellStyle53.BackColor = System.Drawing.Color.AntiqueWhite;
+            this.atcoDuplicateCodeColumn.DefaultCellStyle = dataGridViewCellStyle53;
+            this.atcoDuplicateCodeColumn.HeaderText = "AtcoCode";
+            this.atcoDuplicateCodeColumn.Name = "atcoDuplicateCodeColumn";
+            this.atcoDuplicateCodeColumn.ReadOnly = true;
             // 
             // statusGroupBox
             // 
@@ -1669,17 +2261,29 @@
             this.settingsToolStripMenuItem.Text = "&Settings...";
             this.settingsToolStripMenuItem.Click += new System.EventHandler(this.SettingsToolStripMenuItem_Click);
             // 
-            // unattendedDelayedStartTimer
-            // 
-            this.unattendedDelayedStartTimer.Interval = 5000;
-            this.unattendedDelayedStartTimer.Tick += new System.EventHandler(this.UnattendedDelayedStartTimer_Tick);
-            // 
             // busStopNameMappingsToolStripMenuItem
             // 
             this.busStopNameMappingsToolStripMenuItem.Name = "busStopNameMappingsToolStripMenuItem";
             this.busStopNameMappingsToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
             this.busStopNameMappingsToolStripMenuItem.Text = "Bus Stop Name Mappings...";
             this.busStopNameMappingsToolStripMenuItem.Click += new System.EventHandler(this.BusStopNameMappingsToolStripMenuItem_Click);
+            // 
+            // unattendedDelayedStartTimer
+            // 
+            this.unattendedDelayedStartTimer.Interval = 5000;
+            this.unattendedDelayedStartTimer.Tick += new System.EventHandler(this.UnattendedDelayedStartTimer_Tick);
+            // 
+            // areaCodesDifferRadioButton
+            // 
+            this.areaCodesDifferRadioButton.AutoSize = true;
+            this.areaCodesDifferRadioButton.Location = new System.Drawing.Point(480, 5);
+            this.areaCodesDifferRadioButton.Name = "areaCodesDifferRadioButton";
+            this.areaCodesDifferRadioButton.Size = new System.Drawing.Size(124, 17);
+            this.areaCodesDifferRadioButton.TabIndex = 5;
+            this.areaCodesDifferRadioButton.TabStop = true;
+            this.areaCodesDifferRadioButton.Text = "StopAreaCodesDiffer";
+            this.areaCodesDifferRadioButton.UseVisualStyleBackColor = true;
+            this.areaCodesDifferRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
             // 
             // MainForm
             // 
@@ -1731,10 +2335,26 @@
             this.fromToControlsPanel.PerformLayout();
             this.stopsTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.stopsDataGridView)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.stopsPanel.ResumeLayout(false);
+            this.stopsPanel.PerformLayout();
             this.orphansTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.orphansDataGridView)).EndInit();
+            this.openStreetMapStopAreasTabPage.ResumeLayout(false);
+            this.openStreetMapStopAreasSplitContainer.Panel1.ResumeLayout(false);
+            this.openStreetMapStopAreasSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreasSplitContainer)).EndInit();
+            this.openStreetMapStopAreasSplitContainer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreasDataGridView)).EndInit();
+            this.openStreetMapStopAreasPanel.ResumeLayout(false);
+            this.openStreetMapStopAreasPanel.PerformLayout();
+            this.openStreetMapStopAreasGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.openStreetMapStopAreaStopsDataGridView)).EndInit();
+            this.stopStopAreasTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.stopStopAreasDataGridView)).EndInit();
+            this.stopStopAreasPanel.ResumeLayout(false);
+            this.stopStopAreasPanel.PerformLayout();
+            this.atcoCodeDuplicatesTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.atcoCodeDuplicatesDataGridView)).EndInit();
             this.statusGroupBox.ResumeLayout(false);
             this.statusGroupBox.PerformLayout();
             this.mainFormMenuStrip.ResumeLayout(false);
@@ -1819,7 +2439,7 @@
         private System.Windows.Forms.ToolStripMenuItem naptanStopsDownloadToolStripMenuItem;
         private System.Windows.Forms.TabPage stopsTabPage;
         private System.Windows.Forms.DataGridView stopsDataGridView;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel stopsPanel;
         private System.Windows.Forms.CheckBox showMatchedStopsCheckBox;
         private System.Windows.Forms.Label naptanDownloadedLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn fromToServiceColumn;
@@ -1880,6 +2500,52 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn routesTndsFileColumn;
         private System.Windows.Forms.Timer unattendedDelayedStartTimer;
         private System.Windows.Forms.ToolStripMenuItem busStopNameMappingsToolStripMenuItem;
+        private System.Windows.Forms.TabPage openStreetMapStopAreasTabPage;
+        private System.Windows.Forms.SplitContainer openStreetMapStopAreasSplitContainer;
+        private System.Windows.Forms.DataGridView openStreetMapStopAreasDataGridView;
+        private System.Windows.Forms.Panel openStreetMapStopAreasPanel;
+        private System.Windows.Forms.CheckBox showOpenStreetMapMatchedNameStopAreasCheckBox;
+        private System.Windows.Forms.GroupBox openStreetMapStopAreasGroupBox;
+        private System.Windows.Forms.DataGridView openStreetMapStopAreaStopsDataGridView;
+        private System.Windows.Forms.Panel openStreetMapStopAreaStopsBottomPanel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaRelationIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaRelationCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaRelationNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn openStreetMapStopAreaRelationNameMatchColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaRelationStopNamesColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaStopIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaStopAtcoCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn openStreetMapStopAreaStopNameColumn;
+        private System.Windows.Forms.TabPage stopStopAreasTabPage;
+        private System.Windows.Forms.DataGridView stopStopAreasDataGridView;
+        private System.Windows.Forms.Panel stopStopAreasPanel;
+        private System.Windows.Forms.Button stopAreasDownloadButton;
+        private System.Windows.Forms.CheckBox stopStopAreasShowMatchedCheckBox;
+        private System.Windows.Forms.TabPage atcoCodeDuplicatesTabPage;
+        private System.Windows.Forms.DataGridView atcoCodeDuplicatesDataGridView;
+        private System.Windows.Forms.DataGridViewLinkColumn atcoDuplicateNoteIdColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn atcoDuplicateCodeColumn;
+        private System.Windows.Forms.RadioButton allUnmatchedRadioButton;
+        private System.Windows.Forms.RadioButton naptanAreaCodeBlankRadioButton;
+        private System.Windows.Forms.RadioButton stopAreaCodesMatchRadioButton;
+        private System.Windows.Forms.DataGridViewLinkColumn stopStopAreasIdColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn stopAreaViewNoteButtonColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaAtcoCodeColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn stopAreasNaptanButtonColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaStopNameColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopStopAreasCodeColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn stopAreaOpenStreetMapNaptanButtonColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopStopAreasNaptanCodeColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn stopAreaNaptanAreaButtonColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn stopStopAreasCodeMatchColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopStopAreasAreaNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn stopAreaOpenStreetMapNameMatchCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaNaptanNameColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn stopAreaStopAreaNameMatchCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaTypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaNaptanTypeColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn stopAreaTypeMatchCheckBoxColumn;
+        private System.Windows.Forms.RadioButton areaCodesDifferRadioButton;
     }
 }
 

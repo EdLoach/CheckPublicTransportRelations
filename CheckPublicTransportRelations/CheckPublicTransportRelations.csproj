@@ -73,6 +73,7 @@
     <Compile Include="ComparisonResultFromTo.cs" />
     <Compile Include="ComparisonResultRoute.cs" />
     <Compile Include="ComparisonResultService.cs" />
+    <Compile Include="DuplicateCode.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ExtractRoutesForm.cs">
       <SubType>Form</SubType>
@@ -97,6 +98,12 @@
       <DependentUpon>LocationsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="NameMappings.cs" />
+    <Compile Include="NaptanStopAreaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NaptanStopAreaForm.Designer.cs">
+      <DependentUpon>NaptanStopAreaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NaptanForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -106,9 +113,11 @@
     <Compile Include="OpenStreetMapRouteMaster.cs" />
     <Compile Include="OpenStreetMapRouteVariant.cs" />
     <Compile Include="OpenStreetMapStop.cs" />
+    <Compile Include="OpenStreetMapStopArea.cs" />
     <Compile Include="Route.cs" />
     <Compile Include="RouteMaster.cs" />
     <Compile Include="RouteSection.cs" />
+    <Compile Include="StopAreasStop.cs" />
     <Compile Include="TravelineDownloadForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,6 +149,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LocationsForm.resx">
       <DependentUpon>LocationsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NaptanStopAreaForm.resx">
+      <DependentUpon>NaptanStopAreaForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NaptanForm.resx">
       <DependentUpon>NaptanForm.cs</DependentUpon>

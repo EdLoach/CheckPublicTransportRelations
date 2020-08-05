@@ -73,6 +73,20 @@ namespace CheckPublicTransportRelations
         private bool unattendedException;
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>The atco stops.</summary>
+        // ===========================================================================================================
+        private Dictionary<string, BusStop> atcoStops;
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>The duplicate atco codes.</summary>
+        // ===========================================================================================================
+        private List<DuplicateCode> duplicateAtcoCodes;
+
+        // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Initializes a new instance of the
@@ -87,8 +101,6 @@ namespace CheckPublicTransportRelations
         }
 
         // ===========================================================================================================
-
-        // ===========================================================================================================
         /// <createdBy>EdLoach - 30 January 2019 (1.0.0.0)</createdBy>
         ///
         /// <summary>Gets or sets the naptan stops.</summary>
@@ -96,8 +108,6 @@ namespace CheckPublicTransportRelations
         /// <value>The naptan stops.</value>
         // ===========================================================================================================
         public List<BusStop> NaptanStops { get; set; }
-
-        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 28 January 2019 (1.0.0.0)</createdBy>
@@ -190,6 +200,22 @@ namespace CheckPublicTransportRelations
         private Location SelectedLocation { get; set; }
 
         // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the stop areas stops.</summary>
+        ///
+        /// <value>The stop areas stops.</value>
+        // ===========================================================================================================
+        private List<StopAreasStop> StopAreasStops { get; set; }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the open street map stop areas.</summary>
+        ///
+        /// <value>The open street map stop areas.</value>
+        // ===========================================================================================================
+        private List<OpenStreetMapStopArea> OpenStreetMapStopAreas { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
@@ -1014,12 +1040,17 @@ namespace CheckPublicTransportRelations
             Justification = "Reviewed. Suppression is OK here.")]
         private void ExtractNaptanStops()
         {
+            var stopsArea = new Dictionary<string, string>();
+            var stopStopAreas = new Dictionary<string, string>();
             string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
             string areaPath = Path.Combine(
                 Settings.Default.LocalPath,
                 ValidPathString(this.SelectedLocation.Description));
             Directory.CreateDirectory(areaPath);
             string areaFileName = Path.Combine(areaPath, "LocalStops.csv");
+            string areaStopsAreasFileName = Path.Combine(areaPath, "LocalStopsInArea.csv");
+            string areaAreasFileName = Path.Combine(areaPath, "LocalStopAreas.csv");
+
             if (File.Exists(fileName) && !File.Exists(areaFileName) && this.TravelineStops.Count > 0)
             {
                 using (ZipArchive archive = ZipFile.OpenRead(fileName))
@@ -1046,8 +1077,8 @@ namespace CheckPublicTransportRelations
                                         {
                                             columnHeadings = line;
                                             file.WriteLine(line);
-                                            string[] columnHeading =
-                                                columnHeadings.Replace(@"""", string.Empty).Split(',');
+                                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty)
+                                                .Split(',');
                                             atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
                                             int commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
                                             if (atcoCodeIndex == -1 || commonNameIndex == -1)
@@ -1073,6 +1104,125 @@ namespace CheckPublicTransportRelations
                 }
             }
 
+            if (File.Exists(fileName) && (!File.Exists(areaStopsAreasFileName) || !File.Exists(areaAreasFileName)) && this.TravelineStops.Count > 0)
+            {
+                using (ZipArchive archive = ZipFile.OpenRead(fileName))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        if (!entry.FullName.StartsWith("StopsInArea.csv", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        using (var file = new StreamWriter(areaStopsAreasFileName))
+                        {
+                            using (Stream stream = entry.Open())
+                            {
+                                using (var reader = new StreamReader(stream))
+                                {
+                                    string line;
+                                    string columnHeadings = string.Empty;
+                                    var atcoCodeIndex = 0;
+                                    var stopAreaCodeIndex = 0;
+                                    while ((line = reader.ReadLine()) != null)
+                                    {
+                                        if (columnHeadings == string.Empty)
+                                        {
+                                            columnHeadings = line;
+                                            file.WriteLine(line);
+                                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty)
+                                                .Split(',');
+                                            atcoCodeIndex = Array.IndexOf(columnHeading, "AtcoCode");
+                                            stopAreaCodeIndex = Array.IndexOf(columnHeading, "StopAreaCode");
+                                            if (atcoCodeIndex == -1 || stopAreaCodeIndex == -1)
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            string[] naptanStopInArea = line.Replace(@"""", string.Empty).Split(',');
+                                            if (this.TravelineStops.Contains(naptanStopInArea[atcoCodeIndex]))
+                                            {
+                                                file.WriteLine(line);
+                                                if (!stopsArea.ContainsKey(naptanStopInArea[atcoCodeIndex]))
+                                                {
+                                                    stopsArea.Add(
+                                                        naptanStopInArea[atcoCodeIndex],
+                                                        naptanStopInArea[stopAreaCodeIndex]);
+                                                }
+
+                                                if (!stopStopAreas.ContainsKey(naptanStopInArea[stopAreaCodeIndex]))
+                                                {
+                                                    stopStopAreas.Add(
+                                                        naptanStopInArea[stopAreaCodeIndex],
+                                                        naptanStopInArea[stopAreaCodeIndex]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            if (File.Exists(fileName) && !File.Exists(areaAreasFileName) && stopStopAreas.Count > 0)
+            {
+                using (ZipArchive archive = ZipFile.OpenRead(fileName))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        if (!entry.FullName.StartsWith("StopAreas.csv", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        using (var file = new StreamWriter(areaAreasFileName))
+                        {
+                            using (Stream stream = entry.Open())
+                            {
+                                using (var reader = new StreamReader(stream))
+                                {
+                                    string line;
+                                    string columnHeadings = string.Empty;
+                                    var stopAreaCodeIndex = 0;
+                                    while ((line = reader.ReadLine()) != null)
+                                    {
+                                        if (columnHeadings == string.Empty)
+                                        {
+                                            columnHeadings = line;
+                                            file.WriteLine(line);
+                                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty)
+                                                .Split(',');
+                                            stopAreaCodeIndex = Array.IndexOf(columnHeading, "StopAreaCode");
+                                            if (stopAreaCodeIndex == -1)
+                                            {
+                                                break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            string[] naptanStopInArea = line.Replace(@"""", string.Empty).Split(',');
+                                            if (stopStopAreas.ContainsKey(naptanStopInArea[stopAreaCodeIndex]))
+                                            {
+                                                file.WriteLine(line);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
+                    }
+                }
+            }
+            
             if (File.Exists(areaFileName))
             {
                 this.NaptanStops = new List<BusStop>();
@@ -1142,22 +1292,112 @@ namespace CheckPublicTransportRelations
                                     };
                             this.NaptanStops.Add(newNaptanStop);
 
-                            BusStop stop = this.RouteBusStops.FirstOrDefault(
-                                i => i.AtcoCode == naptanStop[atcoCodeIndex]);
-                            if (stop != null)
+                            if (this.atcoStops.ContainsKey(naptanStop[atcoCodeIndex]))
                             {
-                                this.RouteBusStops.Remove(stop);
-                                stop.NaptanName = returnValue;
-                                stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
-                                stop.NaptanStatus = naptanStop[statusIndex];
-                                stop.Latitude = decimal.Parse(naptanStop[latitudeIndex]);
-                                stop.Longitude = decimal.Parse(naptanStop[longitudeIndex]);
-                                stop.NaptanNaptanCode = naptanStop[naptanCodeIndex];
-                                this.RouteBusStops.Add(stop);
+                                BusStop stop = this.atcoStops[naptanStop[atcoCodeIndex]];
+                                if (stop != null)
+                                {
+                                    this.RouteBusStops.Remove(stop);
+                                    stop.NaptanName = returnValue;
+                                    stop.NaptanBusStopType = naptanStop[busStopTypeIndex];
+                                    stop.NaptanStatus = naptanStop[statusIndex];
+                                    stop.Latitude = decimal.Parse(naptanStop[latitudeIndex]);
+                                    stop.Longitude = decimal.Parse(naptanStop[longitudeIndex]);
+                                    stop.NaptanNaptanCode = naptanStop[naptanCodeIndex];
+                                    this.RouteBusStops.Add(stop);
+                                }
                             }
                         }
                     }
                 }
+            }
+
+            if (File.Exists(areaStopsAreasFileName) && File.Exists(areaAreasFileName))
+            {
+                stopsArea = new Dictionary<string, string>();
+                var stopAreas = new Dictionary<string, Tuple<string, string>>();
+                using (var reader = new StreamReader(areaStopsAreasFileName))
+                {
+                    string line;
+                    string columnHeadings = string.Empty;
+                    var atcoCodeIndex = 0;
+                    var stopAreaCodeIndex = 0;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (columnHeadings == string.Empty)
+                        {
+                            columnHeadings = line;
+                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
+                            atcoCodeIndex = Array.IndexOf(columnHeading, "AtcoCode");
+                            stopAreaCodeIndex = Array.IndexOf(columnHeading, "StopAreaCode");
+                            if (atcoCodeIndex == -1 || stopAreaCodeIndex == -1)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            string[] naptanStopInArea = line.Replace(@"""", string.Empty).Split(',');
+                            if (this.TravelineStops.Contains(naptanStopInArea[atcoCodeIndex]))
+                            {
+                                if (!stopsArea.ContainsKey(naptanStopInArea[atcoCodeIndex]))
+                                {
+                                    stopsArea.Add(naptanStopInArea[atcoCodeIndex], naptanStopInArea[stopAreaCodeIndex]);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                using (var reader = new StreamReader(areaAreasFileName))
+                {
+                    string line;
+                    string columnHeadings = string.Empty;
+                    var stopAreaCodeIndex = 0;
+                    var stopAreaNameIndex = 0;
+                    var stopAreaTypeIndex = 0;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (columnHeadings == string.Empty)
+                        {
+                            columnHeadings = line;
+                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
+                            stopAreaCodeIndex = Array.IndexOf(columnHeading, "StopAreaCode");
+                            stopAreaNameIndex = Array.IndexOf(columnHeading, "Name");
+                            stopAreaTypeIndex = Array.IndexOf(columnHeading, "StopAreaType");
+                            if (stopAreaNameIndex == -1 || stopAreaCodeIndex == -1 || stopAreaTypeIndex == -1)
+                            {
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            string[] naptanStopArea = line.Replace(@"""", string.Empty).Split(',');
+                            stopAreas.Add(naptanStopArea[stopAreaCodeIndex], new Tuple<string, string>(naptanStopArea[stopAreaNameIndex], naptanStopArea[stopAreaTypeIndex]));
+                        }
+                    }
+                }
+
+                var temporaryList = new List<StopAreasStop>();
+                foreach (StopAreasStop stop in this.StopAreasStops)
+                {
+                    if (stopsArea.ContainsKey(stop.AtcoCode) && stopAreas.ContainsKey(stopsArea[stop.AtcoCode]))
+                    {
+                        stop.NaptanStopAreaCode = stopsArea[stop.AtcoCode];
+                        stop.NaptanStopAreaName = stopAreas[stopsArea[stop.AtcoCode]].Item1;
+                        stop.NaptanStopAreaType = stopAreas[stopsArea[stop.AtcoCode]].Item2;
+                    }
+                    else
+                    {
+                        stop.NaptanStopAreaCode = string.Empty;
+                        stop.NaptanStopAreaName = string.Empty;
+                        stop.NaptanStopAreaType = string.Empty;
+                    }
+
+                    temporaryList.Add(stop);
+                }
+
+                this.StopAreasStops = temporaryList;
             }
         }
 
@@ -1275,6 +1515,8 @@ namespace CheckPublicTransportRelations
             var routeBusStops = new List<BusStop>();
             var wayEndNodes = new Dictionary<long, string>();
             var stopsDictionary = new Dictionary<long, string>();
+            var stopAreasDictionary = new Dictionary<long, OpenStreetMapStopArea>();
+            var stopNamesDictionary = new Dictionary<long, string>();
             var routeEndNodesDictionary = new Dictionary<long, int>();
             var routesStopsDictionary = new Dictionary<long, List<JourneyStop>>();
             var routesReferenceDictionary = new Dictionary<long, string>();
@@ -1284,6 +1526,10 @@ namespace CheckPublicTransportRelations
             var routesNameDictionary = new Dictionary<long, string>();
             var routesNetworkDictionary = new Dictionary<long, string>();
             this.OpenStreetMapRoutes = new List<OpenStreetMapRouteMaster>();
+            this.OpenStreetMapStopAreas = new List<OpenStreetMapStopArea>();
+            this.StopAreasStops = new List<StopAreasStop>();
+            this.atcoStops = new Dictionary<string, BusStop>();
+            this.duplicateAtcoCodes = new List<DuplicateCode>();
             string fileName = Path.Combine(
                 Settings.Default.LocalPath,
                 ValidPathString(this.SelectedLocation.Description),
@@ -1302,6 +1548,12 @@ namespace CheckPublicTransportRelations
                 if (type == "node")
                 {
                     long nodeId = element.id;
+                    string stopName = string.Empty;
+                    if (element.tags != null && element.tags["name"] != null)
+                    {
+                        stopName = element.tags["name"];
+                    }
+
                     if (element.tags != null && element.tags["naptan:AtcoCode"] != null)
                     {
                         string atcoCode = element.tags["naptan:AtcoCode"];
@@ -1309,6 +1561,15 @@ namespace CheckPublicTransportRelations
                         if (atcoCode.Length > 0)
                         {
                             stopsDictionary.Add(nodeId, atcoCode);
+                            stopNamesDictionary.Add(nodeId, stopName);
+                            if (!this.atcoStops.ContainsKey(atcoCode))
+                            {
+                                this.atcoStops.Add(atcoCode, busStop);
+                            }
+                            else
+                            {
+                                this.duplicateAtcoCodes.Add(new DuplicateCode { AtcoCode = atcoCode, NodeId = nodeId });
+                            }
                         }
 
                         routeBusStops.Add(busStop);
@@ -1316,12 +1577,14 @@ namespace CheckPublicTransportRelations
                     else if (element.tags != null && element.tags["public_transport"] == "platform")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
+                        stopNamesDictionary.Add(nodeId, stopName);
                         BusStop busStop = BusStop(element);
                         routeBusStops.Add(busStop);
                     }
                     else if (element.tags != null && element.tags["highway"] == "bus_stop")
                     {
                         stopsDictionary.Add(nodeId, string.Empty);
+                        stopNamesDictionary.Add(nodeId, stopName);
                         BusStop busStop = BusStop(element);
                         routeBusStops.Add(busStop);
                     }
@@ -1460,6 +1723,43 @@ namespace CheckPublicTransportRelations
                 string reference = element.tags["ref"];
                 string routeOperator = element.tags["operator"];
 
+                if (relationType == "site" || relationType == "public_transport")
+                {
+                    string subType = relationType == "site"
+                                         ? element.tags["site"]
+                                         : element.tags["public_transport"];
+                    if (subType == "stop_area")
+                    {
+                        var stopAreaMembers = new List<Tuple<long, string, string>>();
+                        foreach (dynamic member in element.members)
+                        {
+                            if (member.type.ToString() == "node")
+                            {
+                                long nodeId = member.@ref;
+                                if (stopsDictionary.ContainsKey(nodeId) && stopNamesDictionary.ContainsKey(nodeId))
+                                {
+                                    stopAreaMembers.Add(
+                                        new Tuple<long, string, string>(
+                                            nodeId,
+                                            stopsDictionary[nodeId],
+                                            stopNamesDictionary[nodeId]));
+                                }
+                            }
+                        }
+
+                        var newArea = new OpenStreetMapStopArea(element, stopAreaMembers);
+                        this.OpenStreetMapStopAreas.Add(newArea);
+                        foreach (Tuple<long, string, string> stopAreaMember in stopAreaMembers)
+                        {
+                            if (stopsDictionary.ContainsKey(stopAreaMember.Item1)
+                                & !stopAreasDictionary.ContainsKey(stopAreaMember.Item1))
+                            {
+                                stopAreasDictionary.Add(stopAreaMember.Item1, newArea);
+                            }
+                        }
+                    }
+                }
+
                 if (relationType != "route_master")
                 {
                     continue;
@@ -1499,10 +1799,18 @@ namespace CheckPublicTransportRelations
             }
 
             this.RouteBusStops = routeBusStops;
+            foreach (BusStop stop in this.OverpassBusStops)
+            {
+                if (stopAreasDictionary.ContainsKey(stop.Id))
+                {
+                    this.StopAreasStops.Add(new StopAreasStop(stop, stopAreasDictionary[stop.Id]));
+                }
+            }
+
+            this.atcoCodeDuplicatesDataGridView.DataSource = null;
+            this.atcoCodeDuplicatesDataGridView.DataSource = this.duplicateAtcoCodes;
             this.ExtractOpenStreetMapOrphans();
         }
-
-        // ===========================================================================================================
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 January 2019 (1.0.0.0)</createdBy>
@@ -1850,6 +2158,7 @@ namespace CheckPublicTransportRelations
             this.openStreetMapDataGridView.DataSource = this.OpenStreetMapRoutes;
             this.RefreshStopsGrid();
             this.CompareResults();
+            this.RefreshStopStopAreasGrid();
             this.Enabled = true;
         }
 
@@ -1885,6 +2194,9 @@ namespace CheckPublicTransportRelations
             this.travelineStopsDataGridView.AutoGenerateColumns = false;
             this.stopsDataGridView.AutoGenerateColumns = false;
             this.orphansDataGridView.AutoGenerateColumns = false;
+            this.openStreetMapStopAreasDataGridView.AutoGenerateColumns = false;
+            this.openStreetMapStopAreaStopsDataGridView.AutoGenerateColumns = false;
+            this.stopStopAreasDataGridView.AutoGenerateColumns = false;
             this.RefreshForm();
             this.runningUnattended = false;
             if (this.arguments.Contains("unattended"))
@@ -1923,8 +2235,10 @@ namespace CheckPublicTransportRelations
             this.orphansDataGridView.DataSource = null;
             this.orphansDataGridView.DataSource = this.OrphanRoutes;
             this.orphansDataGridView.ResumeLayout();
+            this.RefreshStopAreasGrid();
             this.CompareResults();
             this.ExtractNaptanStops();
+            this.RefreshStopStopAreasGrid();
             this.showMatchedServicesCheckBox.Checked = Settings.Default.ShowMatchedServices;
             this.showMatchedRoutesCheckBox.Checked = Settings.Default.ShowMatchedRoutes;
             this.fromToShowMatchedCheckBox.Checked = Settings.Default.ShowMatchedFromToNames;
@@ -1964,16 +2278,30 @@ namespace CheckPublicTransportRelations
                 }
 
                 File.Move(temporaryFileName, fileName);
+                string areaPath = Path.Combine(
+                    Settings.Default.LocalPath,
+                    ValidPathString(this.SelectedLocation.Description));
 
                 foreach (Location location in this.Locations)
                 {
                     string areaFileName = Path.Combine(
-                        Settings.Default.LocalPath,
-                        ValidPathString(location.Description),
+                        areaPath,
                         "LocalStops.csv");
+                    string areaStopsAreasFileName = Path.Combine(areaPath, "LocalStopsInArea.csv");
+                    string areaAreasFileName = Path.Combine(areaPath, "LocalStopAreas.csv");
                     if (File.Exists(areaFileName))
                     {
                         File.Delete(areaFileName);
+                    }
+
+                    if (File.Exists(areaStopsAreasFileName))
+                    {
+                        File.Delete(areaStopsAreasFileName);
+                    }
+
+                    if (File.Exists(areaAreasFileName))
+                    {
+                        File.Delete(areaAreasFileName);
                     }
                 }
             }
@@ -2433,6 +2761,61 @@ namespace CheckPublicTransportRelations
                 !this.showMatchedStopsCheckBox.Checked && this.stopsDataGridView.Rows.Count > 0;
             Settings.Default.ShowMatchedStops = this.showMatchedStopsCheckBox.Checked;
             Settings.Default.Save();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Refresh stop areas grid.</summary>
+        // ===========================================================================================================
+        private void RefreshStopAreasGrid()
+        {
+            this.openStreetMapStopAreasDataGridView.SuspendLayout();
+            this.openStreetMapStopAreasDataGridView.DataSource = null;
+            this.openStreetMapStopAreasDataGridView.DataSource = this.showOpenStreetMapMatchedNameStopAreasCheckBox.Checked
+                                                                     ? this.OpenStreetMapStopAreas
+                                                                     : this.OpenStreetMapStopAreas.Where(
+                                                                             item => item.NameDifferences)
+                                                                         .ToList(); 
+            this.openStreetMapStopAreasDataGridView.ResumeLayout();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Refresh stop areas grid.</summary>
+        // ===========================================================================================================
+        private void RefreshStopStopAreasGrid()
+        {
+            this.stopStopAreasDataGridView.SuspendLayout();
+            this.stopStopAreasDataGridView.DataSource = null;
+            if (this.stopStopAreasShowMatchedCheckBox.Checked)
+            {
+                this.stopStopAreasDataGridView.DataSource = this.StopAreasStops;
+            }
+            else if (this.stopAreaCodesMatchRadioButton.Checked)
+            {
+                this.stopStopAreasDataGridView.DataSource = this.StopAreasStops.Where(
+                    item => item.Match == false && item.AreaCodesMatch).ToList();
+            }
+            else if (this.naptanAreaCodeBlankRadioButton.Checked)
+            {
+                this.stopStopAreasDataGridView.DataSource = this.StopAreasStops.Where(
+                    item => item.Match == false && item.NaptanStopAreaCode.Length < 1).ToList();
+            }
+            else if (this.areaCodesDifferRadioButton.Checked)
+            {
+                this.stopStopAreasDataGridView.DataSource = this.StopAreasStops.Where(
+                    item => item.Match == false && item.AreaCodesDiffer && item.NaptanStopAreaCode.Length >= 1).ToList();
+            }
+            else
+            {
+                this.stopStopAreasDataGridView.DataSource = this.StopAreasStops.Where(
+                        item => item.Match == false)
+                    .ToList();
+            }
+            
+            this.stopStopAreasDataGridView.ResumeLayout();
         }
 
         // ===========================================================================================================
@@ -3042,6 +3425,200 @@ namespace CheckPublicTransportRelations
             var mappingsForm = new BusStopNameMappingsForm();
             mappingsForm.ShowDialog(this);
             this.Enabled = true;
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by OpenStreetMapStopAreasDataGridView for selection changed
+        ///          events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void OpenStreetMapStopAreasDataGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            this.openStreetMapStopAreaStopsDataGridView.DataSource = null;
+            if (this.openStreetMapStopAreasDataGridView.SelectedRows.Count > 0)
+            {
+                this.openStreetMapStopAreaStopsDataGridView.DataSource =
+                    ((OpenStreetMapStopArea)this.openStreetMapStopAreasDataGridView.SelectedRows[0].DataBoundItem)
+                    .Stops;
+            }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by showOpenStreetMapMatchedNameStopAreasCheckBox for checked
+        ///          changed events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void ShowOpenStreetMapMatchedNameStopAreasCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+           this.RefreshStopAreasGrid();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by stopStopAreasShowMatchedCheckBox for checked changed
+        ///          events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void StopStopAreasShowMatchedCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            this.naptanAreaCodeBlankRadioButton.Visible = !this.stopStopAreasShowMatchedCheckBox.Checked;
+            this.allUnmatchedRadioButton.Visible = !this.stopStopAreasShowMatchedCheckBox.Checked;
+            this.stopAreaCodesMatchRadioButton.Visible = !this.stopStopAreasShowMatchedCheckBox.Checked;
+            this.areaCodesDifferRadioButton.Visible = !this.stopStopAreasShowMatchedCheckBox.Checked;
+            this.RefreshStopStopAreasGrid();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 2 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by StopAreasDownloadButton for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void StopAreasDownloadButton_Click(object sender, EventArgs e)
+        {
+            if (this.stopStopAreasShowMatchedCheckBox.Checked || this.stopStopAreasDataGridView.Rows.Count <= 0)
+            {
+                return;
+            }
+
+            if (this.stopStopAreasDataGridView.Columns["stopStopAreasIdColumn"] == null)
+            {
+                return;
+            }
+
+            int index = this.stopStopAreasDataGridView.Columns["stopStopAreasIdColumn"].Index;
+            string value = this.stopStopAreasDataGridView.Rows.Cast<DataGridViewRow>().Aggregate(
+                "http://127.0.0.1:8111/load_object?new_layer=false&objects=",
+                (current, row) => current + "n" + row.Cells[index].Value + ",");
+            value = value.Substring(0, value.Length - 1);
+            Process.Start(value);
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by AtcoCodeDuplicatesDataGridView for cell content click
+        ///          events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void AtcoCodeDuplicatesDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // var senderGrid = (DataGridView)sender;
+            if (this.atcoCodeDuplicatesDataGridView.Columns["atcoDuplicateNoteIdColumn"] != null
+                && e.ColumnIndex == this.atcoCodeDuplicatesDataGridView.Columns["atcoDuplicateNoteIdColumn"].Index && e.RowIndex != -1)
+            {
+                string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
+                               + this.atcoCodeDuplicatesDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                Process.Start(value);
+            }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 3 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by StopStopAreasDataGridView for cell content click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Data grid view cell event information.</param>
+        // ===========================================================================================================
+        private void StopStopAreasDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+            if (this.stopStopAreasDataGridView.Columns["stopStopAreasIdColumn"] == null)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex == this.stopStopAreasDataGridView.Columns["stopStopAreasIdColumn"].Index && e.RowIndex != -1)
+            {
+                string value = "http://127.0.0.1:8111/zoom?left=0&right=0&top=0&bottom=0&select=n"
+                               + this.stopStopAreasDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                Process.Start(value);
+            }
+
+            if (!(senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn)
+                 || e.RowIndex < 0)
+            {
+                return;
+            }
+
+            if (this.stopStopAreasDataGridView.Columns["stopAreaViewNoteButtonColumn"] != null && e.ColumnIndex == this.stopStopAreasDataGridView.Columns["stopAreaViewNoteButtonColumn"].Index)
+            {
+                string value = "https://www.openstreetmap.org/node/"
+                               + this.stopStopAreasDataGridView.Rows[e.RowIndex].Cells[this.stopStopAreasDataGridView.Columns["stopStopAreasIdColumn"].Index].Value;
+                Process.Start(value);
+                return;
+            }
+
+            // stopAreaOpenStreetMapNaptanButtonColumn
+            // stopStopAreasCodeColumn
+            // stopAreaNaptanAreaButtonColumn
+            // stopStopAreasNaptanCodeColumn
+            // // stopAreasNaptanButtonColumn
+            // stopAreaAtcoCodeColumn
+            string stopAreaCode = string.Empty;
+            if (this.stopStopAreasDataGridView.Columns["stopStopAreasCodeColumn"] != null
+                && this.stopStopAreasDataGridView.Columns["stopAreaOpenStreetMapNaptanButtonColumn"] != null
+                && e.ColumnIndex == this.stopStopAreasDataGridView.Columns["stopAreaOpenStreetMapNaptanButtonColumn"]
+                    .Index)
+            {
+                stopAreaCode = this.stopStopAreasDataGridView.Rows[e.RowIndex].Cells[this.stopStopAreasDataGridView.Columns["stopStopAreasCodeColumn"].Index].Value.ToString();
+            }
+            else if (this.stopStopAreasDataGridView.Columns["stopStopAreasNaptanCodeColumn"] != null
+                     && this.stopStopAreasDataGridView.Columns["stopAreaNaptanAreaButtonColumn"] != null
+                     && e.ColumnIndex == this.stopStopAreasDataGridView.Columns["stopAreaNaptanAreaButtonColumn"]
+                         .Index)
+            {
+                stopAreaCode = this.stopStopAreasDataGridView.Rows[e.RowIndex].Cells[this.stopStopAreasDataGridView.Columns["stopStopAreasNaptanCodeColumn"].Index].Value.ToString();
+            }
+
+            if (stopAreaCode.Length > 0)
+            {
+                this.Enabled = false;
+                var editForm = new NaptanStopAreaForm(stopAreaCode);
+                editForm.ShowDialog();
+                this.Enabled = true;
+            }
+
+            if (this.stopStopAreasDataGridView.Columns["stopAreaAtcoCodeColumn"] != null
+                && this.stopStopAreasDataGridView.Columns["stopAreasNaptanButtonColumn"] != null
+                && e.ColumnIndex == this.stopStopAreasDataGridView.Columns["stopAreasNaptanButtonColumn"]
+                    .Index)
+            {
+                this.Enabled = false;
+                var editForm = new NaptanForm(this.stopStopAreasDataGridView.Rows[e.RowIndex].Cells[this.stopStopAreasDataGridView.Columns["stopAreaAtcoCodeColumn"].Index].Value.ToString());
+                editForm.ShowDialog();
+                this.Enabled = true;
+            }
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 4 August 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by StopAreaCodesFilterRadioButton for checked changed
+        ///          events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void StopAreaCodesFilterRadioButton_CheckedChanged(object sender, EventArgs e)
+        {
+            this.RefreshStopStopAreasGrid();
         }
     }
 }
