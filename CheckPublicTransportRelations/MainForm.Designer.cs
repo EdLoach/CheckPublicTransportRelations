@@ -226,6 +226,7 @@
             this.stopAreaNaptanTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stopAreaTypeMatchCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.stopStopAreasPanel = new System.Windows.Forms.Panel();
+            this.areaCodesDifferRadioButton = new System.Windows.Forms.RadioButton();
             this.allUnmatchedRadioButton = new System.Windows.Forms.RadioButton();
             this.naptanAreaCodeBlankRadioButton = new System.Windows.Forms.RadioButton();
             this.stopAreaCodesMatchRadioButton = new System.Windows.Forms.RadioButton();
@@ -262,7 +263,8 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.busStopNameMappingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.unattendedDelayedStartTimer = new System.Windows.Forms.Timer(this.components);
-            this.areaCodesDifferRadioButton = new System.Windows.Forms.RadioButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.optionsWikiTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buttonPanel.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.mainTabControl.SuspendLayout();
@@ -1933,6 +1935,18 @@
             this.stopStopAreasPanel.Size = new System.Drawing.Size(990, 33);
             this.stopStopAreasPanel.TabIndex = 5;
             // 
+            // areaCodesDifferRadioButton
+            // 
+            this.areaCodesDifferRadioButton.AutoSize = true;
+            this.areaCodesDifferRadioButton.Location = new System.Drawing.Point(480, 5);
+            this.areaCodesDifferRadioButton.Name = "areaCodesDifferRadioButton";
+            this.areaCodesDifferRadioButton.Size = new System.Drawing.Size(124, 17);
+            this.areaCodesDifferRadioButton.TabIndex = 5;
+            this.areaCodesDifferRadioButton.TabStop = true;
+            this.areaCodesDifferRadioButton.Text = "StopAreaCodesDiffer";
+            this.areaCodesDifferRadioButton.UseVisualStyleBackColor = true;
+            this.areaCodesDifferRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
+            // 
             // allUnmatchedRadioButton
             // 
             this.allUnmatchedRadioButton.AutoSize = true;
@@ -2249,7 +2263,9 @@
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
-            this.busStopNameMappingsToolStripMenuItem});
+            this.busStopNameMappingsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.optionsWikiTextToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "&Options";
@@ -2273,17 +2289,17 @@
             this.unattendedDelayedStartTimer.Interval = 5000;
             this.unattendedDelayedStartTimer.Tick += new System.EventHandler(this.UnattendedDelayedStartTimer_Tick);
             // 
-            // areaCodesDifferRadioButton
+            // toolStripSeparator1
             // 
-            this.areaCodesDifferRadioButton.AutoSize = true;
-            this.areaCodesDifferRadioButton.Location = new System.Drawing.Point(480, 5);
-            this.areaCodesDifferRadioButton.Name = "areaCodesDifferRadioButton";
-            this.areaCodesDifferRadioButton.Size = new System.Drawing.Size(124, 17);
-            this.areaCodesDifferRadioButton.TabIndex = 5;
-            this.areaCodesDifferRadioButton.TabStop = true;
-            this.areaCodesDifferRadioButton.Text = "StopAreaCodesDiffer";
-            this.areaCodesDifferRadioButton.UseVisualStyleBackColor = true;
-            this.areaCodesDifferRadioButton.CheckedChanged += new System.EventHandler(this.StopAreaCodesFilterRadioButton_CheckedChanged);
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(217, 6);
+            // 
+            // optionsWikiTextToolStripMenuItem
+            // 
+            this.optionsWikiTextToolStripMenuItem.Name = "optionsWikiTextToolStripMenuItem";
+            this.optionsWikiTextToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.optionsWikiTextToolStripMenuItem.Text = "Wiki Text";
+            this.optionsWikiTextToolStripMenuItem.Click += new System.EventHandler(this.OptionsWikiTextToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -2546,6 +2562,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn stopAreaNaptanTypeColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn stopAreaTypeMatchCheckBoxColumn;
         private System.Windows.Forms.RadioButton areaCodesDifferRadioButton;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem optionsWikiTextToolStripMenuItem;
     }
 }
 

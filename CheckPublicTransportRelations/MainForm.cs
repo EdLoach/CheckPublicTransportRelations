@@ -2262,7 +2262,7 @@ namespace CheckPublicTransportRelations
         private void NaptanStopsDownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            
+
             try
             {
                 string fileName = Path.Combine(Settings.Default.LocalPath, "naptandata", "NaPTANcsv.zip");
@@ -2282,27 +2282,25 @@ namespace CheckPublicTransportRelations
                     Settings.Default.LocalPath,
                     ValidPathString(this.SelectedLocation.Description));
 
-                foreach (Location location in this.Locations)
+
+                string areaFileName = Path.Combine(
+                    areaPath,
+                    "LocalStops.csv");
+                string areaStopsAreasFileName = Path.Combine(areaPath, "LocalStopsInArea.csv");
+                string areaAreasFileName = Path.Combine(areaPath, "LocalStopAreas.csv");
+                if (File.Exists(areaFileName))
                 {
-                    string areaFileName = Path.Combine(
-                        areaPath,
-                        "LocalStops.csv");
-                    string areaStopsAreasFileName = Path.Combine(areaPath, "LocalStopsInArea.csv");
-                    string areaAreasFileName = Path.Combine(areaPath, "LocalStopAreas.csv");
-                    if (File.Exists(areaFileName))
-                    {
-                        File.Delete(areaFileName);
-                    }
+                    File.Delete(areaFileName);
+                }
 
-                    if (File.Exists(areaStopsAreasFileName))
-                    {
-                        File.Delete(areaStopsAreasFileName);
-                    }
+                if (File.Exists(areaStopsAreasFileName))
+                {
+                    File.Delete(areaStopsAreasFileName);
+                }
 
-                    if (File.Exists(areaAreasFileName))
-                    {
-                        File.Delete(areaAreasFileName);
-                    }
+                if (File.Exists(areaAreasFileName))
+                {
+                    File.Delete(areaAreasFileName);
                 }
             }
             catch (Exception ex)
@@ -2950,6 +2948,16 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         private void WikiTextButton_Click(object sender, EventArgs e)
         {
+            WikiText();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 6 September 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Wiki text.</summary>
+        // ===========================================================================================================
+        private void WikiText()
+        {
             var wikiText = new StringBuilder();
             wikiText.Append(
                 @"[https://github.com/EdLoach/CheckPublicTransportRelations Last full check with this tool] : ");
@@ -3310,6 +3318,13 @@ namespace CheckPublicTransportRelations
                     List<ComparisonResultService> services = this.ComparisonResults.Where(
                         item => item.OperatorsMatch == false || item.ReferencesMatch == false
                                                              || item.RouteVariantsMatch == false).ToList();
+                    List<ComparisonResultRoute> routes = this.ComparisonResultsRoutes.Where(
+                            item => item.OperatorsEqual == false
+                                    || item.ReferencesEqual == false
+                                    || item.StopsEqual == false
+                                    || item.NameFormatting == false
+                                    || item.Gaps)
+                        .ToList();
                     if (services.Count > 0)
                     {
                         var bodyText = new StringBuilder(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">" + Environment.NewLine);
@@ -3354,6 +3369,63 @@ namespace CheckPublicTransportRelations
                             bodyText.Append(service.RouteMasterRouteVariants);
                             bodyText.Append("</td><td>");
                             bodyText.Append(service.TravelineRouteVariants);
+                            bodyText.AppendLine("</td></tr>");
+                        }
+
+                        bodyText.AppendLine("</table>");
+                        bodyText.AppendLine("</body>");
+                        bodyText.AppendLine("</html>");
+
+                        this.Email(bodyText.ToString(), true);
+                    }
+                    else if (routes.Count > 0)
+                    {
+                        var bodyText = new StringBuilder(@"<!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Transitional//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"">" + Environment.NewLine);
+                        bodyText.AppendLine(@"<html lang=""en"" xmlns=""http://www.w3.org/1999/xhtml"" xmlns:v=""urn:schemas-microsoft-com:vml"" xmlns:o=""urn:schemas-microsoft-com:office:office"">");
+                        bodyText.AppendLine("<head>");
+                        bodyText.AppendLine(@"<meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"">");
+                        bodyText.AppendLine(@"<meta name=""viewport"" content=""width=device-width, initial-scale=1.0"">");
+                        bodyText.AppendLine(@"<title>Bus service changes</title>");
+                        bodyText.AppendLine("</head>");
+                        bodyText.AppendLine(@"<body style=""margin:0;padding:0;min-width:100%;background-color:#ffffff;"">");
+                        // Hidden pre-header text
+                        bodyText.AppendLine(
+                            @"<div style=""display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"">Services with differences : " + services.Count + "</div>");
+                        // Visible text - header, then table of services
+                        bodyText.AppendLine("<h2>Routes with differences : " + routes.Count + "</h2>");
+                        bodyText.AppendLine(@"<table width=""100%"" border=""0"" cellpadding=""0"" cellspacing=""0"" style=""min-width: 100%;"" role=""presentation"">");
+                        bodyText.Append("<tr><th>");
+                        bodyText.Append("OSM Operator");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("TNDS Operator");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("OSM Reference");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("TNDS Reference");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("Stops Match");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("Name Format OK");
+                        bodyText.Append("</th><th>");
+                        bodyText.Append("Gaps in route");
+                        bodyText.AppendLine("</th></tr>");
+
+                        foreach (ComparisonResultRoute route in routes)
+                        {
+                            bodyText.Append("<tr><td>");
+                            bodyText.Append(route.RelationOperator);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.ServiceOperator);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.RelationReference);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.ServiceReference);
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.StopsEqual ? " " : "No");
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.NameFormatting ? " " : "Error");
+                            bodyText.Append("</td><td>");
+                            bodyText.Append(route.Gaps ? "Yes" : " ");
                             bodyText.AppendLine("</td></tr>");
                         }
 
@@ -3619,6 +3691,19 @@ namespace CheckPublicTransportRelations
         private void StopAreaCodesFilterRadioButton_CheckedChanged(object sender, EventArgs e)
         {
             this.RefreshStopStopAreasGrid();
+        }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 6 September 2020 (1.9.0.0)</createdBy>
+        ///
+        /// <summary>Event handler. Called by optionsWikiTextToolStripMenuItem for click events.</summary>
+        ///
+        /// <param name="sender">Source of the event.</param>
+        /// <param name="e">     Event information.</param>
+        // ===========================================================================================================
+        private void OptionsWikiTextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.WikiText();
         }
     }
 }
