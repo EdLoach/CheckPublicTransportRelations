@@ -19,24 +19,26 @@ namespace CheckPublicTransportRelations
     public class BusStop
     {
         // ===========================================================================================================
+
+        // ===========================================================================================================
         /// <createdBy>Ed (EdLoach) - 27 December 2018 (1.0.0.0)</createdBy>
         ///
         /// <summary>Initializes a new instance of the <see cref="BusStop"/> class.</summary>
         ///
-        /// <param name="elementType">      Type of the element.</param>
-        /// <param name="elementId">        Identifier for the element.</param>
-        /// <param name="elementAtcoCode">  The element atco code.</param>
-        /// <param name="stopName">         The stop name.</param>
-        /// <param name="naptanCode">       The naptan code.</param>
-        /// <param name="stopStatus">       The stop status.</param>
-        /// <param name="busStopType">      The type of the bus stop.</param>
-        /// <param name="notName">          The name of the not.</param>
-        /// <param name="surveyed">The physically present.</param>
-        /// <param name="highway">          The highway.</param>
-        /// <param name="naptanVerified">   The naptan verified.</param>
+        /// <param name="elementType">    Type of the element.</param>
+        /// <param name="elementId">      Identifier for the element.</param>
+        /// <param name="elementAtcoCode">The element atco code.</param>
+        /// <param name="stopName">       The stop name.</param>
+        /// <param name="naptanCode">     The naptan code.</param>
+        /// <param name="stopStatus">     The stop status.</param>
+        /// <param name="busStopType">    The type of the bus stop.</param>
+        /// <param name="street">         The street.</param>
+        /// <param name="notName">        The name of the not.</param>
+        /// <param name="surveyed">       The physically present.</param>
+        /// <param name="highway">        The highway.</param>
+        /// <param name="naptanVerified"> The naptan verified.</param>
         // ===========================================================================================================
-        // ReSharper disable once StyleCop.SA1650
-        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string notName, string surveyed, string highway, string naptanVerified)
+        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string street, string notName, string surveyed, string highway, string naptanVerified)
         {
             this.Type = elementType;
             this.Id = elementId;
@@ -48,6 +50,7 @@ namespace CheckPublicTransportRelations
             this.NaptanName = string.Empty;
             this.NaptanStatus = string.Empty;
             this.NaptanBusStopType = string.Empty;
+            this.NaptanStreet = street;
             this.Latitude = -1.0M;
             this.Longitude = -1.0M;
             this.NaptanNaptanCode = string.Empty;
@@ -56,6 +59,15 @@ namespace CheckPublicTransportRelations
             this.Highway = highway;
             this.NaptanVerified = naptanVerified;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 27 September 2020 (1.9.1.0)</createdBy>
+        ///
+        /// <summary>Gets the naptan street.</summary>
+        ///
+        /// <value>The naptan street.</value>
+        // ===========================================================================================================
+        public string NaptanStreet { get; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 3 February 2019 (1.2.0.0)</createdBy>
@@ -251,7 +263,9 @@ namespace CheckPublicTransportRelations
                                        .Replace(")", string.Empty)
                                        .Replace(" / ", " ")
                                        .Contains(this.NaptanNameCleaned) 
-                                  && this.NaptanName.Length > 0) || this.NotName == this.NaptanName;
+                                  && this.NaptanName.Length > 0) 
+                                  || string.Equals(this.StopName, this.NaptanStreet + " / " + this.NaptanName, StringComparison.OrdinalIgnoreCase)
+                                  || this.NotName == this.NaptanName;
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>

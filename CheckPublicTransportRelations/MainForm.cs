@@ -421,6 +421,7 @@ namespace CheckPublicTransportRelations
             string stopName = element.tags["name"] ?? string.Empty;
             string naptanCode = element.tags["naptan:NaptanCode"] ?? string.Empty;
             string stopStatus = element.tags["naptan:Status"] ?? string.Empty;
+            string street = element.tags["naptan:Street"] ?? string.Empty;
             string busStopType = element.tags["naptan:BusStopType"] ?? string.Empty;
             string notName = element.tags["not:name"] ?? string.Empty;
             string highway = element.tags["highway"] ?? string.Empty;
@@ -448,6 +449,7 @@ namespace CheckPublicTransportRelations
                 naptanCode,
                 stopStatus,
                 busStopType,
+                street,
                 notName,
                 surveyedValue,
                 highway,
@@ -1081,7 +1083,8 @@ namespace CheckPublicTransportRelations
                                                 .Split(',');
                                             atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
                                             int commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
-                                            if (atcoCodeIndex == -1 || commonNameIndex == -1)
+                                            int streetIndex = Array.IndexOf(columnHeading, "Street");
+                                            if (atcoCodeIndex == -1 || commonNameIndex == -1 || streetIndex == -1)
                                             {
                                                 break;
                                             }
@@ -1233,6 +1236,7 @@ namespace CheckPublicTransportRelations
                     var atcoCodeIndex = 0;
                     var naptanCodeIndex = 1;
                     var commonNameIndex = 4;
+                    var streetIndex = 10;
                     var longitudeIndex = 30;
                     var latitudeIndex = 31;
                     var busStopTypeIndex = 32;
@@ -1248,9 +1252,10 @@ namespace CheckPublicTransportRelations
                             latitudeIndex = Array.IndexOf(columnHeading, "Latitude");
                             longitudeIndex = Array.IndexOf(columnHeading, "Longitude");
                             commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
+                            streetIndex = Array.IndexOf(columnHeading, "Street");
                             busStopTypeIndex = Array.IndexOf(columnHeading, "BusStopType");
                             statusIndex = Array.IndexOf(columnHeading, "Status");
-                            if (atcoCodeIndex == -1 || commonNameIndex == -1)
+                            if (atcoCodeIndex == -1 || commonNameIndex == -1 || streetIndex == -1)
                             {
                                 break;
                             }
@@ -1278,6 +1283,7 @@ namespace CheckPublicTransportRelations
                                     naptanStop[naptanCodeIndex],
                                     naptanStop[statusIndex],
                                     naptanStop[busStopTypeIndex],
+                                    naptanStop[streetIndex],
                                     string.Empty,
                                     string.Empty,
                                     string.Empty,
