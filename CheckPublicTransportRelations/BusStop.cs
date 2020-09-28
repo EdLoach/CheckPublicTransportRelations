@@ -259,13 +259,15 @@ namespace CheckPublicTransportRelations
         ///
         /// <value>True if names match, false if not.</value>
         // ===========================================================================================================
-        public bool NamesMatch => (this.StopName.Replace("(", string.Empty)
-                                       .Replace(")", string.Empty)
-                                       .Replace(" / ", " ")
-                                       .Contains(this.NaptanNameCleaned) 
-                                  && this.NaptanName.Length > 0) 
-                                  || string.Equals(this.StopName, this.NaptanStreet + " / " + this.NaptanName, StringComparison.OrdinalIgnoreCase)
-                                  || this.NotName == this.NaptanName;
+        public bool NamesMatch => this.AtcoCode.StartsWith("4300")
+            ? string.Equals(this.StopName, this.NaptanStreet + " / " + this.NaptanName,
+                StringComparison.OrdinalIgnoreCase)
+            : (this.StopName.Replace("(", string.Empty)
+                   .Replace(")", string.Empty)
+                   .Replace(" / ", " ")
+                   .Contains(this.NaptanNameCleaned)
+               && this.NaptanName.Length > 0)
+              || this.NotName == this.NaptanName;
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 2 February 2019 (1.2.0.0)</createdBy>
