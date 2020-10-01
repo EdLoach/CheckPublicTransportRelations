@@ -6,6 +6,9 @@
 // <date>3 January 2019</date>
 // <summary>Implements the main Windows Form</summary>
 // ===========================================================================================================
+
+using System.Windows.Forms.VisualStyles;
+
 namespace CheckPublicTransportRelations
 {
     using System;
@@ -474,7 +477,11 @@ namespace CheckPublicTransportRelations
         {
             try
             {
-                Client.Timeout = TimeSpan.FromMinutes(10);
+                if (Client.Timeout == TimeSpan.FromSeconds(100))
+                {
+                    Client.Timeout = TimeSpan.FromMinutes(10);
+                }
+
                 HttpResponseMessage response = await Client.GetAsync(overPassQuery);
                 if (!response.IsSuccessStatusCode)
                 {
