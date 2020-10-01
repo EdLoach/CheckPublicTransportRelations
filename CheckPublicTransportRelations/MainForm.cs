@@ -466,37 +466,60 @@ namespace CheckPublicTransportRelations
         ///
         /// <param name="overPassQuery">    The over pass query.</param>
         /// <param name="locationSubfolder">The location subfolder.</param>
+        /// <param name="runningUnattended">True if running unattended.</param>
         ///
         /// <returns>The data asynchronous.</returns>
         // ===========================================================================================================
-        private static async Task<bool> GetDataAsync(string overPassQuery, string locationSubfolder)
+        private static async Task<bool> GetDataAsync(string overPassQuery, string locationSubfolder, bool runningUnattended)
         {
-            HttpResponseMessage response = await Client.GetAsync(overPassQuery);
-            if (!response.IsSuccessStatusCode)
+            try
             {
+                Client.Timeout = TimeSpan.FromMinutes(10);
+                HttpResponseMessage response = await Client.GetAsync(overPassQuery);
+                if (!response.IsSuccessStatusCode)
+                {
+                    return false;
+                }
+
+                string overpassTransportDataXml = await response.Content.ReadAsStringAsync();
+                dynamic entities = JToken.Parse(overpassTransportDataXml);
+                if (entities.elements == null || entities.elements.Count <= 0)
+                {
+                    string remark = entities.remark;
+                    if (!runningUnattended)
+                    {
+                        MessageBox.Show(
+                            remark,
+                            @"Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error,
+                            MessageBoxDefaultButton.Button1);
+                    }
+
+                    return false;
+                }
+
+                string fileName = Path.Combine(
+                    Settings.Default.LocalPath,
+                    locationSubfolder,
+                    "OsmData.json");
+                File.WriteAllText(fileName, overpassTransportDataXml);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                if (!runningUnattended)
+                {
+                    MessageBox.Show(
+                        ex.Message,
+                        @"Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error,
+                        MessageBoxDefaultButton.Button1);
+                }
+
                 return false;
             }
-
-            string overpassTransportDataXml = await response.Content.ReadAsStringAsync();
-            dynamic entities = JToken.Parse(overpassTransportDataXml);
-            if (entities.elements == null || entities.elements.Count <= 0)
-            {
-                string remark = entities.remark;
-                MessageBox.Show(
-                    remark,
-                    @"Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error,
-                    MessageBoxDefaultButton.Button1);
-                return false;
-            }
-
-            string fileName = Path.Combine(
-                Settings.Default.LocalPath, 
-                locationSubfolder,
-                "OsmData.json");
-            File.WriteAllText(fileName, overpassTransportDataXml);
-            return true;
         }
 
         // ===========================================================================================================
@@ -2154,7 +2177,7 @@ namespace CheckPublicTransportRelations
                                            "{{timeout}}",
                                            this.SelectedLocation.TransportTimeOut.ToString());
 
-            if (!await GetDataAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description)))
+            if (!await GetDataAsync(overPassQuery, ValidPathString(this.SelectedLocation.Description), this.runningUnattended))
             {
                 this.Enabled = true;
                 return;
