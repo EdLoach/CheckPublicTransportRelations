@@ -420,6 +420,7 @@ namespace CheckPublicTransportRelations
             string atcoCode = element.tags["naptan:AtcoCode"] ?? string.Empty;
             string stopName = element.tags["name"] ?? string.Empty;
             string naptanCode = element.tags["naptan:NaptanCode"] ?? string.Empty;
+            string naptanIndicator = element.tags["naptan:Indicator"] ?? element.tags["local_ref"] ?? string.Empty;
             string stopStatus = element.tags["naptan:Status"] ?? string.Empty;
             string street = element.tags["naptan:Street"] ?? string.Empty;
             string busStopType = element.tags["naptan:BusStopType"] ?? string.Empty;
@@ -447,6 +448,7 @@ namespace CheckPublicTransportRelations
                 atcoCode,
                 stopName,
                 naptanCode,
+                naptanIndicator,
                 stopStatus,
                 busStopType,
                 street,
@@ -1237,6 +1239,7 @@ namespace CheckPublicTransportRelations
                     var naptanCodeIndex = 1;
                     var commonNameIndex = 4;
                     var streetIndex = 10;
+                    var naptanIndicatorIndex = 14;
                     var longitudeIndex = 30;
                     var latitudeIndex = 31;
                     var busStopTypeIndex = 32;
@@ -1249,6 +1252,7 @@ namespace CheckPublicTransportRelations
                             string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
                             atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
                             naptanCodeIndex = Array.IndexOf(columnHeading, "NaptanCode");
+                            naptanIndicatorIndex = Array.IndexOf(columnHeading, "Indicator");
                             latitudeIndex = Array.IndexOf(columnHeading, "Latitude");
                             longitudeIndex = Array.IndexOf(columnHeading, "Longitude");
                             commonNameIndex = Array.IndexOf(columnHeading, "CommonName");
@@ -1281,6 +1285,7 @@ namespace CheckPublicTransportRelations
                                     naptanStop[atcoCodeIndex],
                                     returnValue,
                                     naptanStop[naptanCodeIndex],
+                                    naptanStop[naptanIndicatorIndex],
                                     naptanStop[statusIndex],
                                     naptanStop[busStopTypeIndex],
                                     naptanStop[streetIndex],
@@ -2907,11 +2912,19 @@ namespace CheckPublicTransportRelations
                     {
                         travelineStopName = naptanStop.JourneyStopName;
                         this.addNodeButton.Visible = true;
+                        if (naptanStop.AtcoCode.StartsWith("4300"))
+                        {
+                            travelineStopName = System.Threading.Thread.CurrentThread
+                                                    .CurrentCulture.TextInfo
+                                                    .ToTitleCase(naptanStop.NaptanStreet.ToLower()) + " / " +
+                                                naptanStop.NaptanName + " (" +
+                                                naptanStop.NaptanIndicator + ")";
+                        }
                     }
                 }
             }
 
-            this.stopNameLabel.Text = openStreetMapStopName + @" / " + travelineStopName;
+            this.stopNameLabel.Text = openStreetMapStopName + @" | " + travelineStopName;
         }
 
         // ===========================================================================================================

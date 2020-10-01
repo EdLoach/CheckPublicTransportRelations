@@ -38,7 +38,7 @@ namespace CheckPublicTransportRelations
         /// <param name="highway">        The highway.</param>
         /// <param name="naptanVerified"> The naptan verified.</param>
         // ===========================================================================================================
-        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string stopStatus, string busStopType, string street, string notName, string surveyed, string highway, string naptanVerified)
+        public BusStop(string elementType, long elementId, string elementAtcoCode, string stopName, string naptanCode, string naptanIndicator, string stopStatus, string busStopType, string street, string notName, string surveyed, string highway, string naptanVerified)
         {
             this.Type = elementType;
             this.Id = elementId;
@@ -51,6 +51,7 @@ namespace CheckPublicTransportRelations
             this.NaptanStatus = string.Empty;
             this.NaptanBusStopType = string.Empty;
             this.NaptanStreet = street;
+            this.NaptanIndicator = naptanIndicator;
             this.Latitude = -1.0M;
             this.Longitude = -1.0M;
             this.NaptanNaptanCode = string.Empty;
@@ -59,6 +60,15 @@ namespace CheckPublicTransportRelations
             this.Highway = highway;
             this.NaptanVerified = naptanVerified;
         }
+
+        // ===========================================================================================================
+        /// <createdBy>EdLoach - 29 September 2020 (1.9.1.0)</createdBy>
+        ///
+        /// <summary>Gets or sets the naptan indicator.</summary>
+        ///
+        /// <value>The naptan indicator.</value>
+        // ===========================================================================================================
+        public string NaptanIndicator { get; set; }
 
         // ===========================================================================================================
         /// <createdBy>EdLoach - 27 September 2020 (1.9.1.0)</createdBy>
@@ -261,7 +271,7 @@ namespace CheckPublicTransportRelations
         // ===========================================================================================================
         public bool NamesMatch => this.AtcoCode.StartsWith("4300")
             ? string.Equals(this.StopName, this.NaptanStreet + " / " + this.NaptanName,
-                StringComparison.OrdinalIgnoreCase)
+                StringComparison.OrdinalIgnoreCase) || this.NaptanIndicator.Contains(this.StopName)
             : (this.StopName.Replace("(", string.Empty)
                    .Replace(")", string.Empty)
                    .Replace(" / ", " ")
