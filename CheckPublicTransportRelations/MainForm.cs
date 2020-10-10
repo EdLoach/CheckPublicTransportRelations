@@ -384,6 +384,11 @@ namespace CheckPublicTransportRelations
         private static async Task<List<BusStop>> GetBusStopsAsync(string path, string locationSubfolder)
         {
             var overpassBusStops = new List<BusStop>();
+            if (Client.Timeout == TimeSpan.FromSeconds(100))
+            {
+                Client.Timeout = TimeSpan.FromMinutes(10);
+            }
+
             HttpResponseMessage response = await Client.GetAsync(path);
             if (!response.IsSuccessStatusCode)
             {
@@ -1279,7 +1284,7 @@ namespace CheckPublicTransportRelations
                         if (columnHeadings == string.Empty)
                         {
                             columnHeadings = line;
-                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
+                            string[]  columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
                             atcoCodeIndex = Array.IndexOf(columnHeading, "ATCOCode");
                             naptanCodeIndex = Array.IndexOf(columnHeading, "NaptanCode");
                             naptanIndicatorIndex = Array.IndexOf(columnHeading, "Indicator");
@@ -1296,6 +1301,7 @@ namespace CheckPublicTransportRelations
                         }
                         else
                         {
+                            string[] columnHeading = columnHeadings.Replace(@"""", string.Empty).Split(',');
                             string[] naptanStop = line.Replace(@"""", string.Empty).Split(',');
                             int length = naptanStop[commonNameIndex].IndexOf("(", StringComparison.Ordinal);
                             string returnValue = naptanStop[commonNameIndex].Contains("(")
@@ -1306,6 +1312,13 @@ namespace CheckPublicTransportRelations
                                 returnValue = returnValue.Substring(
                                     0,
                                     returnValue.IndexOf(" - ", StringComparison.Ordinal) - 1).Trim();
+                            }
+
+                            if (naptanStop[busStopTypeIndex] == string.Empty &&
+                                Array.IndexOf(columnHeading, "StopType") > 0 &&
+                                naptanStop[Array.IndexOf(columnHeading, "StopType")] == "BCS")
+                            {
+                                naptanStop[busStopTypeIndex] = "MKD";
                             }
 
                             var newNaptanStop =
@@ -1905,6 +1918,7 @@ namespace CheckPublicTransportRelations
                                     if (journeyPattern.JourneyStops.Count == 0)
                                     {
                                         journeyStop = new JourneyStop();
+                                        journeyStop.Activity = "platform";  // default, if no xml element
                                         foreach (XElement element in fromElement.Elements())
                                         {
                                             if (element.Name.ToString().Contains("Activity"))
@@ -1930,6 +1944,7 @@ namespace CheckPublicTransportRelations
                                     }
 
                                     journeyStop = new JourneyStop();
+                                    journeyStop.Activity = "platform";  // default, if no xml element
                                     foreach (XElement element in toElement.Elements())
                                     {
                                         if (element.Name.ToString().Contains("Activity"))

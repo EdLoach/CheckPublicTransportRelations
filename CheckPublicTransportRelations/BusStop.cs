@@ -277,6 +277,7 @@ namespace CheckPublicTransportRelations
                    .Replace(" / ", " ")
                    .Contains(this.NaptanNameCleaned)
                && this.NaptanName.Length > 0)
+              || this.NaptanIndicator.Contains(this.StopName)
               || this.NotName == this.NaptanName;
 
         // ===========================================================================================================
