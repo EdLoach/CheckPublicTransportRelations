@@ -1918,7 +1918,7 @@ namespace CheckPublicTransportRelations
                                     if (journeyPattern.JourneyStops.Count == 0)
                                     {
                                         journeyStop = new JourneyStop();
-                                        journeyStop.Activity = "platform";  // default, if no xml element
+                                        journeyStop.Activity = string.Empty;  // default, if no xml element
                                         foreach (XElement element in fromElement.Elements())
                                         {
                                             if (element.Name.ToString().Contains("Activity"))
@@ -1944,7 +1944,7 @@ namespace CheckPublicTransportRelations
                                     }
 
                                     journeyStop = new JourneyStop();
-                                    journeyStop.Activity = "platform";  // default, if no xml element
+                                    journeyStop.Activity = string.Empty;  // default, if no xml element
                                     foreach (XElement element in toElement.Elements())
                                     {
                                         if (element.Name.ToString().Contains("Activity"))

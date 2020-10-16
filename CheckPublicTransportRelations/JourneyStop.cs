@@ -68,7 +68,7 @@ namespace CheckPublicTransportRelations
                 return false;
             }
 
-            return this.Activity.Equals(other.Activity) && this.StopPointRef.Equals(other.StopPointRef);
+            return (this.Activity.Equals(other.Activity) || this.Activity == string.Empty || other.Activity == string.Empty) && this.StopPointRef.Equals(other.StopPointRef);
         }
     }
 }
