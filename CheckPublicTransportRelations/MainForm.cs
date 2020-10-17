@@ -983,10 +983,8 @@ namespace CheckPublicTransportRelations
             }
             else
             {
-                Color linkColor = ((DataGridViewLinkColumn)grid.Columns[e.ColumnIndex]).LinkColor;
-                Color visitedLinkColor = ((DataGridViewLinkColumn)grid.Columns[e.ColumnIndex]).LinkColor;
                 var cell = (DataGridViewLinkCell)grid.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                cell.LinkColor = cell.LinkVisited ? visitedLinkColor : linkColor;
+                cell.LinkColor = cell.Style.ForeColor;
             }
         }
 
